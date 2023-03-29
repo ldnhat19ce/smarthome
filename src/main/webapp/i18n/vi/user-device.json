@@ -1,0 +1,31 @@
+{
+  "userDevice": {
+    "home": {
+      "title": "Thiết bị",
+      "refreshListLabel": "Refresh list",
+      "createLabel": "Create a new user",
+      "createOrEditLabel": "Create or edit a user"
+    },
+    "created": "A new user is created with identifier {{ param }}",
+    "updated": "A user is updated with identifier {{ param }}",
+    "deleted": "A user is deleted with identifier {{ param }}",
+    "delete": {
+      "question": "Are you sure you want to delete user {{ login }}?"
+    },
+    "detail": {
+      "title": "Thiết bị"
+    },
+    "name": "Tên",
+    "deviceType": "Loại",
+    "deviceAction": "Hành động",
+    "createdBy": "Created by",
+    "createdDate": "Created date",
+    "lastModifiedBy": "Modified by",
+    "lastModifiedDate": "Modified date",
+    "on": "Bật",
+    "off": "Tắt",
+    "turnOn": "Bật",
+    "turnOff": "Tắt",
+    "timer" : "Đặt giờ"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "smarthomeApp": {
+    "userSpeechData": {
+      "created": "Một dữ liệu giọng nói mới đã được tạo với định danh {{ param }}",
+      "deleted": "Một dữ liệu giọng nói đã được xoá với định danh {{ param }}",
+      "updated" : "Một dữ liệu giọng nói mới đã được cập nhật với định danh {{ param }}"
+    },
+    "userDevice": {
+      "created": "Một thiết bị mới đã được tạo với định danh {{ param }}",
+      "deleted": "Một thiết bị đã được xoá với định danh {{ param }}",
+      "updated" : "Một thiết bị đã được cập nhật với định danh {{ param }}"
+    }
+  }
+}

@@ -1,0 +1,41 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="speechData">
+      <h2>
+        <span jhiTranslate="userSpeechData.detail.title">Device</span> [<strong>{{ speechData.messageRequest }}</strong
+      >]
+      </h2>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="userSpeechData.messageRequest">Message request</span></dt>
+        <dd>
+          <span>{{ speechData.messageRequest }}</span>
+        </dd>
+
+        <dt><span jhiTranslate="userSpeechData.messageResponse">Message response</span></dt>
+        <dd>{{speechData.messageResponse}}</dd>
+
+        <dt><span jhiTranslate="userSpeechData.deviceAction">Device action</span></dt>
+        <dd>
+          {{deviceAction}}
+        </dd>
+
+        <dt><span jhiTranslate="userDevice.createdBy">Created by</span></dt>
+        <dd>{{ speechData.createdBy }}</dd>
+
+        <dt><span jhiTranslate="userDevice.createdDate">Created date</span></dt>
+        <dd>{{ speechData.createdDate | date: 'dd/MM/yy HH:mm' }}</dd>
+
+        <dt><span jhiTranslate="userDevice.lastModifiedBy">Modified by</span></dt>
+        <dd>{{ speechData.lastModifiedBy }}</dd>
+
+        <dt><span jhiTranslate="userDevice.lastModifiedDate">Modified date</span></dt>
+        <dd>{{ speechData.lastModifiedDate | date: 'dd/MM/yy HH:mm' }}</dd>
+      </dl>
+      <button type="submit" routerLink="../../" class="btn btn-info">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+    </div>
+  </div>
+</div>

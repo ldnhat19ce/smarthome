@@ -1,0 +1,84 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="myUserLabel" jhiTranslate="userSpeechData.home.createOrEditLabel">Create or edit a speech data</h2>
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <div class="mb-3" [hidden]="!editForm.value.id">
+        <label jhiTranslate="global.field.id">ID</label>
+        <input type="text" class="form-control" name="id" formControlName="id" readonly />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" jhiTranslate="userSpeechData.messageRequest">Message request</label>
+        <input type="text" class="form-control" name="messageRequest" formControlName="messageRequest" />
+
+        <div *ngIf="editForm.get('messageRequest')!.invalid && (editForm.get('messageRequest')!.dirty || editForm.get('messageRequest')!.touched)">
+          <small class="form-text text-danger" *ngIf="editForm.get('messageRequest')?.errors?.required" jhiTranslate="entity.validation.required">
+            This field is required.
+          </small>
+
+          <small
+            class="form-text text-danger"
+            *ngIf="editForm.get('messageRequest')?.errors?.maxlength"
+            jhiTranslate="entity.validation.maxlength"
+            [translateValues]="{ max: 100 }"
+          >
+            This field cannot be longer than 100 characters.
+          </small>
+
+<!--          <small class="form-text text-danger" *ngIf="editForm.get('messageRequest')?.errors?.pattern" jhiTranslate="entity.validation.patternLogin">-->
+<!--            This field can only contain letters, digits-->
+<!--          </small>-->
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label jhiTranslate="userSpeechData.messageResponse">Message response</label>
+        <input type="text" class="form-control" name="messageResponse" formControlName="messageResponse" />
+
+        <div *ngIf="editForm.get('messageResponse')!.invalid && (editForm.get('messageResponse')!.dirty || editForm.get('messageResponse')!.touched)">
+          <small class="form-text text-danger" *ngIf="editForm.get('messageResponse')?.errors?.required" jhiTranslate="entity.validation.required">
+            This field is required.
+          </small>
+
+          <small
+            class="form-text text-danger"
+            *ngIf="editForm.get('messageResponse')?.errors?.maxlength"
+            jhiTranslate="entity.validation.maxlength"
+            [translateValues]="{ max: 100 }"
+          >
+            This field cannot be longer than 100 characters.
+          </small>
+        </div>
+      </div>
+
+      <div class="mb-3" *ngIf="devices && devices.length > 0 && isCreating">
+        <laicbel jhiTranslate="userDevice.home.title">Device</laicbel>
+        <select class="form-control" id="deviceId" name="deviceId" formControlName="deviceId">
+          <option *ngFor="let device of devices" [value]="device.id">{{ device.name }}</option>
+        </select>
+      </div>
+
+      <div class="mb-3" [hidden]="true">
+        <input type="text" class="form-control" name="deviceType" formControlName="deviceType" readonly />
+      </div>
+
+      <div class="mb-3" *ngIf="deviceActions && deviceActions.length > 0 && isCreating">
+        <laicbel jhiTranslate="userDevice.deviceAction">Device type</laicbel>
+        <select class="form-control" id="deviceAction" name="deviceAction" formControlName="deviceAction">
+          <option *ngFor="let da of deviceActions" [value]="da">{{ da }}</option>
+        </select>
+      </div>
+
+      <button type="button" class="btn btn-secondary" (click)="previousState()">
+        <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+      </button>
+
+      <button type="submit" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+        <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+      </button>
+    </form>
+  </div>
+</div>

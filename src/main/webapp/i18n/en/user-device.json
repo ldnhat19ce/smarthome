@@ -1,0 +1,31 @@
+{
+  "userDevice": {
+    "home": {
+      "title": "Device",
+      "refreshListLabel": "Refresh list",
+      "createLabel": "Create a new device",
+      "createOrEditLabel": "Create or edit a device"
+    },
+    "created": "A new device is created with identifier {{ param }}",
+    "updated": "A device is updated with identifier {{ param }}",
+    "deleted": "A device is deleted with identifier {{ param }}",
+    "delete": {
+      "question": "Are you sure you want to delete device {{ id }}?"
+    },
+    "detail": {
+      "title": "Device"
+    },
+    "name": "Name",
+    "deviceType": "Device type",
+    "deviceAction": "Device action",
+    "createdBy": "Created by",
+    "createdDate": "Created date",
+    "lastModifiedBy": "Modified by",
+    "lastModifiedDate": "Modified date",
+    "on": "ON",
+    "off": "OFF",
+    "turnOn": "Turn on",
+    "turnOff": "Turn off",
+    "timer" : "Timer"
+  }
+}

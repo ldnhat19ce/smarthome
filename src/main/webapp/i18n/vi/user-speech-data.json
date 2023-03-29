@@ -1,0 +1,28 @@
+{
+  "userSpeechData": {
+    "home": {
+      "title": "Dữ liệu giọng nói",
+      "refreshListLabel": "Refresh list",
+      "createLabel": "Tạo mới dữ liệu giọng nói",
+      "createOrEditLabel": "Tạo hoặc sửa dữ liệu giọng nói"
+    },
+    "created": "A new user is created with identifier {{ param }}",
+    "updated": "A user is updated with identifier {{ param }}",
+    "deleted": "A user is deleted with identifier {{ param }}",
+    "delete": {
+      "question": "Bạn có chắc chắn muốn xóa Dữ liệu giọng nói {{ id }}?"
+    },
+    "detail": {
+      "title": "Dữ liệu giọng nói"
+    },
+    "messageRequest": "Nội dung yêu cầu",
+    "optionalMessageResponse": "Tuỳ chọn nội dung yêu cầu",
+    "messageResponse": "Nội dung phản hồi",
+    "deviceName": "Tên thiết bị",
+    "deviceAction": "Hành động",
+    "createdBy": "Người tạo",
+    "createdDate": "Ngày tạo",
+    "lastModifiedBy": "Người sửa",
+    "lastModifiedDate": "Ngày sửa"
+  }
+}

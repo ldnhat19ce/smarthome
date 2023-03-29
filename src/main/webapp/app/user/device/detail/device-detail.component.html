@@ -1,0 +1,150 @@
+<div class="d-flex justify-content-end">
+  <button class="btn btn-primary jh-create-entity badge"
+  (click)="showTimer()"
+  >
+    <fa-icon icon="plus"></fa-icon>
+    <span jhiTranslate="userDevice.timer">Timer</span>
+  </button>
+</div>
+
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="device">
+      <h2>
+        <span jhiTranslate="userDevice.detail.title">Device</span> [<strong>{{ device.name }}</strong
+      >]
+      </h2>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="userDevice.name">Name</span></dt>
+        <dd>
+          <span>{{ device.name }}</span>
+        </dd>
+
+        <dt><span jhiTranslate="userDevice.deviceType">Device type</span></dt>
+        <dd>{{ device.deviceType }}</dd>
+
+          <dt *ngIf="isDeviceControl === true">
+            <span jhiTranslate="userDevice.deviceAction">Device action</span>
+          </dt>
+          <dd *ngIf="isDeviceControl === true">
+            <span *ngIf="stateDevice == 'ON'" class="badge bg-success" jhiTranslate="userDevice.on">ON</span>
+            <span *ngIf="stateDevice == 'OFF'" class="badge bg-danger" jhiTranslate="userDevice.off">OFF</span>
+          </dd>
+
+        <dt><span jhiTranslate="userDevice.createdBy">Created by</span></dt>
+        <dd>{{ device.createdBy }}</dd>
+
+        <dt><span jhiTranslate="userDevice.createdDate">Created date</span></dt>
+        <dd>{{ device.createdDate | date: 'dd/MM/yy HH:mm' }}</dd>
+
+        <dt><span jhiTranslate="userDevice.lastModifiedBy">Modified by</span></dt>
+        <dd>{{ device.lastModifiedBy }}</dd>
+
+        <dt><span jhiTranslate="userDevice.lastModifiedDate">Modified date</span></dt>
+        <dd>{{ device.lastModifiedDate | date: 'dd/MM/yy HH:mm' }}</dd>
+      </dl>
+        <button type="submit" routerLink="../../" class="btn btn-info">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+      <ng-container *ngIf="isStateLoading == true">
+        <button type="submit" class="btn btn-danger" *ngIf="stateDevice == 'ON'" (click)="onChangeStateDevice()" [disabled]="true">
+          <span jhiTranslate="userDevice.turnOff">Turn off</span>
+        </button>
+        <button type="submit" class="btn btn-primary" *ngIf="stateDevice == 'OFF'" (click)="onChangeStateDevice()" [disabled]="true">
+          <span jhiTranslate="userDevice.turnOn">Turn on</span>
+        </button>
+      </ng-container>
+
+      <ng-container *ngIf="isStateLoading == false">
+        <button type="submit" class="btn btn-danger" *ngIf="stateDevice == 'ON'" (click)="onChangeStateDevice()" [disabled]="false">
+          <span jhiTranslate="userDevice.turnOff">Turn off</span>
+        </button>
+        <button type="submit" class="btn btn-primary" *ngIf="stateDevice == 'OFF'" (click)="onChangeStateDevice()" [disabled]="false">
+          <span jhiTranslate="userDevice.turnOn">Turn on</span>
+        </button>
+      </ng-container>
+    </div>
+  </div>
+</div>
+
+<div>
+  <div class="table-responsive" *ngIf="deviceMonitors">
+    <table class="table table-striped" aria-describedby="user-management-page-heading">
+      <thead>
+      <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="transition()">
+        <th scope="col" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span>
+          <fa-icon icon="sort"></fa-icon>
+        </th>
+        <th scope="col" jhiSortBy="value"><span jhiTranslate="userDeviceMonitor.value">Value</span>
+          <fa-icon icon="sort"></fa-icon>
+        </th>
+        <th scope="col" jhiSortBy="unitMeasure"><span jhiTranslate="userDeviceMonitor.unitMeasure">Unit measure</span>
+          <fa-icon icon="sort"></fa-icon>
+        </th>
+        <th scope="col" jhiSortBy="createdBy">
+          <span jhiTranslate="userDeviceMonitor.createdBy">Created By</span>
+          <fa-icon icon="sort"></fa-icon>
+        </th>
+        <th scope="col" jhiSortBy="createdDate">
+          <span jhiTranslate="userDeviceMonitor.createdDate">Created date</span>
+          <fa-icon icon="sort"></fa-icon>
+        </th>
+        <th scope="col" jhiSortBy="lastModifiedBy">
+          <span jhiTranslate="userDeviceMonitor.lastModifiedBy">Modified by</span>
+          <fa-icon icon="sort"></fa-icon>
+        </th>
+        <th scope="col" jhiSortBy="lastModifiedDate">
+          <span jhiTranslate="userDeviceMonitor.lastModifiedDate">Modified date</span>
+          <fa-icon icon="sort"></fa-icon>
+        </th>
+      </tr>
+      </thead>
+      <tbody *ngIf="deviceMonitors">
+      <tr *ngFor="let deviceMonitor of deviceMonitors; trackBy: trackIdentity">
+        <td>
+          {{deviceMonitor.id}}
+        </td>
+        <td>{{ deviceMonitor.value }}</td>
+        <td>{{ deviceMonitor.unitMeasure }}</td>
+        <td>{{ deviceMonitor.createdBy }}</td>
+        <td>{{ deviceMonitor.createdDate | date: 'dd/MM/yy HH:mm' }}</td>
+        <td>{{ deviceMonitor.lastModifiedBy }}</td>
+        <td>{{ deviceMonitor.lastModifiedDate | date: 'dd/MM/yy HH:mm' }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="deviceMonitors">
+    <div class="d-flex justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [(page)]="page"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="transition()"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>
+
+<div>
+  <div style="display: block;">
+    <canvas id="canvas" width="800" height="400">
+      {{chart}}
+    </canvas>
+  </div>
+</div>
+<!--[type]="'line'"-->
+<!--[datasets]="chartData"-->
+<!--[labels]="chartLabels"-->
+<!--[options]="lineChartOptions"-->
+<!--[legend]="lineChartLegend"-->

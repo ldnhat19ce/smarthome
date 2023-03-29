@@ -1,0 +1,99 @@
+<div>
+  <h2>
+    <span id="user-management-page-heading" jhiTranslate="userSpeechData.home.title" data-cy="userManagementPageHeading">Users</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="loadAll()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="userSpeechData.home.refreshListLabel">Refresh list</span>
+      </button>
+      <button class="btn btn-primary jh-create-entity" [routerLink]="['./new']">
+        <fa-icon icon="plus"></fa-icon> <span jhiTranslate="userSpeechData.home.createLabel">Create a new speech data</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="table-responsive" *ngIf="speechData">
+    <table class="table table-striped" aria-describedby="user-management-page-heading">
+      <thead>
+      <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="transition()">
+        <th scope="col" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+        <th scope="col" jhiSortBy="messageRequest"><span jhiTranslate="userSpeechData.messageRequest">Message request</span> <fa-icon icon="sort"></fa-icon></th>
+        <th scope="col" jhiSortBy="messageResponse">
+          <span jhiTranslate="userSpeechData.messageResponse">Message response</span> <fa-icon icon="sort"></fa-icon>
+        </th>
+        <th scope="col" jhiSortBy="createdBy">
+          <span jhiTranslate="userSpeechData.createdBy">Created By</span> <fa-icon icon="sort"></fa-icon>
+        </th>
+        <th scope="col" jhiSortBy="createdDate">
+          <span jhiTranslate="userSpeechData.createdDate">Created date</span> <fa-icon icon="sort"></fa-icon>
+        </th>
+        <th scope="col" jhiSortBy="lastModifiedBy">
+          <span jhiTranslate="userSpeechData.lastModifiedBy">Modified by</span> <fa-icon icon="sort"></fa-icon>
+        </th>
+        <th scope="col" jhiSortBy="lastModifiedDate">
+          <span jhiTranslate="userSpeechData.lastModifiedDate">Modified date</span> <fa-icon icon="sort"></fa-icon>
+        </th>
+        <th scope="col"></th>
+      </tr>
+      </thead>
+      <tbody *ngIf="speechData">
+      <tr *ngFor="let sp of speechData; trackBy: trackIdentity">
+        <td>
+          <a [routerLink]="['./', sp.id, 'view']">{{ sp.id }}</a>
+        </td>
+        <td>{{ sp.messageRequest }}</td>
+        <td>{{ sp.messageResponse }}</td>
+        <td>{{ sp.createdBy }}</td>
+        <td>{{ sp.createdDate | date: 'dd/MM/yy HH:mm' }}</td>
+        <td>{{ sp.lastModifiedBy }}</td>
+        <td>{{ sp.lastModifiedDate | date: 'dd/MM/yy HH:mm' }}</td>
+        <td class="text-end">
+          <div class="btn-group">
+            <button type="submit" [routerLink]="['./', sp.id, 'view']" class="btn btn-info btn-sm">
+              <fa-icon icon="eye"></fa-icon>
+              <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+            </button>
+
+            <button type="submit" [routerLink]="['./', sp.id, 'edit']" queryParamsHandling="merge" class="btn btn-primary btn-sm">
+              <fa-icon icon="pencil-alt"></fa-icon>
+              <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+
+            <button
+              type="button"
+              (click)="deleteSpeechData(sp)"
+              class="btn btn-danger btn-sm"
+            >
+              <fa-icon icon="times"></fa-icon>
+              <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+            </button>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="speechData">
+    <div class="d-flex justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [(page)]="page"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="transition()"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>
