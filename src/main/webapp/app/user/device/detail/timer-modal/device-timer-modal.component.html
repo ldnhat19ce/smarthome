@@ -12,35 +12,25 @@
 </div>
 
 <div class="modal-body pad">
-<!--  <mat-form-field>-->
-<!--    <input matInput [ngxMatDatetimePicker]="picker" placeholder="Choose a date" [formControl]="dateControl"-->
-<!--           [min]="minDate" [max]="maxDate" [disabled]="disabled">-->
-<!--    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>-->
-<!--    <ngx-mat-datetime-picker #picker [showSpinners]="showSpinners" [showSeconds]="showSeconds"-->
-<!--                             [stepHour]="stepHour" [stepMinute]="stepMinute" [stepSecond]="stepSecond" [touchUi]="touchUi"-->
-<!--                             [color]="color" [enableMeridian]="enableMeridian">-->
-<!--    </ngx-mat-datetime-picker>-->
-<!--  </mat-form-field>-->
-<!--  <div *ngIf="health">-->
-<!--    <h5 jhiTranslate="health.details.properties">Properties</h5>-->
+  <form [formGroup]="form">
+    <label for="dateRange">Range will not reset</label>
+    <input name="dateRange"
+           formControlName="dateRange"
+           [owlDateTime]="dateRange"
+           placeholder="YYYY-MM-DD ~ YYYY-MM-DD"
+           [owlDateTimeTrigger]="dateRange"
+           class="form-control"
+           [selectMode]="'range'"/>
 
-<!--    <div class="table-responsive">-->
-<!--      <table class="table table-striped" aria-describedby="showHealthLabel">-->
-<!--        <thead>-->
-<!--        <tr>-->
-<!--          <th scope="col" class="text-start" jhiTranslate="health.details.name">Name</th>-->
-<!--          <th scope="col" class="text-start" jhiTranslate="health.details.value">Value</th>-->
-<!--        </tr>-->
-<!--        </thead>-->
-<!--        <tbody>-->
-<!--        <tr *ngFor="let healthDetail of health.value.details! | keyvalue">-->
-<!--          <td class="text-start">{{ healthDetail.key }}</td>-->
-<!--          <td class="text-start">{{ readableValue(healthDetail.value) }}</td>-->
-<!--        </tr>-->
-<!--        </tbody>-->
-<!--      </table>-->
-<!--    </div>-->
-<!--  </div>-->
+    <owl-date-time [firstDayOfWeek]="1"
+                   [pickerType]="'both'"
+                   #dateRange></owl-date-time>
+
+    <br/>
+
+    <button (click)="reset()">Reset form</button>
+
+  </form>
 </div>
 
 <div class="modal-footer">

@@ -6,6 +6,7 @@ import {Observable, of} from "rxjs";
 import {DeviceComponent} from "./list/device.component";
 import {DeviceUpdateComponent} from "./update/device-update.component";
 import {DeviceDetailComponent} from "./detail/device-detail.component";
+import {DeviceTimerComponent} from "./timer/device-timer.component";
 
 
 @Injectable({providedIn: 'root'})
@@ -54,5 +55,12 @@ export const deviceRoute: Routes = [
       device: DeviceResolve,
     },
   },
+  {
+    path: ':id/timer',
+    component: DeviceTimerComponent,
+    resolve: {
+      device: DeviceResolve,
+    }
+  }
 ];
 
