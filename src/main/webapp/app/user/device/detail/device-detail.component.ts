@@ -181,7 +181,7 @@ export class DeviceDetailComponent implements OnInit {
     }
   }
 
-  showTimer() : void {
+  showTimer(): void {
     const modalRef = this.modalService.open(DeviceTimerModalComponent);
     modalRef.componentInstance.device = this.device;
   }

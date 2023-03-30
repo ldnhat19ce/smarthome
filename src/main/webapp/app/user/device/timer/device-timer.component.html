@@ -1,0 +1,19 @@
+<form [formGroup]="form">
+  <label for="dateRange">Range will not reset</label>
+  <input name="dateRange"
+         formControlName="dateRange"
+         [owlDateTime]="dateRange"
+         placeholder="YYYY-MM-DD ~ YYYY-MM-DD"
+         [owlDateTimeTrigger]="dateRange"
+         class="form-control"
+         [selectMode]="'range'"/>
+
+  <owl-date-time [firstDayOfWeek]="1"
+                 [pickerType]="'both'"
+                 #dateRange></owl-date-time>
+
+  <br/>
+
+  <button (click)="reset()">Reset form</button>
+
+</form>
