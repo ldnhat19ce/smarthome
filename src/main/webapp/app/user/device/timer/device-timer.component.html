@@ -1,19 +1,55 @@
-<form [formGroup]="form">
-  <label for="dateRange">Range will not reset</label>
-  <input name="dateRange"
-         formControlName="dateRange"
-         [owlDateTime]="dateRange"
-         placeholder="YYYY-MM-DD ~ YYYY-MM-DD"
-         [owlDateTimeTrigger]="dateRange"
-         class="form-control"
-         [selectMode]="'range'"/>
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form [formGroup]="form" (ngSubmit)="save()">
+      <jhi-alert-error></jhi-alert-error>
 
-  <owl-date-time [firstDayOfWeek]="1"
-                 [pickerType]="'both'"
-                 #dateRange></owl-date-time>
+      <label for="dateSingleStart" jhiTranslate="userDevice.timer.startTime">Start time</label>
+      <input
+        name="dateSingleStart"
+        formControlName="dateSingleStart"
+        [owlDateTime]="dateSingleStart"
+        placeholder="YYYY-MM-DD"
+        [owlDateTimeTrigger]="dateSingleStart"
+        [readOnly]="true"
+        class="form-control"
+        [selectMode]="'single'"
+        id="dateSingleStart"
+      />
 
-  <br/>
+      <owl-date-time [firstDayOfWeek]="1" [pickerType]="'both'" #dateSingleStart></owl-date-time>
 
-  <button (click)="reset()">Reset form</button>
+      <br />
+      <label for="dateSingleEnd" jhiTranslate="userDevice.timer.endTime">End time</label>
+      <input
+        name="dateSingleEnd"
+        formControlName="dateSingleEnd"
+        [owlDateTime]="dateSingleEnd"
+        placeholder="YYYY-MM-DD"
+        [owlDateTimeTrigger]="dateSingleEnd"
+        class="form-control"
+        [selectMode]="'single'"
+        [readOnly]="true"
+        id="dateSingleEnd"
+      />
 
-</form>
+      <owl-date-time [firstDayOfWeek]="1" [pickerType]="'both'" #dateSingleEnd></owl-date-time>
+      <br />
+      <div class="mb-3" *ngIf="deviceActions && deviceActions.length > 0">
+        <laicbel jhiTranslate="userDevice.deviceAction">Device type</laicbel>
+        <select class="form-control" id="deviceAction" name="deviceAction" formControlName="deviceAction">
+          <option *ngFor="let da of deviceActions" [value]="da">{{ da }}</option>
+        </select>
+      </div>
+
+      <br />
+
+      <button type="button" (click)="previousState()" class="btn btn-info">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button (click)="reset()" class="btn btn-danger" jhiTranslate="userDevice.timer.resetForm">Reset form</button>
+
+      <button type="submit" class="btn btn-primary" jhiTranslate="userDevice.timer.save" [disabled]="isSaving">Save</button>
+    </form>
+  </div>
+</div>

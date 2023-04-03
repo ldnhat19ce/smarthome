@@ -26,6 +26,13 @@
     "off": "Tắt",
     "turnOn": "Bật",
     "turnOff": "Tắt",
-    "timer" : "Đặt giờ"
+    "timer": {
+      "title": "Đặt giờ",
+      "startTime": "Thời gian bắt đầu",
+      "endTime": "Thời gian kết thúc",
+      "resetForm": "Đặt lại biểu mẫu",
+      "save": "Lưu",
+      "deviceAction": "Hành động"
+    }
   }
 }

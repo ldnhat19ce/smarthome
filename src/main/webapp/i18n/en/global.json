@@ -154,7 +154,8 @@
     "nameexists": "Device name already exists!",
     "deviceactionexists": "Device action already exists!",
     "messagerequestnull": "Invalid message request!",
-    "messagerequestinvalid": "Message request invalid"
+    "messagerequestinvalid": "Message request invalid",
+    "timealreadyused": "Range already used"
   },
   "footer": "This is your footer"
 }

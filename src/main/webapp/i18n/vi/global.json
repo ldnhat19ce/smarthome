@@ -151,7 +151,8 @@
     "nameexists": "Tên thiết bị đã tồn tại!",
     "deviceactionexists": "Hành động của thiết bị đã tồn tại!",
     "messagerequestnull": "Invalid message request!",
-    "messagerequestinvalid": "Message request invalid"
+    "messagerequestinvalid": "Message request invalid",
+    "timealreadyused": "Phạm vi thời gian đã được sử dụng"
   },
   "footer": "Đây là chân trang của bạn"
 }
