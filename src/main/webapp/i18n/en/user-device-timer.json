@@ -1,0 +1,24 @@
+{
+  "userDeviceTimer": {
+    "home": {
+      "title": "Device Timer",
+      "refreshListLabel": "Refresh list",
+      "createLabel": "Create a new device timer",
+      "createOrEditLabel": "Create or edit a device timer"
+    },
+    "created": "A new device timer is created with identifier {{ param }}",
+    "updated": "A device timer is updated with identifier {{ param }}",
+    "deleted": "A device timer is deleted with identifier {{ param }}",
+    "delete": {
+      "question": "Are you sure you want to delete device timer {{ id }}?"
+    },
+    "detail": {
+      "title": "Device timer"
+    },
+    "startTime": "Start time",
+    "endTime": "End time",
+    "resetForm": "Reset form",
+    "save": "Save",
+    "deviceAction": "Action"
+  }
+}

@@ -1,21 +1,25 @@
 package com.ldnhat.smarthome.domain;
 
+import com.ldnhat.smarthome.domain.enumeration.DeviceAction;
+import java.io.Serializable;
+import java.time.Instant;
+import java.util.Objects;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.io.Serializable;
-import java.util.Objects;
-
 @Document("device_timer")
 public class DeviceTimer extends AbstractAuditingEntity<String> implements Serializable {
+
     @Id
     private String id;
 
     private Device device;
 
-    private String startTime;
+    private Instant startTime;
 
-    private String endTime;
+    private Instant endTime;
+
+    private DeviceAction deviceAction;
 
     @Override
     public String getId() {
@@ -34,20 +38,28 @@ public class DeviceTimer extends AbstractAuditingEntity<String> implements Seria
         this.device = device;
     }
 
-    public String getStartTime() {
+    public Instant getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(String startTime) {
+    public void setStartTime(Instant startTime) {
         this.startTime = startTime;
     }
 
-    public String getEndTime() {
+    public Instant getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(String endTime) {
+    public void setEndTime(Instant endTime) {
         this.endTime = endTime;
+    }
+
+    public DeviceAction getDeviceAction() {
+        return deviceAction;
+    }
+
+    public void setDeviceAction(DeviceAction deviceAction) {
+        this.deviceAction = deviceAction;
     }
 
     @Override
@@ -67,11 +79,22 @@ public class DeviceTimer extends AbstractAuditingEntity<String> implements Seria
 
     @Override
     public String toString() {
-        return "DeviceTimer{" +
-            "id='" + id + '\'' +
-            ", device=" + device +
-            ", startTime='" + startTime + '\'' +
-            ", endTime='" + endTime + '\'' +
-            '}';
+        return (
+            "DeviceTimer{" +
+            "id='" +
+            id +
+            '\'' +
+            ", device=" +
+            device +
+            ", startTime='" +
+            startTime +
+            '\'' +
+            ", endTime='" +
+            endTime +
+            '\'' +
+            ", deviceAction=" +
+            deviceAction +
+            '}'
+        );
     }
 }

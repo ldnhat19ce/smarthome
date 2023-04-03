@@ -26,6 +26,13 @@
     "off": "OFF",
     "turnOn": "Turn on",
     "turnOff": "Turn off",
-    "timer" : "Timer"
+    "timer": {
+      "title": "Timer",
+      "startTime": "Start time",
+      "endTime": "End time",
+      "resetForm": "Reset form",
+      "save": "Save",
+      "deviceAction": "Action"
+    }
   }
 }
