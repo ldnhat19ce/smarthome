@@ -1,0 +1,25 @@
+{
+  "userNotificationSetting": {
+    "home": {
+      "title": "Cài đặt thông báo",
+      "refreshListLabel": "Refresh list",
+      "createLabel": "Tạo cài đặt thông báo",
+      "createOrEditLabel": "Tạo hoặc sửa cài đặt thông báo"
+    },
+    "created": "A new device timer is created with identifier {{ param }}",
+    "updated": "A device timer is updated with identifier {{ param }}",
+    "deleted": "A device timer is deleted with identifier {{ param }}",
+    "delete": {
+      "question": "Are you sure you want to delete device timer {{ id }}?"
+    },
+    "detail": {
+      "title": "Device timer"
+    },
+    "value": "Khi giá trị đạt",
+    "title": "Tiêu đề",
+    "message": "Tin nhắn",
+    "resetForm": "Reset form",
+    "save": "Save",
+    "deviceAction": "Action"
+  }
+}

@@ -1,0 +1,125 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="myUserLabel" jhiTranslate="userNotificationSetting.home.createLabel">Create or edit a notification setting</h2>
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <div class="mb-3" [hidden]="!editForm.value.id">
+        <label jhiTranslate="global.field.id">ID</label>
+        <input type="text" class="form-control" name="id" formControlName="id" readonly />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" jhiTranslate="userNotificationSetting.value">Value</label>
+        <input type="text" class="form-control" name="value" formControlName="value" />
+
+        <div *ngIf="editForm.get('value')!.invalid && (editForm.get('value')!.dirty || editForm.get('value')!.touched)">
+          <small class="form-text text-danger" *ngIf="editForm.get('value')?.errors?.required" jhiTranslate="entity.validation.required">
+            This field is required.
+          </small>
+
+          <small class="form-text text-danger" *ngIf="editForm.get('value')?.errors?.pattern" jhiTranslate="entity.validation.patternLogin">
+            This field can only contain letters, digits
+          </small>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" jhiTranslate="userNotificationSetting.title">Title</label>
+        <input type="text" class="form-control" name="title" formControlName="title" />
+
+        <div *ngIf="editForm.get('title')!.invalid && (editForm.get('title')!.dirty || editForm.get('title')!.touched)">
+          <small class="form-text text-danger" *ngIf="editForm.get('title')?.errors?.required" jhiTranslate="entity.validation.required">
+            This field is required.
+          </small>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" jhiTranslate="userNotificationSetting.message">Message</label>
+        <input type="text" class="form-control" name="message" formControlName="message" />
+
+        <div *ngIf="editForm.get('message')!.invalid && (editForm.get('message')!.dirty || editForm.get('message')!.touched)">
+          <small class="form-text text-danger" *ngIf="editForm.get('message')?.errors?.required" jhiTranslate="entity.validation.required">
+            This field is required.
+          </small>
+        </div>
+      </div>
+
+      <button type="button" class="btn btn-secondary" routerLink="../view">
+        <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+      </button>
+
+      <button type="submit" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+        <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+      </button>
+    </form>
+  </div>
+</div>
+
+<div>
+  <div class="table-responsive">
+    <table class="table table-striped" aria-describedby="user-management-page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="transition()">
+          <th scope="col" jhiSortBy="id">
+            <span jhiTranslate="global.field.id">ID</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="title">
+            <span jhiTranslate="userNotificationSetting.title">title</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="message">
+            <span jhiTranslate="userNotificationSetting.message">message</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="value">
+            <span jhiTranslate="userNotificationSetting.value">value</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let notificationSetting of notificationSettings; trackBy: trackIdentity">
+          <td>
+            {{ notificationSetting.id }}
+          </td>
+          <td>{{ notificationSetting.title }}</td>
+          <td>{{ notificationSetting.message }}</td>
+          <td>{{ notificationSetting.value }}</td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button type="button" (click)="deleteNotificationSetting(notificationSetting)" class="btn btn-danger btn-sm">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div>
+    <div class="d-flex justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [(page)]="page"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="transition()"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>
