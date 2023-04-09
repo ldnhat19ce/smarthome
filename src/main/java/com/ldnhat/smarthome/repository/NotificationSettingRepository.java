@@ -1,6 +1,7 @@
 package com.ldnhat.smarthome.repository;
 
 import com.ldnhat.smarthome.domain.NotificationSetting;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,4 +15,6 @@ public interface NotificationSettingRepository extends MongoRepository<Notificat
     Page<NotificationSetting> findAllByDeviceIdAndCreatedBy(String deviceId, String login, Pageable pageable);
 
     Optional<NotificationSetting> findOneByIdAndCreatedBy(String id, String login);
+
+    List<NotificationSetting> findAllByValueInAndDeviceIdIn(List<String> values, List<String> deviceIds);
 }

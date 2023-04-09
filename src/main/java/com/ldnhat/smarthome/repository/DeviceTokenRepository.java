@@ -12,4 +12,6 @@ public interface DeviceTokenRepository extends MongoRepository<DeviceToken, Stri
 
     @DeleteQuery
     void deleteAllByToken(String token);
+
+    List<DeviceToken> findAllByCreatedByIn(List<String> login);
 }

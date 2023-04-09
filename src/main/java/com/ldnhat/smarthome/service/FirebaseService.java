@@ -2,12 +2,11 @@ package com.ldnhat.smarthome.service;
 
 import com.google.cloud.firestore.CollectionReference;
 import com.google.firebase.cloud.FirestoreClient;
-import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.FirebaseMessagingException;
-import com.google.firebase.messaging.Message;
-import com.google.firebase.messaging.Notification;
+import com.google.firebase.messaging.*;
+import com.ldnhat.smarthome.domain.NotificationSetting;
 import com.ldnhat.smarthome.service.dto.NotificationSettingDTO;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -49,6 +48,20 @@ public class FirebaseService {
         try {
             String response = FirebaseMessaging.getInstance().send(message);
             System.out.println(response);
+        } catch (FirebaseMessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendMulticastToken(NotificationSetting notificationSetting, List<String> deviceTokens) {
+        MulticastMessage message = MulticastMessage
+            .builder()
+            .setNotification(new Notification(notificationSetting.getTitle(), notificationSetting.getMessage()))
+            .addAllTokens(deviceTokens)
+            .build();
+
+        try {
+            FirebaseMessaging.getInstance().sendMulticast(message);
         } catch (FirebaseMessagingException e) {
             e.printStackTrace();
         }
