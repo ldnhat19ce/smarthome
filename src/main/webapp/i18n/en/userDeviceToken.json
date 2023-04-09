@@ -1,0 +1,5 @@
+{
+  "userDeviceToken": {
+    "created": "A new device token is created with identifier {{ param }}"
+  }
+}

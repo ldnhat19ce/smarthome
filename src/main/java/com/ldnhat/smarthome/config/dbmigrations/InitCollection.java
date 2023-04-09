@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class InitCollection {
+
     private final MongoTemplate mongoTemplate;
 
     public InitCollection(MongoTemplate mongoTemplate) {
@@ -27,12 +28,16 @@ public class InitCollection {
             mongoTemplate.createCollection(DeviceMonitor.class);
         }
 
-        if (!mongoTemplate.collectionExists(DeviceMonitorHistory.class)) {
-            mongoTemplate.createCollection(DeviceMonitorHistory.class);
-        }
-
         if (!mongoTemplate.collectionExists(DeviceTimer.class)) {
             mongoTemplate.createCollection(DeviceTimer.class);
+        }
+
+        if (!mongoTemplate.collectionExists(NotificationSetting.class)) {
+            mongoTemplate.createCollection(NotificationSetting.class);
+        }
+
+        if (!mongoTemplate.collectionExists(DeviceToken.class)) {
+            mongoTemplate.createCollection(DeviceToken.class);
         }
     }
 }

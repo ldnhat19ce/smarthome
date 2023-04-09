@@ -152,7 +152,9 @@
     "deviceactionexists": "Hành động của thiết bị đã tồn tại!",
     "messagerequestnull": "Invalid message request!",
     "messagerequestinvalid": "Message request invalid",
-    "timealreadyused": "Phạm vi thời gian đã được sử dụng"
+    "timealreadyused": "Phạm vi thời gian đã được sử dụng",
+    "notificationsettingvalueexists": "Giá trị của cài đặt thông báo tại thiết bị này đã tồn tại",
+    "deviceidnotexists": "ID của thiết bị không được trống"
   },
   "footer": "Đây là chân trang của bạn"
 }

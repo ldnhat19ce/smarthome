@@ -3,12 +3,22 @@
     "userSpeechData": {
       "created": "A new speech data is created with identifier {{ param }}",
       "deleted": "A speech data is deleted with identifier {{ param }}",
-      "updated" : "A speech data is updated with identifier {{ param }}"
+      "updated": "A speech data is updated with identifier {{ param }}"
     },
     "userDevice": {
       "created": "A new device is created with identifier {{ param }}",
       "deleted": "A device is deleted with identifier {{ param }}",
-      "updated" : "A device is updated with identifier {{ param }}"
+      "updated": "A device is updated with identifier {{ param }}"
+    },
+    "userNotificationSetting": {
+      "created": "A new notification setting is created with identifier {{ param }}",
+      "deleted": "A notification setting is deleted with identifier {{ param }}",
+      "updated": "A notification setting is updated with identifier {{ param }}"
+    },
+    "userDeviceToken": {
+      "created": "A new device token is created with identifier {{ param }}",
+      "deleted": "A device token is deleted with identifier {{ param }}",
+      "updated": "A device token is updated with identifier {{ param }}"
     }
   }
 }

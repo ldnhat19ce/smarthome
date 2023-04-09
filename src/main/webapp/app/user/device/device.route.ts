@@ -1,18 +1,17 @@
-import {Injectable} from "@angular/core";
-import {ActivatedRouteSnapshot, Resolve, Routes} from "@angular/router";
-import {IDevice} from "./device.model";
-import {DeviceService} from "./service/device.service";
-import {Observable, of} from "rxjs";
-import {DeviceComponent} from "./list/device.component";
-import {DeviceUpdateComponent} from "./update/device-update.component";
-import {DeviceDetailComponent} from "./detail/device-detail.component";
-import {DeviceTimerComponent} from "./timer/device-timer.component";
+import { Injectable } from '@angular/core';
+import { ActivatedRouteSnapshot, Resolve, Routes } from '@angular/router';
+import { IDevice } from './device.model';
+import { DeviceService } from './service/device.service';
+import { Observable, of } from 'rxjs';
+import { DeviceComponent } from './list/device.component';
+import { DeviceUpdateComponent } from './update/device-update.component';
+import { DeviceDetailComponent } from './detail/device-detail.component';
+import { DeviceTimerComponent } from './timer/device-timer.component';
+import { DeviceNotificationComponent } from './notification/device-notification.component';
 
-
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class DeviceResolve implements Resolve<IDevice | null> {
-  constructor(private service: DeviceService) {
-  }
+  constructor(private service: DeviceService) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<IDevice | null> {
     const id = route.params['id'];
@@ -39,7 +38,7 @@ export const deviceRoute: Routes = [
     },
     data: {
       defaultSort: 'createdDate,desc',
-    }
+    },
   },
   {
     path: 'new',
@@ -60,7 +59,16 @@ export const deviceRoute: Routes = [
     component: DeviceTimerComponent,
     resolve: {
       device: DeviceResolve,
-    }
-  }
+    },
+  },
+  {
+    path: ':id/notification-setting',
+    component: DeviceNotificationComponent,
+    resolve: {
+      device: DeviceResolve,
+    },
+    data: {
+      defaultSort: 'id,desc',
+    },
+  },
 ];
-

@@ -3,12 +3,22 @@
     "userSpeechData": {
       "created": "Một dữ liệu giọng nói mới đã được tạo với định danh {{ param }}",
       "deleted": "Một dữ liệu giọng nói đã được xoá với định danh {{ param }}",
-      "updated" : "Một dữ liệu giọng nói mới đã được cập nhật với định danh {{ param }}"
+      "updated": "Một dữ liệu giọng nói mới đã được cập nhật với định danh {{ param }}"
     },
     "userDevice": {
       "created": "Một thiết bị mới đã được tạo với định danh {{ param }}",
       "deleted": "Một thiết bị đã được xoá với định danh {{ param }}",
-      "updated" : "Một thiết bị đã được cập nhật với định danh {{ param }}"
+      "updated": "Một thiết bị đã được cập nhật với định danh {{ param }}"
+    },
+    "userNotificationSetting": {
+      "created": "Một Cài đặt thông báo mới đã được tạo với định danh {{ param }}",
+      "deleted": "Một Cài đặt thông báo đã được xoá với định danh {{ param }}",
+      "updated": "Một Cài đặt thông báo đã được cập nhật với định danh {{ param }}"
+    },
+    "userDeviceToken": {
+      "created": "Một Token thiết bị mới đã được tạo với định danh {{ param }}",
+      "deleted": "Một Token thiết bị thông báo đã được xoá với định danh {{ param }}",
+      "updated": "Một Token thiết bị thông báo đã được cập nhật với định danh {{ param }}"
     }
   }
 }
