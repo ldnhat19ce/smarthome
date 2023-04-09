@@ -193,7 +193,7 @@ export class DeviceDetailComponent implements OnInit {
                 labels: this.values,
                 datasets: [
                   {
-                    data: [1, 2, 3],
+                    data: this.values,
                     borderColor: '#3e95cd',
                     fill: true,
                     label: this.device?.name,
