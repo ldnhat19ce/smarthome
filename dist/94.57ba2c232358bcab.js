@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunksmarthome=self.webpackChunksmarthome||[]).push([[94],{1094:(i,o,n)=>{n.r(o),n.d(o,{EntityRoutingModule:()=>r});var l=n(4258),u=n(4650);let r=(()=>{class t{}return t.\u0275fac=function(e){return new(e||t)},t.\u0275mod=u.oAB({type:t}),t.\u0275inj=u.cJS({imports:[l.Bz.forChild([])]}),t})()}}]);
