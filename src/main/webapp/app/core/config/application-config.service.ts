@@ -24,5 +24,6 @@ export class ApplicationConfigService {
       return `${this.endpointPrefix}services/${microservice}/${api}`;
     }
     return `${this.endpointPrefix}${api}`;
+    // return `http://localhost:8080/${api}`;
   }
 }

@@ -1,24 +1,81 @@
 # This configuration is intended for development purpose, it's **your** responsibility to harden it for production
+#version: '3.8'
+#services:
+#  smarthome-app:
+#    image: smarthome
+#    environment:
+#      - _JAVA_OPTIONS=-Xmx512m -Xms256m
+#      - SPRING_PROFILES_ACTIVE=prod,api-docs
+#      - MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED=true
+#      - SPRING_DATA_MONGODB_URI=mongodb://smarthome-mongodb:27017
+#      - SPRING_DATA_MONGODB_DATABASE=smarthome
+#      - JHIPSTER_SLEEP=30 # gives time for other services to boot before the application
+#    # If you want to expose these ports outside your dev PC,
+#    # remove the "127.0.0.1:" prefix
+#    ports:
+#      - 127.0.0.1:8080:8080
+#  smarthome-mongodb:
+#    image: mongo:4.4.15
+#    # If you want to expose these ports outside your dev PC,
+#    # remove the "127.0.0.1:" prefix
+#    ports:
+#      - 127.0.0.1:27017:27017
+#    # volumes:
+#    #   - ~/volumes/jhipster/smarthome/mongodb/:/data/db/
+
 version: '3.8'
 services:
   smarthome-app:
-    image: smarthome
+    image: 123456nhat/smarthome:latest
     environment:
       - _JAVA_OPTIONS=-Xmx512m -Xms256m
-      - SPRING_PROFILES_ACTIVE=prod,api-docs
+      - SPRING_PROFILES_ACTIVE=dev,api-docs
       - MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED=true
-      - SPRING_DATA_MONGODB_URI=mongodb://smarthome-mongodb:27017
+      #      - SPRING_DATA_MONGODB_URI=mongodb://admin:123456@smarthome-mongodb:27017
+      - SPRING_DATA_MONGODB_URI=mongodb+srv://admin:nhat123A@mongodb.4puzr9i.mongodb.net/?retryWrites=true&w=majority
       - SPRING_DATA_MONGODB_DATABASE=smarthome
-      - JHIPSTER_SLEEP=30 # gives time for other services to boot before the application
-    # If you want to expose these ports outside your dev PC,
-    # remove the "127.0.0.1:" prefix
+      - JHIPSTER_SLEEP=5 # gives time for other services to boot before the application
     ports:
-      - 127.0.0.1:8080:8080
+      - 8080:8080
+    #    depends_on:
+    #      - smarthome-mongodb
+    networks:
+      - smarthome
+
   smarthome-mongodb:
-    image: mongo:4.4.15
-    # If you want to expose these ports outside your dev PC,
-    # remove the "127.0.0.1:" prefix
+    image: mongo:4.2
+    container_name: smarthome-mongodb
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_DATABASE=smarthome
+      - MONGO_INITDB_ROOT_PASSWORD=123456
     ports:
-      - 127.0.0.1:27017:27017
-    # volumes:
-    #   - ~/volumes/jhipster/smarthome/mongodb/:/data/db/
+      - 27017:27017
+    volumes:
+      - ./dt:/data/db
+    networks:
+      - smarthome
+
+  mongo-express-b:
+    container_name: mongo-express-b
+    image: mongo-express
+    depends_on:
+      - smarthome-mongodb
+    networks:
+      - smarthome
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=smarthome-mongodb
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=123456
+      - ME_CONFIG_BASICAUTH_USERNAME=admin
+      - ME_CONFIG_BASICAUTH_PASSWORD=123456
+    ports:
+      - '8081:8081'
+    restart: always
+    volumes:
+      - ./dt:/data/db
+
+networks:
+  smarthome:
+    driver: bridge

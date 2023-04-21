@@ -1,0 +1,109 @@
+# ===================================================================
+# Spring Boot configuration for the "dev" profile.
+#
+# This configuration overrides the application.yml file.
+#
+# More information on profiles: https://www.jhipster.tech/profiles/
+# More information on configuration properties: https://www.jhipster.tech/common-application-properties/
+# ===================================================================
+
+# ===================================================================
+# Standard Spring Boot properties.
+# Full reference is available at:
+# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ===================================================================
+
+logging:
+  level:
+    ROOT: DEBUG
+    tech.jhipster: DEBUG
+    org.hibernate.SQL: DEBUG
+    com.ldnhat.smarthome: DEBUG
+
+spring:
+  devtools:
+    restart:
+      enabled: true
+      additional-exclude: static/**
+    livereload:
+      enabled: false # we use Webpack dev server + BrowserSync for livereload
+  jackson:
+    serialization:
+      indent-output: true
+  data:
+    mongodb:
+      uri: mongodb://admin:123456@smarthome-mongodb:27017
+      database: smarthome
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: nhatkt21@gmail.com
+    password: yaomrkudcmytnkkl
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          ssl:
+            protocols: TLSv1.2
+  messages:
+    cache-duration: PT1S # 1 second, see the ISO 8601 standard
+  thymeleaf:
+    cache: false
+
+server:
+  port: 8080
+
+# ===================================================================
+# JHipster specific properties
+#
+# Full reference is available at: https://www.jhipster.tech/common-application-properties/
+# ===================================================================
+
+jhipster:
+  # CORS is only enabled by default with the "dev" profile
+  cors:
+    # Allow Ionic for JHipster by default (* no longer allowed in Spring Boot 2.4+)
+    allowed-origins: 'http://localhost:8100,https://localhost:8100,http://localhost:9000,https://localhost:9000,http://localhost:4200,https://localhost:4200'
+    # Enable CORS when running in GitHub Codespaces
+    allowed-origin-patterns: 'https://*.githubpreview.dev'
+    allowed-methods: '*'
+    allowed-headers: '*'
+    exposed-headers: 'Authorization,Link,X-Total-Count,X-${jhipster.clientApp.name}-alert,X-${jhipster.clientApp.name}-error,X-${jhipster.clientApp.name}-params'
+    allow-credentials: true
+    max-age: 1800
+  security:
+    authentication:
+      jwt:
+        # This token must be encoded using Base64 and be at least 256 bits long (you can type `openssl rand -base64 64` on your command line to generate a 512 bits one)
+        base64-secret: MWRlZWM0YzJhMWJlNzAyZThiNmNjMzA2OTIxNDI4ZjMzMzM4YmEyMWM2MDY4OWYxYzkxNGNmZjQwNTRhZjBkMjY1NjdjYTlmOWQ2M2Q0NmUzYjhiZmUwZGExNmE1YTg5NDYzNzFjYTUyYzBlZDA0MzlhZWIyYzRkOTM3YWNmYzQ=
+        # Token is valid 24 hours
+        token-validity-in-seconds: 86400
+        token-validity-in-seconds-for-remember-me: 2592000
+  mail: # specific JHipster mail property, for standard properties see MailProperties
+    base-url: http://127.0.0.1:9000
+  logging:
+    use-json-format: false # By default, logs are not in Json format
+    logstash: # Forward logs to logstash over a socket, used by LoggingConfiguration
+      enabled: false
+      host: localhost
+      port: 5000
+      queue-size: 512
+# ===================================================================
+# Application specific properties
+# Add your own application properties here, see the ApplicationProperties class
+# to have type-safe configuration, like in the JHipsterProperties above
+#
+# More documentation is available at:
+# https://www.jhipster.tech/common-application-properties/
+# ===================================================================
+
+# application:
+
+#Firebase
+app:
+  firebase-configuration-file:
+    content: ewogICJ0eXBlIjogInNlcnZpY2VfYWNjb3VudCIsCiAgInByb2plY3RfaWQiOiAic21hcnQtaG9tZS0yMDIzLTMxN2FmIiwKICAicHJpdmF0ZV9rZXlfaWQiOiAiMmZkNjU5MTdjODNhYzc0NjVhYTJlODQzZTI0MmQ2MGViYTg4ODQzZCIsCiAgInByaXZhdGVfa2V5IjogIi0tLS0tQkVHSU4gUFJJVkFURSBLRVktLS0tLVxuTUlJRXZ3SUJBREFOQmdrcWhraUc5dzBCQVFFRkFBU0NCS2t3Z2dTbEFnRUFBb0lCQVFDek4xdmdYZXNoQ3A4cFxueHNiZHRJTzhhZXZVMElpK2ZzY2hUZENPTUlqSzdWTTRpS1hFRWZya0M1TDUrOGh2Z1NKRVQ3K29DeUhUUitvQ1xuRXpxQ2luWUdEeElxMDhRa2ZvekYyT3FlVWgrRjRTOW9jMDdIVWxTVWd0TlE2VVZYclpFTDEzY3dBMTREZTNxUFxuenBldFh1d1FUdjNlVk4xYTdDaU5iZnkreGs2eEpxbXByMGdNajZEUWZCLzd3aTR1UXhMaGJLdFkxc3Y0NU9wRlxuemNwdmRZRGZSc1pCQnBGYUNkcHNzVDJIcXNwSU5kRTdTQ25CNVRvWkJEbndVZkEybzNYUWVPekZWazV0Rk5UcFxubTlsZUt6N2ZZb2pEeVlkM1pWcmVTbzV0bDgvNE9qWmJ1enFJK1VtLzZQQnZrcHNTdHNlbnFsdGVldGdrSFRkdFxuejlTeHcyUGJBZ01CQUFFQ2dnRUFGNTJLQTB1TTdMcUZhbEFIQU14RklhenV4bDVybVNLRDR6ZSs3WEJTempRRFxuVW9DYklLRGlrbTNvclAwekZtZTBtQk41ZWZvVzRuYm9USTZ6d280ejZ0ZDRqdUVweUVuNVlId1ZhbmhWaEEyVFxuY3RiaTYzRkdDTzNMb2xsTmFiWWdLMU1nb2EzZFBtWGxLcnhQNWY0TFFFT1FhMTE3eFB2aWhNUnVBM0RiMzJHSlxua3JlMm1LWDF1SSt1R1gvT2xVMUIxL29wQnplazZIcSs1UmMzL2RBVU14QTU2cmFRRmw0cWlxOFBMRjVxWWVCcFxuVkdKcVZJQkZ2Vno5OU9wVzFtZnVIMUdNT0lycFM3ZDA5Z0E1ZS9CY1QzZnd6dEhtU3oyTEZLVTRqek5Ub3cwdlxuT1dDSG9jU1NZcW9ZampobTd4bE8yMSt2VW05czYxa0lqL24yc1JRQmVRS0JnUURYZ2FDWlh2QkJ1cTJ0cGFmOVxuNHJZOWlYazdIRGVRNmFwU2svWEZ4NTVBS210QVlITnZvZmxoeGxidEhsTmlhckhGVTZiWVZaMFZGQyswS1RsZVxuanpzY1RZNjh6VTVJamlDdkxGV1RIMFNBUUF4UDhKbW94Nm5VYXZid09RbXJ6cWZmczV0MDRXM3ZZaHcxNzhIOFxuSmNPcmNqcGpuUlVXeE1WemRFL1JTMWM4bVFLQmdRRFU1QmNVLzVKT3FXMGRyRVBnSFczTlA2NnNtdmZ6aFNTVlxuN2tqUGxrM3F3bk9TZWtzOXdSdXNwNWNEcDlhTHg3YkFVdU94djVwWVV0T0xjb2hvY2xFNS8xbWFWK3BuVDhmblxuVGprTnZBN0M3NHU3SHo0QnM2QXFDak5KQkJOektzU0ROdlN4dXRpc3RJMmYrVEYzeHB1aDNPVUpKZCtJTDZidlxuN21yYU4rOVlrd0tCZ1FEQ0VRaVh0TWYwMlBBWUJLcVFWZjI0MHJpcVExSENuTGwxbmFwZ2pjOXpoditJUEpNWFxuZnl3OUlVZ2NSZ2ZmQTZmTXcvVG1zY3BBTmlwek9nQmdwK2thSnJtWVNlWHFMcHMrUkZWWHBIdWlab3J2M2dIeFxuM01PUjl6VWl4S3B4M2lxTXA0Z2hxL084ODRQbUNsK00rbEVIYmxrb1pVZWRkbHM5Q2d2cXRNYjlXUUtCZ1FDRFxubm5qK3pIdGlFckdaZE5XS0MrZkV5Nmhzb21yRnJmMU9qTUdMUmZ2cU5rcEp0ejRwY2Vod09EVFBWOGIzS0lRK1xuSjRFS2RkRXc1aFJQMUlHdFFYQWlrVktPYitoRjh6YytORWhseTJ5ODdHalJTYUdHWDgyWDhES0E0L282YTZpUFxuRHp6OVhPMTA2VFBlUWF4cHh1cVZpZ0k0UTZnTmhKaUxJallCc0M5VDdRS0JnUUN6cEhnbU93VEdKbU9QNzVPN1xuM3VUT1BidXA5OThMWTJJVU5XT0xlbTM1SnJJbVJiNUdKNEkrWXBKQk0rMzNXRE5TdXNaZ2hoTHhJMUx1dnhUWVxuYmMzT3E3OTRmOVhHMXpOeC96MXNFdm9icE9kTnhKRGVKTDhOTy8zQUpkcnh1Rk1ZSWRKMFdEKzlkSWdTNU5JOFxuU29KczgwSEc5cDFMMjlGeHR2U0dTSXliZ2c9PVxuLS0tLS1FTkQgUFJJVkFURSBLRVktLS0tLVxuIiwKICAiY2xpZW50X2VtYWlsIjogImZpcmViYXNlLWFkbWluc2RrLXJnMDQ0QHNtYXJ0LWhvbWUtMjAyMy0zMTdhZi5pYW0uZ3NlcnZpY2VhY2NvdW50LmNvbSIsCiAgImNsaWVudF9pZCI6ICIxMDMxMjg1MTkxNDQyNDc0ODEzODEiLAogICJhdXRoX3VyaSI6ICJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20vby9vYXV0aDIvYXV0aCIsCiAgInRva2VuX3VyaSI6ICJodHRwczovL29hdXRoMi5nb29nbGVhcGlzLmNvbS90b2tlbiIsCiAgImF1dGhfcHJvdmlkZXJfeDUwOV9jZXJ0X3VybCI6ICJodHRwczovL3d3dy5nb29nbGVhcGlzLmNvbS9vYXV0aDIvdjEvY2VydHMiLAogICJjbGllbnRfeDUwOV9jZXJ0X3VybCI6ICJodHRwczovL3d3dy5nb29nbGVhcGlzLmNvbS9yb2JvdC92MS9tZXRhZGF0YS94NTA5L2ZpcmViYXNlLWFkbWluc2RrLXJnMDQ0JTQwc21hcnQtaG9tZS0yMDIzLTMxN2FmLmlhbS5nc2VydmljZWFjY291bnQuY29tIgp9Cg==
+  firestore:
+    collection: develop

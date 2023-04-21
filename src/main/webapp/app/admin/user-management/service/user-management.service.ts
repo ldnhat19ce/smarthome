@@ -11,8 +11,9 @@ import { IUser } from '../user-management.model';
 export class UserManagementService {
   private resourceUrl = this.applicationConfigService.getEndpointFor('api/admin/users');
 
-  constructor(private http: HttpClient, private applicationConfigService: ApplicationConfigService) {}
-
+  constructor(private http: HttpClient, private applicationConfigService: ApplicationConfigService) {
+    console.log(this.resourceUrl);
+  }
   create(user: IUser): Observable<IUser> {
     return this.http.post<IUser>(this.resourceUrl, user);
   }

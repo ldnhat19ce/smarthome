@@ -48,6 +48,9 @@ public class DeviceTokenResource {
         if (deviceTokenDTO.getId() != null) {
             throw new BadRequestAlertException("A new device token cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        if (deviceTokenDTO.getToken() == null || deviceTokenDTO.getToken().isEmpty()) {
+            throw new BadRequestAlertException("A device token must not be null", ENTITY_NAME, "tokennull");
+        }
 
         DeviceTokenDTO result = deviceTokenService.save(deviceTokenDTO);
         return ResponseEntity

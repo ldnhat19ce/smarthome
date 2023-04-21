@@ -44,7 +44,7 @@ import { NotificationSettingService } from './core/notification/notification-set
     AppRoutingModule,
     // Set this to true to enable service worker (PWA)
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: false }),
-    // ServiceWorkerModule.register('firebase-messaging-sw.js', { enabled: true }),
+    ServiceWorkerModule.register('firebase-messaging-sw.js', { enabled: true }),
     HttpClientModule,
     NgxWebstorageModule.forRoot({ prefix: 'jhi', separator: '-', caseSensitive: true }),
     TranslationModule,

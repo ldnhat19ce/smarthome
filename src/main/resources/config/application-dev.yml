@@ -32,7 +32,8 @@ spring:
       indent-output: true
   data:
     mongodb:
-      uri: mongodb://admin:123456@localhost:27017
+      #      uri: mongodb://admin:123456@localhost:27017
+      uri: mongodb+srv://admin:nhat123A@mongodb.4puzr9i.mongodb.net/?retryWrites=true&w=majority
       database: smarthome
   mail:
     host: smtp.gmail.com
@@ -65,7 +66,7 @@ jhipster:
   # CORS is only enabled by default with the "dev" profile
   cors:
     # Allow Ionic for JHipster by default (* no longer allowed in Spring Boot 2.4+)
-    allowed-origins: 'http://localhost:8100,https://localhost:8100,http://localhost:9000,https://localhost:9000,http://localhost:4200,https://localhost:4200'
+    allowed-origins: 'http://localhost:8100,https://localhost:8100,http://localhost:9000,https://localhost:9000,http://localhost:4200,https://localhost:4200,http://139.99.97.171,http://smathome.asia'
     # Enable CORS when running in GitHub Codespaces
     allowed-origin-patterns: 'https://*.githubpreview.dev'
     allowed-methods: '*'

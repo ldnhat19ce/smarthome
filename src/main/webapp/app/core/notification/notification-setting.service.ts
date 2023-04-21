@@ -12,14 +12,25 @@ export class NotificationSettingService {
   constructor(private angularFireMessaging: AngularFireMessaging, private localStorageService: LocalStorageService) {}
 
   requestPermission() {
-    this.angularFireMessaging.requestToken.subscribe(
-      token => {
-        console.log(token);
-        this.localStorageService.store('deviceToken', token);
+    this.angularFireMessaging.requestPermission.subscribe(
+      s => {
+        if (s === 'granted') {
+          // this.angularFireMessaging.deleteToken("e1ZT9MK3nMvQpBtqmIFc_B:APA91bEjHmF50eIhZeTG25FgSYatfasF34xC1m1d6-jsC-psFlDVU84q_uakNt0ghjdynuTRa8uPY76MTGmNokTwG2QKV-vzVySQHW2WHV15mKVBSpK_jdS5KIbosxp-C61McqvQ4egh")
+          //   .subscribe(st => {
+          //     console.log(st);
+          //   });
+          this.angularFireMessaging.requestToken.subscribe(
+            token => {
+              console.log(token);
+              this.localStorageService.store('deviceToken', token);
+            },
+            error => {
+              console.log('Unable to get permission to notify...', error);
+            }
+          );
+        }
       },
-      error => {
-        console.log('Unable to get permission to notify...', error);
-      }
+      error => console.log('error: ' + error)
     );
   }
 
