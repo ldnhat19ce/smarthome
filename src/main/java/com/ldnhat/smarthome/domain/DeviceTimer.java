@@ -15,9 +15,7 @@ public class DeviceTimer extends AbstractAuditingEntity<String> implements Seria
 
     private Device device;
 
-    private Instant startTime;
-
-    private Instant endTime;
+    private Instant time;
 
     private DeviceAction deviceAction;
 
@@ -38,20 +36,12 @@ public class DeviceTimer extends AbstractAuditingEntity<String> implements Seria
         this.device = device;
     }
 
-    public Instant getStartTime() {
-        return startTime;
+    public Instant getTime() {
+        return time;
     }
 
-    public void setStartTime(Instant startTime) {
-        this.startTime = startTime;
-    }
-
-    public Instant getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Instant endTime) {
-        this.endTime = endTime;
+    public void setTime(Instant time) {
+        this.time = time;
     }
 
     public DeviceAction getDeviceAction() {
@@ -79,22 +69,6 @@ public class DeviceTimer extends AbstractAuditingEntity<String> implements Seria
 
     @Override
     public String toString() {
-        return (
-            "DeviceTimer{" +
-            "id='" +
-            id +
-            '\'' +
-            ", device=" +
-            device +
-            ", startTime='" +
-            startTime +
-            '\'' +
-            ", endTime='" +
-            endTime +
-            '\'' +
-            ", deviceAction=" +
-            deviceAction +
-            '}'
-        );
+        return "DeviceTimer{" + "id='" + id + '\'' + ", device=" + device + ", time=" + time + ", deviceAction=" + deviceAction + '}';
     }
 }

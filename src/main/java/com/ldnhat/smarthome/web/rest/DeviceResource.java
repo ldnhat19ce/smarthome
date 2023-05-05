@@ -9,6 +9,14 @@ import com.ldnhat.smarthome.service.DeviceService;
 import com.ldnhat.smarthome.service.dto.DeviceDTO;
 import com.ldnhat.smarthome.service.error.UserException;
 import com.ldnhat.smarthome.web.rest.errors.BadRequestAlertException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import javax.validation.Valid;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,29 +32,15 @@ import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
-import javax.validation.Valid;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-
 /**
  * REST controller for managing {@link Device}.
  */
 @RestController
 @RequestMapping("/api")
 public class DeviceResource {
+
     private static final List<String> ALLOWED_ORDERED_PROPERTIES = Collections.unmodifiableList(
-        Arrays.asList(
-            "id",
-            "name",
-            "createdBy",
-            "createdDate",
-            "lastModifiedBy",
-            "lastModifiedDate"
-        )
+        Arrays.asList("id", "name", "createdBy", "createdDate", "lastModifiedBy", "lastModifiedDate")
     );
 
     private final Logger log = LoggerFactory.getLogger(DeviceResource.class);
@@ -76,9 +70,19 @@ public class DeviceResource {
         if (deviceDTO.getId() != null) {
             throw new BadRequestAlertException("A new device cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        String login = SecurityUtils.getCurrentUserLogin().orElseThrow(() -> new UserException("Unauthorized user", ENTITY_NAME, "usertoken"));
+        String login = SecurityUtils
+            .getCurrentUserLogin()
+            .orElseThrow(() -> new UserException("Unauthorized user", ENTITY_NAME, "usertoken"));
         if (deviceRepository.existsByNameIgnoreCaseAndCreatedBy(deviceDTO.getName(), login)) {
             throw new BadRequestAlertException("Device name already exists", ENTITY_NAME, "nameexists");
+        }
+        if (
+            deviceDTO.getDeviceType().equals(DeviceType.MONITOR) &&
+            StringUtils.containsAny(deviceDTO.getDeviceAction().toString(), DeviceAction.ON.toString(), DeviceAction.OFF.toString())
+        ) {
+            throw new BadRequestAlertException("Device action must be Nothing type", ENTITY_NAME, "wrongtype");
+        } else if (deviceDTO.getDeviceType().equals(DeviceType.CONTROL) && deviceDTO.getDeviceAction().equals(DeviceAction.NOTHING)) {
+            throw new BadRequestAlertException("Device action must be On or Off type", ENTITY_NAME, "wrongtype");
         }
         DeviceDTO result = deviceService.save(deviceDTO);
         return ResponseEntity
@@ -109,7 +113,8 @@ public class DeviceResource {
     @GetMapping("/devices")
     public ResponseEntity<List<DeviceDTO>> getAllDevices(
         @org.springdoc.api.annotations.ParameterObject Pageable pageable,
-        @RequestParam(required = false) DeviceType deviceType) {
+        @RequestParam(required = false) DeviceType deviceType
+    ) {
         log.debug("REST request to get all device for current user");
         if (!onlyContainsAllowedProperties(pageable)) {
             return ResponseEntity.badRequest().build();
@@ -149,7 +154,9 @@ public class DeviceResource {
         if (deviceDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        String login = SecurityUtils.getCurrentUserLogin().orElseThrow(() -> new UserException("Unauthorized user", ENTITY_NAME, "usertoken"));
+        String login = SecurityUtils
+            .getCurrentUserLogin()
+            .orElseThrow(() -> new UserException("Unauthorized user", ENTITY_NAME, "usertoken"));
         Optional<Device> existingDevice = deviceRepository.findOneByNameIgnoreCaseAndCreatedBy(deviceDTO.getName(), login);
         if (existingDevice.isPresent() && (!existingDevice.get().getId().equals(deviceDTO.getId()))) {
             throw new BadRequestAlertException("Device name already exists", ENTITY_NAME, "nameexists");
@@ -178,7 +185,9 @@ public class DeviceResource {
     public ResponseEntity<DeviceAction> updateStateDevice(@PathVariable String id) {
         log.debug("REST request to update state of device : {}", id);
 
-        String login = SecurityUtils.getCurrentUserLogin().orElseThrow(() -> new UserException("Unauthorized user", ENTITY_NAME, "usertoken"));
+        String login = SecurityUtils
+            .getCurrentUserLogin()
+            .orElseThrow(() -> new UserException("Unauthorized user", ENTITY_NAME, "usertoken"));
         Optional<Device> existingDevice = deviceRepository.findOneByIdAndCreatedBy(id, login);
         if (existingDevice.isPresent()) {
             if ((!existingDevice.get().getDeviceType().equals(DeviceType.CONTROL))) {
@@ -189,9 +198,6 @@ public class DeviceResource {
         }
 
         Optional<DeviceAction> updatedDeviceAction = deviceService.updateState(id);
-        return ResponseUtil.wrapOrNotFound(
-            updatedDeviceAction,
-            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, id)
-        );
+        return ResponseUtil.wrapOrNotFound(updatedDeviceAction, HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, id));
     }
 }

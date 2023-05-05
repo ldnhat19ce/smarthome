@@ -154,12 +154,8 @@
             <span jhiTranslate="global.field.id">ID</span>
             <fa-icon icon="sort"></fa-icon>
           </th>
-          <th scope="col" jhiSortBy="startTime">
-            <span jhiTranslate="userDevice.timer.startTime">Start time</span>
-            <fa-icon icon="sort"></fa-icon>
-          </th>
-          <th scope="col" jhiSortBy="endTime">
-            <span jhiTranslate="userDevice.timer.endTime">End time</span>
+          <th scope="col" jhiSortBy="time">
+            <span jhiTranslate="userDeviceTimer.time">time</span>
             <fa-icon icon="sort"></fa-icon>
           </th>
           <th scope="col" jhiSortBy="deviceAction">
@@ -174,8 +170,7 @@
           <td>
             {{ deviceTimer.id }}
           </td>
-          <td>{{ deviceTimer.startTime | date: 'dd/MM/yy HH:mm' }}</td>
-          <td>{{ deviceTimer.endTime | date: 'dd/MM/yy HH:mm' }}</td>
+          <td>{{ deviceTimer.time | date: 'dd/MM/yy HH:mm' }}</td>
           <td>{{ deviceTimer.deviceAction }}</td>
           <td class="text-end">
             <div class="btn-group">

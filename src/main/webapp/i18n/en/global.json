@@ -155,7 +155,7 @@
     "deviceactionexists": "Device action already exists!",
     "messagerequestnull": "Invalid message request!",
     "messagerequestinvalid": "Message request invalid",
-    "timealreadyused": "Range already used",
+    "timealreadyused": "Time already used",
     "notificationsettingvalueexists": "The value of notification in device id already exists",
     "deviceidnotexists": "A device id must not be null"
   },

@@ -11,9 +11,7 @@ public class DeviceTimerDTO implements Serializable {
 
     private DeviceDTO deviceDTO;
 
-    private Instant startTime;
-
-    private Instant endTime;
+    private Instant time;
 
     private DeviceAction deviceAction;
 
@@ -39,22 +37,6 @@ public class DeviceTimerDTO implements Serializable {
 
     public void setDeviceDTO(DeviceDTO deviceDTO) {
         this.deviceDTO = deviceDTO;
-    }
-
-    public Instant getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(Instant startTime) {
-        this.startTime = startTime;
-    }
-
-    public Instant getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Instant endTime) {
-        this.endTime = endTime;
     }
 
     public DeviceAction getDeviceAction() {
@@ -97,6 +79,14 @@ public class DeviceTimerDTO implements Serializable {
         this.lastModifiedDate = lastModifiedDate;
     }
 
+    public Instant getTime() {
+        return time;
+    }
+
+    public void setTime(Instant time) {
+        this.time = time;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -119,10 +109,8 @@ public class DeviceTimerDTO implements Serializable {
             '\'' +
             ", deviceDTO=" +
             deviceDTO +
-            ", startTime=" +
-            startTime +
-            ", endTime=" +
-            endTime +
+            ", time=" +
+            time +
             ", deviceAction=" +
             deviceAction +
             ", createdBy='" +

@@ -2,12 +2,12 @@ package com.ldnhat.smarthome.repository;
 
 import com.ldnhat.smarthome.domain.Device;
 import com.ldnhat.smarthome.domain.enumeration.DeviceType;
+import java.util.List;
+import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
-
-import java.util.Optional;
 
 /**
  * Spring Data MongoDB repository for the {@link Device} entity.
@@ -29,4 +29,6 @@ public interface DeviceRepository extends MongoRepository<Device, String> {
     Optional<Device> findOneByNameIgnoreCaseAndCreatedBy(String name, String login);
 
     Optional<Device> findOneByIdAndCreatedBy(String id, String login);
+
+    List<Device> findAllByIdIn(List<String> ids);
 }

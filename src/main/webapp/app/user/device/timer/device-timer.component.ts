@@ -16,8 +16,7 @@ export class DeviceTimerComponent implements OnInit {
   deviceActions = DEVICEACTION;
 
   form: FormGroup = this.formbuilder.group({
-    dateSingleStart: new FormControl(new Date()),
-    dateSingleEnd: new FormControl(new Date()),
+    time: new FormControl(new Date()),
     deviceAction: new FormControl(this.deviceActions[0], { nonNullable: true }),
   });
 
@@ -33,7 +32,7 @@ export class DeviceTimerComponent implements OnInit {
     this.isSaving = true;
     const result = this.form.getRawValue();
     const deviceDTO: IDeviceDTO = new DeviceDTO(this.device?.id!!, null, null);
-    const deviceTimer: IDeviceTimer = new DeviceTimer(null, result.dateSingleStart, result.dateSingleEnd, deviceDTO, result.deviceAction);
+    const deviceTimer: IDeviceTimer = new DeviceTimer(null, result.time, deviceDTO, result.deviceAction);
     this.deviceTimerService.create(deviceTimer).subscribe({
       next: () => this.onSaveSuccess(),
       error: () => this.onSaveError(),
