@@ -2,8 +2,7 @@ import { DeviceDTO } from './device.model';
 
 export interface IDeviceTimer {
   id: string | null;
-  startTime?: Date | null;
-  endTime?: Date | null;
+  time?: Date | null;
   deviceDTO?: DeviceDTO | null;
   deviceAction?: string;
   createdBy?: string;
@@ -15,8 +14,7 @@ export interface IDeviceTimer {
 export class DeviceTimer implements IDeviceTimer {
   constructor(
     public id: string | null,
-    public startTime?: Date | null,
-    public endTime?: Date | null,
+    public time?: Date | null,
     public deviceDTO?: DeviceDTO | null,
     public deviceAction?: string,
     public createdBy?: string,

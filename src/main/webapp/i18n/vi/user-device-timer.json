@@ -17,6 +17,7 @@
     },
     "startTime": "Start time",
     "endTime": "End time",
+    "time": "Thời gian",
     "resetForm": "Reset form",
     "save": "Save",
     "deviceAction": "Action"

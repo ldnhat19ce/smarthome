@@ -8,6 +8,7 @@ import com.ldnhat.smarthome.service.dto.DeviceTimerDTO;
 import com.ldnhat.smarthome.service.error.TimeAlreadyUsedException;
 import com.ldnhat.smarthome.service.error.UserException;
 import com.ldnhat.smarthome.service.mapper.DeviceTimerMapper;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 import org.slf4j.Logger;
@@ -47,10 +48,7 @@ public class DeviceTimerServiceImpl implements DeviceTimerService {
         List<DeviceTimer> deviceTimers = deviceTimerRepository.findAllByDeviceIdAndCreatedBy(deviceTimerDTO.getDeviceDTO().getId(), login);
         deviceTimers.forEach(b -> {
             // check if range startTime and endTime have no action
-            if (
-                isContains(deviceTimerDTO.getStartTime(), b.getStartTime(), b.getEndTime()) ||
-                isContains(deviceTimerDTO.getEndTime(), b.getStartTime(), b.getEndTime())
-            ) {
+            if (isContains(deviceTimerDTO.getTime(), b.getTime())) {
                 throw new TimeAlreadyUsedException("Time already used", ENTITY_NAME, "timealreadyused");
             }
         });
@@ -59,8 +57,9 @@ public class DeviceTimerServiceImpl implements DeviceTimerService {
         return deviceTimerMapper.toDto(deviceTimer);
     }
 
-    private boolean isContains(Instant sourceDate, Instant startTime, Instant endTime) {
-        return sourceDate.isAfter(startTime) && sourceDate.isBefore(endTime);
+    private boolean isContains(Instant sourceDate, Instant time) {
+        Duration duration = Duration.between(sourceDate, time);
+        return duration.toMinutesPart() == 0;
     }
 
     @Override

@@ -17,6 +17,7 @@
     },
     "startTime": "Start time",
     "endTime": "End time",
+    "time": "Time",
     "resetForm": "Reset form",
     "save": "Save",
     "deviceAction": "Action"
