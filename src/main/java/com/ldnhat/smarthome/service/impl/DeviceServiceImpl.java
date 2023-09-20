@@ -71,6 +71,8 @@ public class DeviceServiceImpl implements DeviceService {
         device = deviceRepository.save(device);
         if (device.getDeviceType().equals(DeviceType.CONTROL)) {
             firebaseService.createDeviceControl(device.getCreatedBy(), device.getDeviceAction().toString(), device.getId());
+        } else if (device.getDeviceType().equals(DeviceType.MONITOR)) {
+            firebaseService.createDeviceMonitor(device.getCreatedBy(), "O.O", "C", device.getId());
         }
         return deviceMapper.toDto(device);
     }
