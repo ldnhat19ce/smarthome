@@ -38,6 +38,26 @@ public class FirebaseService {
         collection.document("device_action").collection(login).document(deviceId).create(values);
     }
 
+    public void createDeviceMonitor(String login, String value, String unitMeasure, String deviceId) {
+        CollectionReference collection = FirestoreClient.getFirestore().collection(firebaseCollection);
+
+        Map<String, Object> values = new HashMap<>();
+        values.put("value", value);
+        values.put("unitMeasure", unitMeasure);
+
+        collection.document("device_monitor").collection(login).document(deviceId).create(values);
+    }
+
+    public void updateDeviceMonitor(String login, String value, String unitMeasure, String deviceId) {
+        CollectionReference collection = FirestoreClient.getFirestore().collection(firebaseCollection);
+
+        Map<String, Object> values = new HashMap<>();
+        values.put("value", value);
+        values.put("unitMeasure", unitMeasure);
+
+        collection.document("device_monitor").collection(login).document(deviceId).update(values);
+    }
+
     public void sendNotificationToMulticastToken(NotificationSettingDTO notificationSettingDTO, String deviceId) {
         Message message = Message
             .builder()
