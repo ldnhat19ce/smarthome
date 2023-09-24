@@ -1,0 +1,22 @@
+.footer .btmInfo .btmMenu a {
+  margin-right: 0;
+  padding: 0 5px;
+}
+
+.footer .btmInfo .btmMenu a:not(:last-child) {
+  border-right: 1px solid black;
+}
+
+/*.col-lg-6 {*/
+/*  width: 100% !important;*/
+/*}*/
+
+.compInfo {
+  width: 60%;
+}
+
+@media all and (max-width: 767px) {
+  .compInfo {
+    width: 100%;
+  }
+}

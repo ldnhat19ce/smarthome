@@ -32,6 +32,7 @@
             "assets": [
               "src/main/webapp/content",
               "src/main/webapp/favicon.ico",
+              "src/main/webapp/logo.ico",
               "src/main/webapp/manifest.webapp",
               "src/main/webapp/manifest.json",
               "src/main/webapp/robots.txt",
@@ -40,6 +41,7 @@
             "styles": [
               "src/main/webapp/content/scss/vendor.scss",
               "src/main/webapp/content/scss/global.scss",
+              "src/main/webapp/content/css/style.css",
               "node_modules/ng-pick-datetime/assets/style/picker.min.css"
             ],
             "scripts": []

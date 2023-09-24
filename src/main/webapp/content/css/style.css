@@ -1,0 +1,208 @@
+.footer {
+  background: #f2f2f2;
+}
+.footer .noticeWrap {
+  border-bottom: 1px solid #ddd;
+  border-top: 1px solid #ddd;
+  background: #fff;
+  height: 80px;
+  overflow: hidden;
+  position: relative;
+}
+.footer .noticeWrap h2 {
+  font-size: 20px;
+  color: #000;
+  font-weight: 700;
+  line-height: 78px;
+  display: inline-block;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.footer .noticeWrap .noticeSlide {
+  position: relative;
+  padding: 0 130px;
+  max-width: 1200px;
+  height: 100%;
+}
+.footer .noticeWrap .noticeSlide .swiper-slide a {
+  display: block;
+  margin-top: 30px;
+  overflow: hidden;
+  width: 100%;
+}
+.footer .noticeWrap .noticeSlide .swiper-slide a p {
+  color: #888;
+  font-size: 16px;
+  transition: all 0.3s;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1;
+}
+.footer .noticeWrap .noticeSlide .swiper-slide a:hover p {
+  color: #333;
+}
+.footer .noticeWrap .noticeSlide .noticeControl {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  margin-top: -17px;
+  font-size: 0;
+}
+.footer .noticeWrap .noticeSlide .noticeControl .swiper-button-next,
+.footer .noticeWrap .noticeSlide .noticeControl .swiper-button-prev,
+.footer .noticeWrap .noticeSlide .noticeControl a {
+  display: inline-block;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid #eee;
+  position: unset;
+  text-align: center;
+  color: #333;
+  vertical-align: bottom;
+  margin-left: 10px;
+  transition: all 0.3s;
+}
+.footer .noticeWrap .noticeSlide .noticeControl .swiper-button-next svg,
+.footer .noticeWrap .noticeSlide .noticeControl .swiper-button-prev svg,
+.footer .noticeWrap .noticeSlide .noticeControl a svg {
+  margin-top: 9px;
+}
+.footer .noticeWrap .noticeSlide .noticeControl .swiper-button-next:first-child,
+.footer .noticeWrap .noticeSlide .noticeControl .swiper-button-prev:first-child,
+.footer .noticeWrap .noticeSlide .noticeControl a:first-child {
+  margin-left: 0;
+}
+.footer .noticeWrap .noticeSlide .noticeControl .swiper-button-next:hover,
+.footer .noticeWrap .noticeSlide .noticeControl .swiper-button-prev:hover,
+.footer .noticeWrap .noticeSlide .noticeControl a:hover {
+  color: #000;
+  border: 1px solid #ddd;
+}
+.footer .noticeWrap .noticeSlide .noticeControl .swiper-button-next:after,
+.footer .noticeWrap .noticeSlide .noticeControl .swiper-button-prev:after {
+  font-size: 16px;
+  background-image: none;
+  content: none;
+}
+.footer .noticeWrap .noticeSlide .noticeControl a svg {
+  margin-top: 6px;
+}
+.footer .btmInfo {
+  padding: 50px;
+}
+.footer .btmInfo .btmMenu {
+  margin-bottom: 20px;
+}
+.footer .btmInfo .btmMenu a {
+  color: #000;
+  font-size: 15px;
+  transition: all 0.3s;
+  margin-right: 40px;
+}
+.footer .btmInfo .btmMenu a:last-child {
+  margin-right: 0;
+}
+.footer .btmInfo .btmMenu a:hover {
+  color: #6e1452;
+}
+.footer .btmInfo .compInfo span {
+  color: #888;
+  font-size: 13px;
+  padding-right: 10px;
+  display: inline-block;
+}
+.footer .btmInfo .btmCopy {
+  color: #b6b6b6;
+  font-size: 12px;
+  margin-top: 20px;
+  font-style: italic;
+}
+.footer .btmInfo .snsWrap {
+  text-align: right;
+  margin-bottom: 30px;
+}
+.footer .btmInfo .snsWrap a {
+  color: #aaa;
+  display: inline-block;
+  margin-left: 15px;
+}
+.footer .btmInfo .snsWrap a:first-child {
+  margin-left: 0;
+}
+.footer .btmInfo .btmCall {
+  text-align: right;
+}
+.footer .btmInfo .btmCall h2 {
+  font-size: 16px;
+  font-weight: 800;
+  color: #000;
+}
+.footer .btmInfo .btmCall h2 span {
+  font-size: 40px;
+  padding-left: 20px;
+}
+.footer .btmInfo .btmCall p {
+  display: inline-block;
+  line-height: 30px;
+  padding: 0 15px;
+  font-size: 12px;
+  letter-spacing: -0.2px;
+  color: #fff;
+  background-color: #000;
+  border-radius: 15px;
+  font-weight: 200;
+  margin-top: 15px;
+}
+
+@media all and (max-width: 767px) {
+  .footer .noticeWrap {
+    height: 60px;
+  }
+  .footer .noticeWrap h2 {
+    line-height: 58px;
+    font-size: 16px;
+  }
+  .footer .noticeWrap .noticeSlide {
+    padding: 0 50px 0 85px;
+  }
+  .footer .noticeWrap .noticeSlide .swiper-slide a {
+    margin-top: 21px !important;
+  }
+  .footer .noticeWrap .noticeSlide p {
+    font-size: 15px;
+  }
+  .footer .noticeWrap .noticeSlide .swiper-button-prev,
+  .footer .noticeWrap .noticeSlide .swiper-button-next {
+    display: none !important;
+  }
+  .footer .btmInfo {
+    text-align: center;
+  }
+  .footer .btmInfo .btmMenu {
+    margin-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .footer .btmInfo .btmMenu a {
+    margin: 0 15px;
+  }
+  .footer .btmInfo .btmMenu a:last-child {
+    margin: 0 15px;
+  }
+  .footer .btmInfo .btmCopy {
+    margin-top: 10px;
+    text-align: center;
+  }
+  .footer .btmInfo .snsWrap {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 0;
+  }
+  .footer .btmInfo .btmCall {
+    display: none;
+  }
+}
