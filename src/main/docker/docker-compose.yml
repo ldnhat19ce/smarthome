@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  smarthome-app:
+    image: 123456nhat/smarthome:latest
+    environment:
+      - _JAVA_OPTIONS=-Xmx512m -Xms256m
+      - SPRING_PROFILES_ACTIVE=dev,api-docs
+      - MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED=true
+      #      - SPRING_DATA_MONGODB_URI=mongodb://admin:123456@smarthome-mongodb:27017
+      - SPRING_DATA_MONGODB_URI=mongodb+srv://nhatlddev:nhat122310@smarthome.7aw8oid.mongodb.net/?retryWrites=true&w=majority&appName=AtlasApp
+      - SPRING_DATA_MONGODB_DATABASE=smarthome
+      - JHIPSTER_SLEEP=5 # gives time for other services to boot before the application
+    ports:
+      - 8080:8080
+    #    depends_on:
+    #      - smarthome-mongodb
+    networks:
+      - smarthome
+    logging:
+      options:
+        max-size: '10m'
+        max-file: '3'
+    volumes:
+      - /home/logs:/logs
+
+networks:
+  smarthome:
+    driver: bridge
