@@ -8,6 +8,8 @@ import com.ldnhat.smarthome.service.FirebaseService;
 import com.ldnhat.smarthome.service.dto.DeviceMonitorDTO;
 import com.ldnhat.smarthome.service.error.UserException;
 import com.ldnhat.smarthome.service.mapper.DeviceMonitorMapper;
+import com.ldnhat.smarthome.utils.DateUtils;
+import java.util.Date;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,4 +77,27 @@ public class DeviceMonitorServiceImpl implements DeviceMonitorService {
 
     @Override
     public void delete(String id) {}
+
+    @Override
+    public Optional<DeviceMonitorDTO> getRangeDeviceMonitor(String id) {
+        log.debug("Request to get range device monitor by id : {}", id);
+        Date date = new Date();
+
+        Optional<DeviceMonitor> maxValue = deviceMonitorRepository.findFirstByDeviceIdAndCreatedDateBetweenOrderByValueDesc(
+            id,
+            DateUtils.atStartOfDay(date).toInstant(),
+            DateUtils.atEndOfDay(date).toInstant()
+        );
+        Optional<DeviceMonitor> minValue = deviceMonitorRepository.findFirstByDeviceIdAndCreatedDateBetweenOrderByValueAsc(
+            id,
+            DateUtils.atStartOfDay(date).toInstant(),
+            DateUtils.atEndOfDay(date).toInstant()
+        );
+
+        DeviceMonitorDTO deviceMonitorDTO = new DeviceMonitorDTO();
+        deviceMonitorDTO.setMaxValue(maxValue.isPresent() ? maxValue.get().getValue() : "0");
+        deviceMonitorDTO.setMinValue(minValue.isPresent() ? minValue.get().getValue() : "0");
+
+        return Optional.of(deviceMonitorDTO);
+    }
 }
