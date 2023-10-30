@@ -1,10 +1,9 @@
 package com.ldnhat.smarthome.service;
 
 import com.ldnhat.smarthome.service.dto.DeviceMonitorDTO;
+import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
-import java.util.Optional;
 
 /**
  * Service Interface for managing {@link com.ldnhat.smarthome.domain.DeviceMonitor}.
@@ -41,4 +40,12 @@ public interface DeviceMonitorService {
      * @param id the id of the entity.
      */
     void delete(String id);
+
+    /**
+     * Get range a device monitor.
+     *
+     * @param id the id of entity.
+     * @return the persisted entity.
+     */
+    Optional<DeviceMonitorDTO> getRangeDeviceMonitor(String id);
 }

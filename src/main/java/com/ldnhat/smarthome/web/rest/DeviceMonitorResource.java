@@ -6,6 +6,10 @@ import com.ldnhat.smarthome.service.DeviceMonitorService;
 import com.ldnhat.smarthome.service.dto.DeviceMonitorDTO;
 import com.ldnhat.smarthome.service.error.UserException;
 import com.ldnhat.smarthome.web.rest.errors.BadRequestAlertException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,13 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
-
-import javax.validation.Valid;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import tech.jhipster.web.util.ResponseUtil;
 
 /**
  * REST controller for managing {@link com.ldnhat.smarthome.domain.DeviceMonitor}.
@@ -33,16 +31,15 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class DeviceMonitorResource {
-    private static final List<String> ALLOWED_ORDERED_PROPERTIES = Collections.unmodifiableList(
-        Arrays.asList(
-            "id",
-            "value",
-            "unitMeasure",
-            "createdBy",
-            "createdDate",
-            "lastModifiedBy",
-            "lastModifiedDate"
-        )
+
+    private static final List<String> ALLOWED_ORDERED_PROPERTIES = List.of(
+        "id",
+        "value",
+        "unitMeasure",
+        "createdBy",
+        "createdDate",
+        "lastModifiedBy",
+        "lastModifiedDate"
     );
 
     private final Logger log = LoggerFactory.getLogger(DeviceMonitorResource.class);
@@ -67,7 +64,8 @@ public class DeviceMonitorResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new deviceMonitor, or with status {@code 400 (Bad Request)} if the deviceMonitor has already an ID.
      */
     @PostMapping("/device-monitor")
-    public ResponseEntity<DeviceMonitorDTO> createDeviceMonitor(@Valid @RequestBody DeviceMonitorDTO deviceMonitorDTO) throws URISyntaxException {
+    public ResponseEntity<DeviceMonitorDTO> createDeviceMonitor(@Valid @RequestBody DeviceMonitorDTO deviceMonitorDTO)
+        throws URISyntaxException {
         log.debug("REST request to save Device Monitor : {}", deviceMonitorDTO);
         if (deviceMonitorDTO.getId() != null) {
             throw new BadRequestAlertException("A new device monitor cannot already have an ID", ENTITY_NAME, "idexists");
@@ -90,12 +88,15 @@ public class DeviceMonitorResource {
     @GetMapping("/device-monitor/{deviceId}")
     public ResponseEntity<List<DeviceMonitorDTO>> getAllDeviceMonitor(
         @org.springdoc.api.annotations.ParameterObject Pageable pageable,
-        @PathVariable String deviceId) {
+        @PathVariable String deviceId
+    ) {
         log.debug("REST request to get all device monitor for current device");
         if (!onlyContainsAllowedProperties(pageable)) {
             return ResponseEntity.badRequest().build();
         }
-        String login = SecurityUtils.getCurrentUserLogin().orElseThrow(() -> new UserException("Unauthorized user", ENTITY_NAME, "usertoken"));
+        String login = SecurityUtils
+            .getCurrentUserLogin()
+            .orElseThrow(() -> new UserException("Unauthorized user", ENTITY_NAME, "usertoken"));
         if (!deviceMonitorRepository.existsByDeviceIdAndCreatedBy(deviceId, login)) {
             throw new BadRequestAlertException("Device not found", ENTITY_NAME, "devicenotfound");
         }
@@ -107,5 +108,24 @@ public class DeviceMonitorResource {
 
     private boolean onlyContainsAllowedProperties(Pageable pageable) {
         return pageable.getSort().stream().map(Sort.Order::getProperty).allMatch(ALLOWED_ORDERED_PROPERTIES::contains);
+    }
+
+    /**
+     * {@code GET /device-monitor/range/{deviceId}} : get range min max device monitor
+     *
+     * @param deviceId the id of device.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body device monitor.
+     */
+    @GetMapping("/device-monitor/range/{deviceId}")
+    public ResponseEntity<DeviceMonitorDTO> getRangeDeviceMonitor(@PathVariable String deviceId) {
+        log.debug("REST request to get range device monitor");
+        String login = SecurityUtils
+            .getCurrentUserLogin()
+            .orElseThrow(() -> new UserException("Unauthorized user", ENTITY_NAME, "usertoken"));
+        if (!deviceMonitorRepository.existsByDeviceIdAndCreatedBy(deviceId, login)) {
+            throw new BadRequestAlertException("Device not found", ENTITY_NAME, "devicenotfound");
+        }
+
+        return ResponseUtil.wrapOrNotFound(deviceMonitorService.getRangeDeviceMonitor(deviceId));
     }
 }

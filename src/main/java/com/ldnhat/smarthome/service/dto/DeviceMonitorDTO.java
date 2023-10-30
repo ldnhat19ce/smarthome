@@ -8,6 +8,7 @@ import java.util.Objects;
  * A DTO representing device monitor of user
  */
 public class DeviceMonitorDTO implements Serializable {
+
     private String id;
 
     private String value;
@@ -23,6 +24,26 @@ public class DeviceMonitorDTO implements Serializable {
     private String lastModifiedBy;
 
     private Instant lastModifiedDate;
+
+    private String minValue;
+
+    private String maxValue;
+
+    public String getMinValue() {
+        return minValue;
+    }
+
+    public void setMinValue(String minValue) {
+        this.minValue = minValue;
+    }
+
+    public String getMaxValue() {
+        return maxValue;
+    }
+
+    public void setMaxValue(String maxValue) {
+        this.maxValue = maxValue;
+    }
 
     public String getId() {
         return id;
@@ -103,15 +124,30 @@ public class DeviceMonitorDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "DeviceMonitorDTO{" +
-            "id='" + id + '\'' +
-            ", value='" + value + '\'' +
-            ", unitMeasure='" + unitMeasure + '\'' +
-            ", deviceDTO=" + deviceDTO +
-            ", createdBy='" + createdBy + '\'' +
-            ", createdDate=" + createdDate +
-            ", lastModifiedBy='" + lastModifiedBy + '\'' +
-            ", lastModifiedDate=" + lastModifiedDate +
-            '}';
+        return (
+            "DeviceMonitorDTO{" +
+            "id='" +
+            id +
+            '\'' +
+            ", value='" +
+            value +
+            '\'' +
+            ", unitMeasure='" +
+            unitMeasure +
+            '\'' +
+            ", deviceDTO=" +
+            deviceDTO +
+            ", createdBy='" +
+            createdBy +
+            '\'' +
+            ", createdDate=" +
+            createdDate +
+            ", lastModifiedBy='" +
+            lastModifiedBy +
+            '\'' +
+            ", lastModifiedDate=" +
+            lastModifiedDate +
+            '}'
+        );
     }
 }
