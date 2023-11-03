@@ -1,6 +1,7 @@
 package com.ldnhat.smarthome.service;
 
 import com.ldnhat.smarthome.service.dto.DeviceMonitorDTO;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -48,4 +49,13 @@ public interface DeviceMonitorService {
      * @return the persisted entity.
      */
     Optional<DeviceMonitorDTO> getRangeDeviceMonitor(String id);
+
+    /**
+     * Get list device monitor by current device and type.
+     *
+     * @param deviceId the id of device.
+     * @param type (0 -> 8) type filter.
+     * @return the list of entities.
+     */
+    List<DeviceMonitorDTO> findAllDeviceMonitoryByDeviceIdAndType(String deviceId, String type);
 }
