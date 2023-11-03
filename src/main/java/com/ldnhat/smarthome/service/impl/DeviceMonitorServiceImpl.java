@@ -9,7 +9,9 @@ import com.ldnhat.smarthome.service.dto.DeviceMonitorDTO;
 import com.ldnhat.smarthome.service.error.UserException;
 import com.ldnhat.smarthome.service.mapper.DeviceMonitorMapper;
 import com.ldnhat.smarthome.utils.DateUtils;
+import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -99,5 +101,59 @@ public class DeviceMonitorServiceImpl implements DeviceMonitorService {
         deviceMonitorDTO.setMinValue(minValue.isPresent() ? minValue.get().getValue() : "0");
 
         return Optional.of(deviceMonitorDTO);
+    }
+
+    @Override
+    public List<DeviceMonitorDTO> findAllDeviceMonitoryByDeviceIdAndType(String deviceId, String type) {
+        log.debug("Request to get range device monitor by device id : {} and type : {}", deviceId, type);
+        Date dateFrom = new Date();
+        Date dateTo = new Date();
+        Instant insFrom = Instant.now();
+        Instant insTo = Instant.now();
+
+        if (type.equals("0")) {
+            return deviceMonitorMapper.toDto(deviceMonitorRepository.findAllByDeviceIdOrderByCreatedDateAsc(deviceId));
+        }
+        switch (type) {
+            case "1":
+                // Today
+                insFrom = DateUtils.atStartOfDay(dateFrom).toInstant();
+                insTo = DateUtils.atEndOfDay(dateTo).toInstant();
+                break;
+            case "2":
+                // 7 days ago
+                insFrom = DateUtils.minusDays(dateFrom, 5).toInstant();
+                insTo = DateUtils.atEndOfDay(dateTo).toInstant();
+                break;
+            case "3":
+                // Current month
+                insFrom = DateUtils.firstDayOfMonth(dateFrom).toInstant();
+                insTo = DateUtils.lastDayOfMonth(dateTo).toInstant();
+                break;
+            case "4":
+                // Last month
+                insFrom = DateUtils.firstDayOfPreviousMonth(dateFrom).toInstant();
+                insTo = DateUtils.lastDayOfPreviousMonth(dateTo).toInstant();
+                break;
+            case "5":
+                // 3 months ago
+                insFrom = DateUtils.firstDayOfPreviousMonth(dateFrom, 3).toInstant();
+                insTo = DateUtils.lastDayOfPreviousMonth(dateTo, 3).toInstant();
+                break;
+            case "6":
+                // 6 months ago
+                insFrom = DateUtils.firstDayOfPreviousMonth(dateFrom, 6).toInstant();
+                insTo = DateUtils.lastDayOfPreviousMonth(dateTo, 6).toInstant();
+                break;
+            case "7":
+                // 1 year ago
+                insFrom = DateUtils.firstDayOfPreviousMonth(dateFrom, 12).toInstant();
+                insTo = DateUtils.lastDayOfPreviousMonth(dateTo, 12).toInstant();
+                break;
+        }
+
+        return deviceMonitorMapper.toDto(
+            deviceMonitorRepository.findAllByDeviceIdAndCreatedDateBetweenOrderByCreatedDateAsc(deviceId, insFrom, insTo)
+        );
     }
 }

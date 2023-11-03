@@ -128,4 +128,24 @@ public class DeviceMonitorResource {
 
         return ResponseUtil.wrapOrNotFound(deviceMonitorService.getRangeDeviceMonitor(deviceId));
     }
+
+    /**
+     * {@code GET /device-monitor/range/{deviceId}/{type}} : get list range min max device monitor
+     *
+     * @param deviceId the id of device.
+     * @param type the type of filter (0 -> 8).
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body list device monitor.
+     */
+    @GetMapping("/device-monitor/range/{deviceId}/{type}")
+    public ResponseEntity<List<DeviceMonitorDTO>> getListRangeDeviceMonitor(@PathVariable String deviceId, @PathVariable String type) {
+        log.debug("REST request to get list range device monitor");
+        String login = SecurityUtils
+            .getCurrentUserLogin()
+            .orElseThrow(() -> new UserException("Unauthorized user", ENTITY_NAME, "usertoken"));
+        if (!deviceMonitorRepository.existsByDeviceIdAndCreatedBy(deviceId, login)) {
+            throw new BadRequestAlertException("Device not found", ENTITY_NAME, "devicenotfound");
+        }
+
+        return new ResponseEntity<>(deviceMonitorService.findAllDeviceMonitoryByDeviceIdAndType(deviceId, type), HttpStatus.OK);
+    }
 }

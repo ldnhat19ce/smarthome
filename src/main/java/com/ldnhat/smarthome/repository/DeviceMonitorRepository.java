@@ -22,4 +22,8 @@ public interface DeviceMonitorRepository extends MongoRepository<DeviceMonitor, 
     Optional<DeviceMonitor> findFirstByDeviceIdAndCreatedDateBetweenOrderByValueDesc(String deviceId, Instant dateFrom, Instant dateTo);
 
     Optional<DeviceMonitor> findFirstByDeviceIdAndCreatedDateBetweenOrderByValueAsc(String deviceId, Instant dateFrom, Instant dateTo);
+
+    List<DeviceMonitor> findAllByDeviceIdAndCreatedDateBetweenOrderByCreatedDateAsc(String deviceId, Instant dateFrom, Instant dateTo);
+
+    List<DeviceMonitor> findAllByDeviceIdOrderByCreatedDateAsc(String deviceId);
 }
