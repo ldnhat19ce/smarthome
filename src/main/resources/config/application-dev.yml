@@ -11,17 +11,16 @@ spring:
       enabled: true
       additional-exclude: static/**
     livereload:
-      enabled: false # we use Webpack dev server + BrowserSync for livereload
+      enabled: false
   jackson:
     serialization:
       indent-output: true
   data:
     mongodb:
-      #      uri: mongodb://admin:123456@localhost:27017
       uri: CI_MOGODB_URL
-      database: smarthome
+      database: CI_MONGODB_DATABASE
   mail:
-    host: smtp.gmail.com
+    host: CI_MAIL_HOST
     port: 587
     username: CI_MAIL_USERNAME
     password: CI_MAIL_PASSWORD
@@ -41,18 +40,9 @@ spring:
 server:
   port: 8080
 
-# ===================================================================
-# JHipster specific properties
-#
-# Full reference is available at: https://www.jhipster.tech/common-application-properties/
-# ===================================================================
-
 jhipster:
-  # CORS is only enabled by default with the "dev" profile
   cors:
-    # Allow Ionic for JHipster by default (* no longer allowed in Spring Boot 2.4+)
-    allowed-origins: 'http://localhost:8100,https://localhost:8100,http://localhost:9000,https://localhost:9000,http://localhost:4200,https://localhost:4200,http://103.162.20.125,http://smathome.asia,http://103.162.20.125:8080,http://smathome.asia:80,https://smathome.asia,http://localhost:4200'
-    # Enable CORS when running in GitHub Codespaces
+    allowed-origins: CI_CORS_ALLOWED_ORIGINS
     allowed-origin-patterns: 'https://*.githubpreview.dev'
     allowed-methods: '*'
     allowed-headers: '*'
@@ -62,34 +52,23 @@ jhipster:
   security:
     authentication:
       jwt:
-        # This token must be encoded using Base64 and be at least 256 bits long (you can type `openssl rand -base64 64` on your command line to generate a 512 bits one)
-        base64-secret: MWRlZWM0YzJhMWJlNzAyZThiNmNjMzA2OTIxNDI4ZjMzMzM4YmEyMWM2MDY4OWYxYzkxNGNmZjQwNTRhZjBkMjY1NjdjYTlmOWQ2M2Q0NmUzYjhiZmUwZGExNmE1YTg5NDYzNzFjYTUyYzBlZDA0MzlhZWIyYzRkOTM3YWNmYzQ=
+        base64-secret: CI_SECURITY_AUTHENTICATION_JWT_BASE64_SECRET
         # Token is valid 24 hours
         token-validity-in-seconds: 86400
         token-validity-in-seconds-for-remember-me: 2592000
-  mail: # specific JHipster mail property, for standard properties see MailProperties
-    base-url: http://smathome.asia
+  mail:
+    base-url: CI_MAIL_BASE_URL
   logging:
     use-json-format: false # By default, logs are not in Json format
-    logstash: # Forward logs to logstash over a socket, used by LoggingConfiguration
+    logstash:
       enabled: false
       host: localhost
       port: 5000
       queue-size: 512
-# ===================================================================
-# Application specific properties
-# Add your own application properties here, see the ApplicationProperties class
-# to have type-safe configuration, like in the JHipsterProperties above
-#
-# More documentation is available at:
-# https://www.jhipster.tech/common-application-properties/
-# ===================================================================
-
-# application:
 
 #Firebase
 app:
   firebase-configuration-file:
-    content: ewogICJ0eXBlIjogInNlcnZpY2VfYWNjb3VudCIsCiAgInByb2plY3RfaWQiOiAic21hcnRob21lLTNkYjE0IiwKICAicHJpdmF0ZV9rZXlfaWQiOiAiY2IwNjdiOGIzMjY3YTE5YWMyZjBlZTY0ZDllNDVhYTZkMjJkMGNkZSIsCiAgInByaXZhdGVfa2V5IjogIi0tLS0tQkVHSU4gUFJJVkFURSBLRVktLS0tLVxuTUlJRXZ3SUJBREFOQmdrcWhraUc5dzBCQVFFRkFBU0NCS2t3Z2dTbEFnRUFBb0lCQVFEWDdHNFVVTDRvUGZKM1xuaFFLYlBrTDlpYWZvcTVnZW5RVi9iQmN0VFN5ZWlQOC9YK1ByaXJyclBZSGNPdnJRZ0x2ZVlsUThVZ3hmQVRDelxuN0FzZ3VncGh3UVEwVGxrMDlHOC9nb3FNZGJPbWViOStQUzJKOFgzUTJZdy9lMzFNUnBTNzJ2OFpRMDhseFFvMlxuUCtIZGRGVHRVblVoVnZxVTM1Y3hZeTEreDUyZ1hVN1B3UzlESXpzZytIY050QXJURzFIWHBBSUZISURFSUVXc1xuOVphOWhuWjhySExWUHpROGpSTGR2SlNkWHVUSWNybWJuOVk0S2YzaEU2YUhOenRsRXhMeFNnQjVad3pJVVZaTVxuelc5QmpBL29EQlRjYW5GY0g4aEJSVi9hZFFlM1FtNDdnVndvQnRZMmYva3RFemRCMWNxSjdEN3pFNDlINC9LU1xuTDFKYks5TjNBZ01CQUFFQ2dnRUFINDJjVkhtc0lDTlZVR1B1aXBNaHBQMDl2VUYrSEZNajM0Z0RKd3FWRDZIRFxuY3habkx4OTV5ekNVem9NTDdmWXgvZ0J1Z05ZWW1yV0kwWElYK2pOVm13MWl1T1lPSVMvckplUEVyVnZ4NGN6K1xuejhyTzRjNlpiVEN0VHdXVHZOYS9tMmdZU1MvTjNCNGNMT3RPN1ZhM3BtcWJWVURwbzJHOUxXbHAxNUlDRmRIb1xuSFZ4MUtEeWp0R2M3bDlGN09DTk51MHlwbjlRQ2lXcUNvelJXUGZmcjV4RlRyb0FVMDFWaWFJYllFYmdrSXE3K1xuVkdVTkxDU3A0aVFRTDhEM2dkdHBkdVBtTG9sZ0pJaDV1dk5oRXQrekVwY0ZLTS9PajNnaVNtWlVSKzdyU3NBNlxudnYxMU5VeWpvQWJDM280TVhVdmVKVUxIRm1FWi9zY2F6OWE2UTNteTZRS0JnUUR2bFZUeWlvaTlVdGNESWhDSVxuZU5tbC9wQllQeVZZN2RyZXRwWkxGbHJJVkV6NWxKN3F5eW5yZHg5SVBVTHVrSjdVRjNWRHJIdlVFdVRCS2NxelxuRE40TFlkV3hxMXpiQ0F6VlI5T3h3cG9TcnQ2M29yZHU0MFFxV3F3SXBzMGwvTFdvN1g0Y1QvamMyRVRjSVRDWlxubG1uT1BoYVVmcW9mK3V5L0VYUlR4T3NoaXdLQmdRRG11QkdOZ216L1VIaW1BeSs4eTh0ckNWNWdwdFY5N050M1xuaXdXOFYyMjFadXFxeWdCbTNNSkxuNUlpdlp1TkpQUFFDb2dJMmIwR1haOGhJOEwvM0wxN01IaHNKTDFGblVtTVxuamtMMGVXUXZKZ2tZNS93QVU0WHppQjI0T2l3NEwwVGFFWkd4S1hRa0VPTitORUF6eDdKYkRadUxRWHdjQ2Fld1xuTS8rM1pjcDdSUUtCZ1FDN0U1b2ZRWG1BaS8wRW4wYlZxYmdaMitzT1hWQm1YbVIzWDQ5LzFsYlE4cktnZUNLWFxuS0VqMWFqRHRFWmovKzhGcHoxOXJsbldpcFpZbUZ1SUdhZGZBZjRhRGsxR1FYbnJXMTUwL3dycllOK0FFK0hQUFxuakhxZnIrbUJYKzMwNloxWDZRcCtSUndJSm4rdWUrUWRLY3c0bFZiQVlSK3FsUjdrRzFjQVNsVm4vUUtCZ1FDR1xueW1MMjJZdjBYWDhlL2gyVm56cG9ma0MxRnNNRG5xMVpXYzh3Q2FQK3B2SFNkZEZtUnZMOFcyMTAvbkV5TkxSOFxuaHFxVEFTSjk1WlJpT0JKa2lRSHFScGNVRnlLODJQZHZObTNIaG1RUlo1ZEpCYjhrTWFmQWIzVnRmQTc1aENRbFxuZ3I0clVweVh0WVl5NVRQZERINFcxQXhiZnhhVEN0RDlFR1FGTVdMcVFRS0JnUURMNlZ1dmdra2hnRjVqZXd6NFxuZkgvY0gvOUdUMzN3NTVlQUJRZEFIYjBTaXpPRWdEUmpDN3lBN093NXBoTjFaRlhhc2ZuQnpVWXpFbzdQNkw2YlxuWTVxdWp0TndNWndZbmJjWEtMVGY4RTlHVjFVaXZyWFdSaXdTL2VMcmU4SlRnQkg1RStTdEd6eVlEU29mUFZ4Y1xucmIzVlIySER1NXJRaDU3ZUdyUmxlaHN3ZWc9PVxuLS0tLS1FTkQgUFJJVkFURSBLRVktLS0tLVxuIiwKICAiY2xpZW50X2VtYWlsIjogImZpcmViYXNlLWFkbWluc2RrLWd6NmZnQHNtYXJ0aG9tZS0zZGIxNC5pYW0uZ3NlcnZpY2VhY2NvdW50LmNvbSIsCiAgImNsaWVudF9pZCI6ICIxMDgyMjEzNzc4MjI1NDQ1NjU2ODgiLAogICJhdXRoX3VyaSI6ICJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20vby9vYXV0aDIvYXV0aCIsCiAgInRva2VuX3VyaSI6ICJodHRwczovL29hdXRoMi5nb29nbGVhcGlzLmNvbS90b2tlbiIsCiAgImF1dGhfcHJvdmlkZXJfeDUwOV9jZXJ0X3VybCI6ICJodHRwczovL3d3dy5nb29nbGVhcGlzLmNvbS9vYXV0aDIvdjEvY2VydHMiLAogICJjbGllbnRfeDUwOV9jZXJ0X3VybCI6ICJodHRwczovL3d3dy5nb29nbGVhcGlzLmNvbS9yb2JvdC92MS9tZXRhZGF0YS94NTA5L2ZpcmViYXNlLWFkbWluc2RrLWd6NmZnJTQwc21hcnRob21lLTNkYjE0LmlhbS5nc2VydmljZWFjY291bnQuY29tIiwKICAidW5pdmVyc2VfZG9tYWluIjogImdvb2dsZWFwaXMuY29tIgp9Cg==
+    content: CI_FIREBASE_CONFIG_CONTENT
   firestore:
-    collection: develop
+    collection: CI_FIREBASE_CONFIG_COLLECTION
