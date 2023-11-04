@@ -114,16 +114,16 @@ public class DeviceMonitorServiceImpl implements DeviceMonitorService {
         if (type.equals("0")) {
             return deviceMonitorMapper.toDto(deviceMonitorRepository.findAllByDeviceIdOrderByCreatedDateAsc(deviceId));
         }
+
+        insTo = DateUtils.atEndOfDay(dateTo).toInstant();
         switch (type) {
             case "1":
                 // Today
                 insFrom = DateUtils.atStartOfDay(dateFrom).toInstant();
-                insTo = DateUtils.atEndOfDay(dateTo).toInstant();
                 break;
             case "2":
                 // 7 days ago
                 insFrom = DateUtils.minusDays(dateFrom, 5).toInstant();
-                insTo = DateUtils.atEndOfDay(dateTo).toInstant();
                 break;
             case "3":
                 // Current month
@@ -138,19 +138,22 @@ public class DeviceMonitorServiceImpl implements DeviceMonitorService {
             case "5":
                 // 3 months ago
                 insFrom = DateUtils.firstDayOfPreviousMonth(dateFrom, 3).toInstant();
-                insTo = DateUtils.lastDayOfPreviousMonth(dateTo, 3).toInstant();
+                //                insTo = DateUtils.lastDayOfPreviousMonth(dateTo, 3).toInstant();
                 break;
             case "6":
                 // 6 months ago
                 insFrom = DateUtils.firstDayOfPreviousMonth(dateFrom, 6).toInstant();
-                insTo = DateUtils.lastDayOfPreviousMonth(dateTo, 6).toInstant();
+                //                insTo = DateUtils.lastDayOfPreviousMonth(dateTo, 6).toInstant();
                 break;
             case "7":
                 // 1 year ago
                 insFrom = DateUtils.firstDayOfPreviousMonth(dateFrom, 12).toInstant();
-                insTo = DateUtils.lastDayOfPreviousMonth(dateTo, 12).toInstant();
+                //                insTo = DateUtils.lastDayOfPreviousMonth(dateTo, 12).toInstant();
                 break;
         }
+
+        log.debug("Search Date From: {}", insFrom);
+        log.debug("Search Date to: {}", insTo);
 
         return deviceMonitorMapper.toDto(
             deviceMonitorRepository.findAllByDeviceIdAndCreatedDateBetweenOrderByCreatedDateAsc(deviceId, insFrom, insTo)
