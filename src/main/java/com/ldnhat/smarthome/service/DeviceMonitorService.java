@@ -3,6 +3,7 @@ package com.ldnhat.smarthome.service;
 import com.ldnhat.smarthome.service.dto.DeviceMonitorDTO;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -58,4 +59,21 @@ public interface DeviceMonitorService {
      * @return the list of entities.
      */
     List<DeviceMonitorDTO> findAllDeviceMonitoryByDeviceIdAndType(String deviceId, String type);
+
+    /**
+     * statistical device monitor in year.
+     *
+     * @param deviceId the id of device.
+     * @return the list of entities.
+     */
+    List<DeviceMonitorDTO> statisticalDeviceMonitorInYear(String deviceId) throws ExecutionException, InterruptedException;
+
+    /**
+     * Dummy data
+     *
+     * @param deviceId the id of device.
+     * @param month month to dummy
+     * @return
+     */
+    void dummyData(String deviceId, Integer month);
 }

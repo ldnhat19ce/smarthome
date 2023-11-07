@@ -1,11 +1,14 @@
 package com.ldnhat.smarthome.utils;
 
+import com.ldnhat.smarthome.service.dto.DateMonthDTO;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.YearMonth;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class DateUtils {
 
@@ -93,5 +96,49 @@ public class DateUtils {
         calendar.set(Calendar.DATE, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
 
         return calendar.getTime();
+    }
+
+    public static Date firstDayOfMonth(Date date, int month) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+
+        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.DATE, 1);
+
+        return calendar.getTime();
+    }
+
+    public static Date lastDayOfMonth(Date date, int month) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+
+        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.DATE, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+        return calendar.getTime();
+    }
+
+    public static String getCurrentMonth() {
+        Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+
+        return String.valueOf(calendar.get(Calendar.MONTH) + 1);
+    }
+
+    public static List<DateMonthDTO> getListMonthOfTheYear() {
+        List<DateMonthDTO> listMonth = new ArrayList<>();
+        Date date = new Date();
+
+        for (int i = 0; i < 12; i++) {
+            DateMonthDTO dateMonthDTO = new DateMonthDTO();
+            dateMonthDTO.setDateNumber(i + 1);
+            dateMonthDTO.setDateFrom(firstDayOfMonth(date, i).toInstant());
+            dateMonthDTO.setDateTo(lastDayOfMonth(date, i).toInstant());
+
+            listMonth.add(dateMonthDTO);
+        }
+
+        return listMonth;
     }
 }
