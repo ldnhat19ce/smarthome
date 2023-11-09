@@ -1,8 +1,10 @@
 package com.ldnhat.smarthome.service;
 
 import com.ldnhat.smarthome.service.dto.DeviceMonitorDTO;
+import com.ldnhat.smarthome.service.dto.StatisticalDeviceMonitorDTO;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -54,8 +56,49 @@ public interface DeviceMonitorService {
      * Get list device monitor by current device and type.
      *
      * @param deviceId the id of device.
-     * @param type (0 -> 8) type filter.
+     * @param type     (0 -> 8) type filter.
      * @return the list of entities.
      */
     List<DeviceMonitorDTO> findAllDeviceMonitoryByDeviceIdAndType(String deviceId, String type);
+
+    /**
+     * statistical device monitor in year.
+     *
+     * @param deviceId the id of device.
+     * @return the list of entities.
+     */
+    List<List<StatisticalDeviceMonitorDTO>> statisticalDeviceMonitorInYear(String deviceId) throws ExecutionException, InterruptedException;
+
+    /**
+     * statistical device monitor in month.
+     *
+     * @param deviceId the id of device.
+     * @return the list of entities.
+     */
+    List<List<StatisticalDeviceMonitorDTO>> statisticalDeviceMonitorInMonth(String deviceId) throws ExecutionException;
+
+    /**
+     * statistical device monitor in day.
+     *
+     * @param deviceId the id of device.
+     * @return the list of entities.
+     */
+    List<List<StatisticalDeviceMonitorDTO>> statisticalDeviceMonitorInDay(String deviceId) throws ExecutionException;
+
+    /**
+     * statistical device monitor in hour.
+     *
+     * @param deviceId the id of device.
+     * @return the list of entities.
+     */
+    List<List<StatisticalDeviceMonitorDTO>> statisticalDeviceMonitorInHour(String deviceId) throws ExecutionException;
+
+    /**
+     * Dummy data
+     *
+     * @param deviceId the id of device.
+     * @param month    month to dummy
+     * @return
+     */
+    void dummyData(String deviceId, Integer month);
 }

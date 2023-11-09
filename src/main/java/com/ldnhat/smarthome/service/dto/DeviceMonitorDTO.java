@@ -1,7 +1,7 @@
 package com.ldnhat.smarthome.service.dto;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
@@ -19,15 +19,25 @@ public class DeviceMonitorDTO implements Serializable {
 
     private String createdBy;
 
-    private Instant createdDate;
+    private LocalDateTime createdDate;
 
     private String lastModifiedBy;
 
-    private Instant lastModifiedDate;
+    private LocalDateTime lastModifiedDate;
 
     private String minValue;
 
     private String maxValue;
+
+    private String month;
+
+    public String getMonth() {
+        return month;
+    }
+
+    public void setMonth(String month) {
+        this.month = month;
+    }
 
     public String getMinValue() {
         return minValue;
@@ -85,14 +95,6 @@ public class DeviceMonitorDTO implements Serializable {
         this.createdBy = createdBy;
     }
 
-    public Instant getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Instant createdDate) {
-        this.createdDate = createdDate;
-    }
-
     public String getLastModifiedBy() {
         return lastModifiedBy;
     }
@@ -101,11 +103,19 @@ public class DeviceMonitorDTO implements Serializable {
         this.lastModifiedBy = lastModifiedBy;
     }
 
-    public Instant getLastModifiedDate() {
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public LocalDateTime getLastModifiedDate() {
         return lastModifiedDate;
     }
 
-    public void setLastModifiedDate(Instant lastModifiedDate) {
+    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
 
@@ -120,34 +130,5 @@ public class DeviceMonitorDTO implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(this.id);
-    }
-
-    @Override
-    public String toString() {
-        return (
-            "DeviceMonitorDTO{" +
-            "id='" +
-            id +
-            '\'' +
-            ", value='" +
-            value +
-            '\'' +
-            ", unitMeasure='" +
-            unitMeasure +
-            '\'' +
-            ", deviceDTO=" +
-            deviceDTO +
-            ", createdBy='" +
-            createdBy +
-            '\'' +
-            ", createdDate=" +
-            createdDate +
-            ", lastModifiedBy='" +
-            lastModifiedBy +
-            '\'' +
-            ", lastModifiedDate=" +
-            lastModifiedDate +
-            '}'
-        );
     }
 }

@@ -43,64 +43,63 @@ public class DeviceMonitorSchedule {
         this.notificationSettingRepository = notificationSettingRepository;
         this.firebaseService = firebaseService;
     }
-
-    @Scheduled(cron = "0 */4 * ? * *")
-    public void scheduleDeviceMonitor() {
-        log.debug("Schedule device monitor");
-        Instant dateFrom = Instant.now().minus(4, ChronoUnit.MINUTES);
-        Instant dateTo = Instant.now();
-        List<DeviceMonitor> deviceMonitors = deviceMonitorRepository.findAllByCreatedDateBetween(dateFrom, dateTo);
-
-        List<String> userOfDeviceMonitors = deviceMonitors
-            .stream()
-            .map(DeviceMonitor::getCreatedBy)
-            .distinct()
-            .collect(Collectors.toList());
-        List<DeviceToken> deviceTokens = deviceTokenRepository.findAllByCreatedByIn(userOfDeviceMonitors);
-
-        List<String> deviceIdOfDeviceMonitors = deviceMonitors
-            .stream()
-            .map(deviceMonitor -> deviceMonitor.getDevice().getId())
-            .distinct()
-            .collect(Collectors.toList());
-        List<String> deviceMonitorValues = deviceMonitors.stream().map(DeviceMonitor::getValue).distinct().collect(Collectors.toList());
-
-        List<NotificationSetting> notificationSettings = notificationSettingRepository.findAllByValueInAndDeviceIdIn(
-            deviceMonitorValues,
-            deviceIdOfDeviceMonitors
-        );
-
-        if (!notificationSettings.isEmpty()) {
-            log.debug("notification setting {}", notificationSettings);
-            notificationSettings.forEach(notificationSetting -> {
-                BigDecimal average = new BigDecimal(0);
-                List<DeviceMonitor> valueOfNotificationSetting = deviceMonitors
-                    .stream()
-                    .filter(b -> b.getValue().equals(notificationSetting.getValue()))
-                    .filter(b -> b.getDevice().getId().equals(notificationSetting.getDevice().getId()))
-                    .collect(Collectors.toList());
-                if (!valueOfNotificationSetting.isEmpty()) {
-                    for (DeviceMonitor deviceMonitor : valueOfNotificationSetting) {
-                        average = average.add(BigDecimal.valueOf(Double.parseDouble(deviceMonitor.getValue())));
-                    }
-                    average = average.divide(BigDecimal.valueOf(valueOfNotificationSetting.size()), RoundingMode.CEILING);
-                }
-                log.debug("device monitor {}", valueOfNotificationSetting);
-                log.debug("average {}", average);
-                if (StringUtils.split(average.toString(), ".")[0].equals(notificationSetting.getValue())) {
-                    List<DeviceToken> deviceTokenSendNotification = deviceTokens
-                        .stream()
-                        .filter(b -> b.getCreatedBy().equals(notificationSetting.getCreatedBy()))
-                        .collect(Collectors.toList());
-                    if (!deviceTokenSendNotification.isEmpty()) {
-                        log.debug("send notification");
-                        firebaseService.sendMulticastToken(
-                            notificationSetting,
-                            deviceTokenSendNotification.stream().map(DeviceToken::getToken).collect(Collectors.toList())
-                        );
-                    }
-                }
-            });
-        }
-    }
+    //    @Scheduled(cron = "0 */4 * ? * *")
+    //    public void scheduleDeviceMonitor() {
+    //        log.debug("Schedule device monitor");
+    //        Instant dateFrom = Instant.now().minus(4, ChronoUnit.MINUTES);
+    //        Instant dateTo = Instant.now();
+    //        List<DeviceMonitor> deviceMonitors = deviceMonitorRepository.findAllByCreatedDateBetween(dateFrom, dateTo);
+    //
+    //        List<String> userOfDeviceMonitors = deviceMonitors
+    //            .stream()
+    //            .map(DeviceMonitor::getCreatedBy)
+    //            .distinct()
+    //            .collect(Collectors.toList());
+    //        List<DeviceToken> deviceTokens = deviceTokenRepository.findAllByCreatedByIn(userOfDeviceMonitors);
+    //
+    //        List<String> deviceIdOfDeviceMonitors = deviceMonitors
+    //            .stream()
+    //            .map(deviceMonitor -> deviceMonitor.getDevice().getId())
+    //            .distinct()
+    //            .collect(Collectors.toList());
+    //        List<String> deviceMonitorValues = deviceMonitors.stream().map(DeviceMonitor::getValue).distinct().collect(Collectors.toList());
+    //
+    //        List<NotificationSetting> notificationSettings = notificationSettingRepository.findAllByValueInAndDeviceIdIn(
+    //            deviceMonitorValues,
+    //            deviceIdOfDeviceMonitors
+    //        );
+    //
+    //        if (!notificationSettings.isEmpty()) {
+    //            log.debug("notification setting {}", notificationSettings);
+    //            notificationSettings.forEach(notificationSetting -> {
+    //                BigDecimal average = new BigDecimal(0);
+    //                List<DeviceMonitor> valueOfNotificationSetting = deviceMonitors
+    //                    .stream()
+    //                    .filter(b -> b.getValue().equals(notificationSetting.getValue()))
+    //                    .filter(b -> b.getDevice().getId().equals(notificationSetting.getDevice().getId()))
+    //                    .collect(Collectors.toList());
+    //                if (!valueOfNotificationSetting.isEmpty()) {
+    //                    for (DeviceMonitor deviceMonitor : valueOfNotificationSetting) {
+    //                        average = average.add(BigDecimal.valueOf(Double.parseDouble(deviceMonitor.getValue())));
+    //                    }
+    //                    average = average.divide(BigDecimal.valueOf(valueOfNotificationSetting.size()), RoundingMode.CEILING);
+    //                }
+    //                log.debug("device monitor {}", valueOfNotificationSetting);
+    //                log.debug("average {}", average);
+    //                if (StringUtils.split(average.toString(), ".")[0].equals(notificationSetting.getValue())) {
+    //                    List<DeviceToken> deviceTokenSendNotification = deviceTokens
+    //                        .stream()
+    //                        .filter(b -> b.getCreatedBy().equals(notificationSetting.getCreatedBy()))
+    //                        .collect(Collectors.toList());
+    //                    if (!deviceTokenSendNotification.isEmpty()) {
+    //                        log.debug("send notification");
+    //                        firebaseService.sendMulticastToken(
+    //                            notificationSetting,
+    //                            deviceTokenSendNotification.stream().map(DeviceToken::getToken).collect(Collectors.toList())
+    //                        );
+    //                    }
+    //                }
+    //            });
+    //        }
+    //    }
 }

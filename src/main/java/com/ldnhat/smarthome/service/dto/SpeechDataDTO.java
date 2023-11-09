@@ -1,11 +1,12 @@
 package com.ldnhat.smarthome.service.dto;
 
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Objects;
+import javax.validation.constraints.NotBlank;
 
 public class SpeechDataDTO implements Serializable {
+
     private String id;
 
     @NotBlank
@@ -17,11 +18,11 @@ public class SpeechDataDTO implements Serializable {
 
     private String createdBy;
 
-    private Instant createdDate;
+    private LocalDateTime createdDate;
 
     private String lastModifiedBy;
 
-    private Instant lastModifiedDate;
+    private LocalDateTime lastModifiedDate;
 
     public String getId() {
         return id;
@@ -55,11 +56,19 @@ public class SpeechDataDTO implements Serializable {
         this.createdBy = createdBy;
     }
 
-    public Instant getCreatedDate() {
+    public DeviceDTO getDeviceDTO() {
+        return deviceDTO;
+    }
+
+    public void setDeviceDTO(DeviceDTO deviceDTO) {
+        this.deviceDTO = deviceDTO;
+    }
+
+    public LocalDateTime getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Instant createdDate) {
+    public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
     }
 
@@ -71,20 +80,12 @@ public class SpeechDataDTO implements Serializable {
         this.lastModifiedBy = lastModifiedBy;
     }
 
-    public Instant getLastModifiedDate() {
+    public LocalDateTime getLastModifiedDate() {
         return lastModifiedDate;
     }
 
-    public void setLastModifiedDate(Instant lastModifiedDate) {
+    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
-    }
-
-    public DeviceDTO getDeviceDTO() {
-        return deviceDTO;
-    }
-
-    public void setDeviceDTO(DeviceDTO deviceDTO) {
-        this.deviceDTO = deviceDTO;
     }
 
     @Override
@@ -102,15 +103,30 @@ public class SpeechDataDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "SpeechDataDTO{" +
-            "id='" + id + '\'' +
-            ", messageRequest='" + messageRequest + '\'' +
-            ", messageResponse='" + messageResponse + '\'' +
-            ", deviceDTO=" + deviceDTO +
-            ", createdBy='" + createdBy + '\'' +
-            ", createdDate=" + createdDate +
-            ", lastModifiedBy='" + lastModifiedBy + '\'' +
-            ", lastModifiedDate=" + lastModifiedDate +
-            '}';
+        return (
+            "SpeechDataDTO{" +
+            "id='" +
+            id +
+            '\'' +
+            ", messageRequest='" +
+            messageRequest +
+            '\'' +
+            ", messageResponse='" +
+            messageResponse +
+            '\'' +
+            ", deviceDTO=" +
+            deviceDTO +
+            ", createdBy='" +
+            createdBy +
+            '\'' +
+            ", createdDate=" +
+            createdDate +
+            ", lastModifiedBy='" +
+            lastModifiedBy +
+            '\'' +
+            ", lastModifiedDate=" +
+            lastModifiedDate +
+            '}'
+        );
     }
 }

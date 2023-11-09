@@ -4,10 +4,11 @@ import com.ldnhat.smarthome.config.Constants;
 import com.ldnhat.smarthome.domain.Authority;
 import com.ldnhat.smarthome.domain.User;
 import com.ldnhat.smarthome.security.AuthoritiesConstants;
+import com.ldnhat.smarthome.utils.DateUtils;
 import io.mongock.api.annotations.ChangeUnit;
 import io.mongock.api.annotations.Execution;
 import io.mongock.api.annotations.RollbackExecution;
-import java.time.Instant;
+import java.time.LocalDateTime;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 /**
@@ -41,13 +42,11 @@ public class InitialSetupMigration {
     }
 
     private Authority createAdminAuthority() {
-        Authority adminAuthority = createAuthority(AuthoritiesConstants.ADMIN);
-        return adminAuthority;
+        return createAuthority(AuthoritiesConstants.ADMIN);
     }
 
     private Authority createUserAuthority() {
-        Authority userAuthority = createAuthority(AuthoritiesConstants.USER);
-        return userAuthority;
+        return createAuthority(AuthoritiesConstants.USER);
     }
 
     private void addUsers(Authority userAuthority, Authority adminAuthority) {
@@ -68,7 +67,7 @@ public class InitialSetupMigration {
         userUser.setActivated(true);
         userUser.setLangKey("en");
         userUser.setCreatedBy(Constants.SYSTEM);
-        userUser.setCreatedDate(Instant.now());
+        userUser.setCreatedDate(LocalDateTime.now(DateUtils.getZone()));
         userUser.getAuthorities().add(userAuthority);
         return userUser;
     }
@@ -84,7 +83,7 @@ public class InitialSetupMigration {
         adminUser.setActivated(true);
         adminUser.setLangKey("en");
         adminUser.setCreatedBy(Constants.SYSTEM);
-        adminUser.setCreatedDate(Instant.now());
+        adminUser.setCreatedDate(LocalDateTime.now(DateUtils.getZone()));
         adminUser.getAuthorities().add(adminAuthority);
         adminUser.getAuthorities().add(userAuthority);
         return adminUser;

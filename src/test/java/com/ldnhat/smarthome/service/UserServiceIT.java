@@ -3,11 +3,10 @@ package com.ldnhat.smarthome.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.ldnhat.smarthome.IntegrationTest;
-import com.ldnhat.smarthome.config.Constants;
 import com.ldnhat.smarthome.domain.User;
 import com.ldnhat.smarthome.repository.UserRepository;
-import com.ldnhat.smarthome.service.dto.AdminUserDTO;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
@@ -15,8 +14,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import tech.jhipster.security.RandomUtil;
 
 /**
@@ -130,13 +127,13 @@ class UserServiceIT {
 
     @Test
     void assertThatNotActivatedUsersWithNotNullActivationKeyCreatedBefore3DaysAreDeleted() {
-        Instant now = Instant.now();
+        LocalDateTime now = LocalDateTime.now();
         user.setActivated(false);
         user.setActivationKey(RandomStringUtils.random(20));
         User dbUser = userRepository.save(user);
         dbUser.setCreatedDate(now.minus(4, ChronoUnit.DAYS));
         userRepository.save(user);
-        Instant threeDaysAgo = now.minus(3, ChronoUnit.DAYS);
+        LocalDateTime threeDaysAgo = now.minus(3, ChronoUnit.DAYS);
         List<User> users = userRepository.findAllByActivatedIsFalseAndActivationKeyIsNotNullAndCreatedDateBefore(threeDaysAgo);
         assertThat(users).isNotEmpty();
         userService.removeNotActivatedUsers();
@@ -146,12 +143,12 @@ class UserServiceIT {
 
     @Test
     void assertThatNotActivatedUsersWithNullActivationKeyCreatedBefore3DaysAreNotDeleted() {
-        Instant now = Instant.now();
+        LocalDateTime now = LocalDateTime.now();
         user.setActivated(false);
         User dbUser = userRepository.save(user);
         dbUser.setCreatedDate(now.minus(4, ChronoUnit.DAYS));
         userRepository.save(user);
-        Instant threeDaysAgo = now.minus(3, ChronoUnit.DAYS);
+        LocalDateTime threeDaysAgo = now.minus(3, ChronoUnit.DAYS);
         List<User> users = userRepository.findAllByActivatedIsFalseAndActivationKeyIsNotNullAndCreatedDateBefore(threeDaysAgo);
         assertThat(users).isEmpty();
         userService.removeNotActivatedUsers();

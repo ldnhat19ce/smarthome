@@ -4,11 +4,13 @@ import com.ldnhat.smarthome.repository.DeviceMonitorRepository;
 import com.ldnhat.smarthome.security.SecurityUtils;
 import com.ldnhat.smarthome.service.DeviceMonitorService;
 import com.ldnhat.smarthome.service.dto.DeviceMonitorDTO;
+import com.ldnhat.smarthome.service.dto.StatisticalDeviceMonitorDTO;
 import com.ldnhat.smarthome.service.error.UserException;
 import com.ldnhat.smarthome.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -133,7 +135,7 @@ public class DeviceMonitorResource {
      * {@code GET /device-monitor/range/{deviceId}/{type}} : get list range min max device monitor
      *
      * @param deviceId the id of device.
-     * @param type the type of filter (0 -> 8).
+     * @param type     the type of filter (0 -> 8).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body list device monitor.
      */
     @GetMapping("/device-monitor/range/{deviceId}/{type}")
@@ -147,5 +149,99 @@ public class DeviceMonitorResource {
         }
 
         return new ResponseEntity<>(deviceMonitorService.findAllDeviceMonitoryByDeviceIdAndType(deviceId, type), HttpStatus.OK);
+    }
+
+    /**
+     * {@code GET /device-monitor/statistical/year/{deviceId}} : statistical device monitor in year
+     *
+     * @param deviceId the id of device.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body list device monitor.
+     */
+    @GetMapping("/device-monitor/statistical/year/{deviceId}")
+    public ResponseEntity<List<List<StatisticalDeviceMonitorDTO>>> statisticalDeviceMonitorInYear(@PathVariable String deviceId)
+        throws ExecutionException, InterruptedException {
+        log.debug("REST request to statistical device monitor in year");
+        String login = SecurityUtils
+            .getCurrentUserLogin()
+            .orElseThrow(() -> new UserException("Unauthorized user", ENTITY_NAME, "usertoken"));
+        if (!deviceMonitorRepository.existsByDeviceIdAndCreatedBy(deviceId, login)) {
+            throw new BadRequestAlertException("Device not found", ENTITY_NAME, "devicenotfound");
+        }
+
+        return new ResponseEntity<>(deviceMonitorService.statisticalDeviceMonitorInYear(deviceId), HttpStatus.OK);
+    }
+
+    /**
+     * {@code GET /device-monitor/statistical/month/{deviceId}} : statistical device monitor in month
+     *
+     * @param deviceId the id of device.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body list device monitor.
+     */
+    @GetMapping("/device-monitor/statistical/month/{deviceId}")
+    public ResponseEntity<List<List<StatisticalDeviceMonitorDTO>>> statisticalDeviceMonitorInMonth(@PathVariable String deviceId)
+        throws ExecutionException {
+        log.debug("REST request to statistical device monitor in month");
+        String login = SecurityUtils
+            .getCurrentUserLogin()
+            .orElseThrow(() -> new UserException("Unauthorized user", ENTITY_NAME, "usertoken"));
+        if (!deviceMonitorRepository.existsByDeviceIdAndCreatedBy(deviceId, login)) {
+            throw new BadRequestAlertException("Device not found", ENTITY_NAME, "devicenotfound");
+        }
+
+        return new ResponseEntity<>(deviceMonitorService.statisticalDeviceMonitorInMonth(deviceId), HttpStatus.OK);
+    }
+
+    /**
+     * {@code GET /device-monitor/statistical/day/{deviceId}} : statistical device monitor in day
+     *
+     * @param deviceId the id of device.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body list device monitor.
+     */
+    @GetMapping("/device-monitor/statistical/day/{deviceId}")
+    public ResponseEntity<List<List<StatisticalDeviceMonitorDTO>>> statisticalDeviceMonitorInDay(@PathVariable String deviceId)
+        throws ExecutionException {
+        log.debug("REST request to statistical device monitor in day");
+        String login = SecurityUtils
+            .getCurrentUserLogin()
+            .orElseThrow(() -> new UserException("Unauthorized user", ENTITY_NAME, "usertoken"));
+        if (!deviceMonitorRepository.existsByDeviceIdAndCreatedBy(deviceId, login)) {
+            throw new BadRequestAlertException("Device not found", ENTITY_NAME, "devicenotfound");
+        }
+
+        return new ResponseEntity<>(deviceMonitorService.statisticalDeviceMonitorInDay(deviceId), HttpStatus.OK);
+    }
+
+    /**
+     * {@code GET /device-monitor/statistical/hour/{deviceId}} : statistical device monitor in hour
+     *
+     * @param deviceId the id of device.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body list device monitor.
+     */
+    @GetMapping("/device-monitor/statistical/hour/{deviceId}")
+    public ResponseEntity<List<List<StatisticalDeviceMonitorDTO>>> statisticalDeviceMonitorInHour(@PathVariable String deviceId)
+        throws ExecutionException {
+        log.debug("REST request to statistical device monitor in hour");
+        String login = SecurityUtils
+            .getCurrentUserLogin()
+            .orElseThrow(() -> new UserException("Unauthorized user", ENTITY_NAME, "usertoken"));
+        if (!deviceMonitorRepository.existsByDeviceIdAndCreatedBy(deviceId, login)) {
+            throw new BadRequestAlertException("Device not found", ENTITY_NAME, "devicenotfound");
+        }
+
+        return new ResponseEntity<>(deviceMonitorService.statisticalDeviceMonitorInHour(deviceId), HttpStatus.OK);
+    }
+
+    /**
+     * {@code POST  /device-monitor/dummy/{deviceId}} : dummy device monitor
+     *
+     * @param deviceId the id to create.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new deviceMonitor, or with status {@code 400 (Bad Request)} if the deviceMonitor has already an ID.
+     */
+    @PostMapping("/device-monitor/dummy/{deviceId}/{month}")
+    public ResponseEntity<Void> dummyDeviceMonitor(@PathVariable String deviceId, @PathVariable Integer month) {
+        log.debug("REST request to dummy Device Monitor : {}", deviceId);
+
+        deviceMonitorService.dummyData(deviceId, month);
+        return ResponseEntity.noContent().build();
     }
 }
