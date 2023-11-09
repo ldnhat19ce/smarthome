@@ -9,8 +9,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 @Document(collection = "device_monitor")
-//public class DeviceMonitor extends AbstractAuditingEntity<String> implements Serializable {
-public class DeviceMonitor implements Serializable {
+public class DeviceMonitor extends AbstractAuditingEntity<String> implements Serializable {
+
+    //public class DeviceMonitor implements Serializable {
 
     @Id
     private String id;
@@ -25,49 +26,49 @@ public class DeviceMonitor implements Serializable {
 
     private String month;
 
-    @Field("created_by")
-    private String createdBy;
-
-    @Field("created_date")
-    private Instant createdDate = Instant.now();
-
-    @Field("last_modified_by")
-    private String lastModifiedBy;
-
-    @Field("last_modified_date")
-    private Instant lastModifiedDate = Instant.now();
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public Instant getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Instant createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public String getLastModifiedBy() {
-        return lastModifiedBy;
-    }
-
-    public void setLastModifiedBy(String lastModifiedBy) {
-        this.lastModifiedBy = lastModifiedBy;
-    }
-
-    public Instant getLastModifiedDate() {
-        return lastModifiedDate;
-    }
-
-    public void setLastModifiedDate(Instant lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
-    }
+    //    @Field("created_by")
+    //    private String createdBy;
+    //
+    //    @Field("created_date")
+    //    private Instant createdDate = Instant.now();
+    //
+    //    @Field("last_modified_by")
+    //    private String lastModifiedBy;
+    //
+    //    @Field("last_modified_date")
+    //    private Instant lastModifiedDate = Instant.now();
+    //
+    //    public String getCreatedBy() {
+    //        return createdBy;
+    //    }
+    //
+    //    public void setCreatedBy(String createdBy) {
+    //        this.createdBy = createdBy;
+    //    }
+    //
+    //    public Instant getCreatedDate() {
+    //        return createdDate;
+    //    }
+    //
+    //    public void setCreatedDate(Instant createdDate) {
+    //        this.createdDate = createdDate;
+    //    }
+    //
+    //    public String getLastModifiedBy() {
+    //        return lastModifiedBy;
+    //    }
+    //
+    //    public void setLastModifiedBy(String lastModifiedBy) {
+    //        this.lastModifiedBy = lastModifiedBy;
+    //    }
+    //
+    //    public Instant getLastModifiedDate() {
+    //        return lastModifiedDate;
+    //    }
+    //
+    //    public void setLastModifiedDate(Instant lastModifiedDate) {
+    //        this.lastModifiedDate = lastModifiedDate;
+    //    }
 
     public String getMonth() {
         return month;
@@ -77,7 +78,7 @@ public class DeviceMonitor implements Serializable {
         this.month = month;
     }
 
-    //    @Override
+    @Override
     public String getId() {
         return id;
     }
@@ -127,23 +128,6 @@ public class DeviceMonitor implements Serializable {
 
     @Override
     public String toString() {
-        return (
-            "DeviceMonitor{" +
-            "id='" +
-            id +
-            '\'' +
-            ", value='" +
-            value +
-            '\'' +
-            ", unitMeasure='" +
-            unitMeasure +
-            '\'' +
-            ", device=" +
-            device +
-            ", month='" +
-            month +
-            '\'' +
-            '}'
-        );
+        return "DeviceMonitor{" + "id='" + id + '\'' + ", value='" + value + '\'' + '}';
     }
 }

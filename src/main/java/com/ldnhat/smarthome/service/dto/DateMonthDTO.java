@@ -1,13 +1,13 @@
 package com.ldnhat.smarthome.service.dto;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class DateMonthDTO {
 
     private int dateNumber;
-    private Instant dateFrom;
-    private Instant dateTo;
+    private LocalDateTime dateFrom;
+    private LocalDateTime dateTo;
 
     public int getDateNumber() {
         return dateNumber;
@@ -17,19 +17,19 @@ public class DateMonthDTO {
         this.dateNumber = dateNumber;
     }
 
-    public Instant getDateFrom() {
+    public LocalDateTime getDateFrom() {
         return dateFrom;
     }
 
-    public void setDateFrom(Instant dateFrom) {
+    public void setDateFrom(LocalDateTime dateFrom) {
         this.dateFrom = dateFrom;
     }
 
-    public Instant getDateTo() {
+    public LocalDateTime getDateTo() {
         return dateTo;
     }
 
-    public void setDateTo(Instant dateTo) {
+    public void setDateTo(LocalDateTime dateTo) {
         this.dateTo = dateTo;
     }
 

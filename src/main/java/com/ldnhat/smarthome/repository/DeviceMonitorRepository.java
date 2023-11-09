@@ -1,7 +1,7 @@
 package com.ldnhat.smarthome.repository;
 
 import com.ldnhat.smarthome.domain.DeviceMonitor;
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -17,13 +17,26 @@ public interface DeviceMonitorRepository extends MongoRepository<DeviceMonitor, 
 
     List<DeviceMonitor> findAllByDeviceIdAndCreatedBy(String deviceId, String login);
 
-    List<DeviceMonitor> findAllByCreatedDateBetween(Instant dateFrom, Instant dateTo);
+    List<DeviceMonitor> findAllByCreatedDateBetween(LocalDateTime dateFrom, LocalDateTime dateTo);
 
-    Optional<DeviceMonitor> findFirstByDeviceIdAndCreatedDateBetweenOrderByValueDesc(String deviceId, Instant dateFrom, Instant dateTo);
+    Optional<DeviceMonitor> findFirstByDeviceIdAndCreatedDateBetweenOrderByValueDesc(
+        String deviceId,
+        LocalDateTime dateFrom,
+        LocalDateTime dateTo
+    );
 
-    Optional<DeviceMonitor> findFirstByDeviceIdAndCreatedDateBetweenOrderByValueAsc(String deviceId, Instant dateFrom, Instant dateTo);
+    Optional<DeviceMonitor> findFirstByDeviceIdAndCreatedDateBetweenOrderByValueAsc(
+        String deviceId,
+        LocalDateTime dateFrom,
+        LocalDateTime dateTo
+    );
 
-    List<DeviceMonitor> findAllByDeviceIdAndCreatedDateBetweenOrderByCreatedDateAsc(String deviceId, Instant dateFrom, Instant dateTo);
+    //    @Query(value = "deviceId : ?0, createdDate: {$gte: ?1, $lte: ?2} }", fields = "{ value : 1, }")
+    List<DeviceMonitor> findAllByDeviceIdAndCreatedDateBetweenOrderByCreatedDateAsc(
+        String deviceId,
+        LocalDateTime dateFrom,
+        LocalDateTime dateTo
+    );
 
     List<DeviceMonitor> findAllByDeviceIdOrderByCreatedDateAsc(String deviceId);
 }

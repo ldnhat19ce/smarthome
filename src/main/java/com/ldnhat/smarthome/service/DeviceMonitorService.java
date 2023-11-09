@@ -1,6 +1,7 @@
 package com.ldnhat.smarthome.service;
 
 import com.ldnhat.smarthome.service.dto.DeviceMonitorDTO;
+import com.ldnhat.smarthome.service.dto.StatisticalDeviceMonitorDTO;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
@@ -55,7 +56,7 @@ public interface DeviceMonitorService {
      * Get list device monitor by current device and type.
      *
      * @param deviceId the id of device.
-     * @param type (0 -> 8) type filter.
+     * @param type     (0 -> 8) type filter.
      * @return the list of entities.
      */
     List<DeviceMonitorDTO> findAllDeviceMonitoryByDeviceIdAndType(String deviceId, String type);
@@ -66,13 +67,37 @@ public interface DeviceMonitorService {
      * @param deviceId the id of device.
      * @return the list of entities.
      */
-    List<DeviceMonitorDTO> statisticalDeviceMonitorInYear(String deviceId) throws ExecutionException, InterruptedException;
+    List<List<StatisticalDeviceMonitorDTO>> statisticalDeviceMonitorInYear(String deviceId) throws ExecutionException, InterruptedException;
+
+    /**
+     * statistical device monitor in month.
+     *
+     * @param deviceId the id of device.
+     * @return the list of entities.
+     */
+    List<List<StatisticalDeviceMonitorDTO>> statisticalDeviceMonitorInMonth(String deviceId) throws ExecutionException;
+
+    /**
+     * statistical device monitor in day.
+     *
+     * @param deviceId the id of device.
+     * @return the list of entities.
+     */
+    List<List<StatisticalDeviceMonitorDTO>> statisticalDeviceMonitorInDay(String deviceId) throws ExecutionException;
+
+    /**
+     * statistical device monitor in hour.
+     *
+     * @param deviceId the id of device.
+     * @return the list of entities.
+     */
+    List<List<StatisticalDeviceMonitorDTO>> statisticalDeviceMonitorInHour(String deviceId) throws ExecutionException;
 
     /**
      * Dummy data
      *
      * @param deviceId the id of device.
-     * @param month month to dummy
+     * @param month    month to dummy
      * @return
      */
     void dummyData(String deviceId, Integer month);
