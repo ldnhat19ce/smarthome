@@ -5,6 +5,7 @@ import { Pagination } from '../../../core/request/request.model';
 import { createRequestOption } from '../../../core/request/request-util';
 import { Observable } from 'rxjs';
 import { IDeviceMonitor } from '../device-monitor.model';
+import { IStatisticalDeviceMonitor } from '../statistical-device-monitor.model';
 
 @Injectable({
   providedIn: 'root',
@@ -24,5 +25,20 @@ export class DeviceMonitorService {
     let queryResourceUrl = this.resourceUrl + '/' + deviceId;
     const options = createRequestOption(req);
     return this.http.get<IDeviceMonitor[]>(queryResourceUrl, { params: options, observe: 'response' });
+  }
+
+  statisticalByMonth(deviceId: String): Observable<HttpResponse<IStatisticalDeviceMonitor[]>> {
+    let queryResourceUrl = this.resourceUrl + '/statistical/month/' + deviceId;
+    return this.http.get<IStatisticalDeviceMonitor[]>(queryResourceUrl, { observe: 'response' });
+  }
+
+  statisticalByDay(deviceId: String): Observable<HttpResponse<IStatisticalDeviceMonitor[]>> {
+    let queryResourceUrl = this.resourceUrl + '/statistical/day/' + deviceId;
+    return this.http.get<IStatisticalDeviceMonitor[]>(queryResourceUrl, { observe: 'response' });
+  }
+
+  statisticalByHour(deviceId: String): Observable<HttpResponse<IStatisticalDeviceMonitor[]>> {
+    let queryResourceUrl = this.resourceUrl + '/statistical/hour/' + deviceId;
+    return this.http.get<IStatisticalDeviceMonitor[]>(queryResourceUrl, { observe: 'response' });
   }
 }

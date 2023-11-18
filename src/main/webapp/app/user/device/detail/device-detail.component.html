@@ -75,78 +75,78 @@
   </div>
 </div>
 
-<div>
-  <div class="table-responsive" *ngIf="deviceMonitors">
-    <table class="table table-striped" aria-describedby="user-management-page-heading">
-      <thead>
-        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="transition()">
-          <th scope="col" jhiSortBy="id">
-            <span jhiTranslate="global.field.id">ID</span>
-            <fa-icon icon="sort"></fa-icon>
-          </th>
-          <th scope="col" jhiSortBy="value">
-            <span jhiTranslate="userDeviceMonitor.value">Value</span>
-            <fa-icon icon="sort"></fa-icon>
-          </th>
-          <th scope="col" jhiSortBy="unitMeasure">
-            <span jhiTranslate="userDeviceMonitor.unitMeasure">Unit measure</span>
-            <fa-icon icon="sort"></fa-icon>
-          </th>
-          <th scope="col" jhiSortBy="createdBy">
-            <span jhiTranslate="userDeviceMonitor.createdBy">Created By</span>
-            <fa-icon icon="sort"></fa-icon>
-          </th>
-          <th scope="col" jhiSortBy="createdDate">
-            <span jhiTranslate="userDeviceMonitor.createdDate">Created date</span>
-            <fa-icon icon="sort"></fa-icon>
-          </th>
-          <th scope="col" jhiSortBy="lastModifiedBy">
-            <span jhiTranslate="userDeviceMonitor.lastModifiedBy">Modified by</span>
-            <fa-icon icon="sort"></fa-icon>
-          </th>
-          <th scope="col" jhiSortBy="lastModifiedDate">
-            <span jhiTranslate="userDeviceMonitor.lastModifiedDate">Modified date</span>
-            <fa-icon icon="sort"></fa-icon>
-          </th>
-        </tr>
-      </thead>
-      <tbody *ngIf="deviceMonitors">
-        <tr *ngFor="let deviceMonitor of deviceMonitors; trackBy: trackIdentity">
-          <td>
-            {{ deviceMonitor.id }}
-          </td>
-          <td>{{ deviceMonitor.value }}</td>
-          <td>{{ deviceMonitor.unitMeasure }}</td>
-          <td>{{ deviceMonitor.createdBy }}</td>
-          <td>{{ deviceMonitor.createdDate | date: 'dd/MM/yy HH:mm' }}</td>
-          <td>{{ deviceMonitor.lastModifiedBy }}</td>
-          <td>{{ deviceMonitor.lastModifiedDate | date: 'dd/MM/yy HH:mm' }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+<!--<div>-->
+<!--  <div class="table-responsive" *ngIf="deviceMonitors">-->
+<!--    <table class="table table-striped" aria-describedby="user-management-page-heading">-->
+<!--      <thead>-->
+<!--      <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="transition()">-->
+<!--        <th scope="col" jhiSortBy="id">-->
+<!--          <span jhiTranslate="global.field.id">ID</span>-->
+<!--          <fa-icon icon="sort"></fa-icon>-->
+<!--        </th>-->
+<!--        <th scope="col" jhiSortBy="value">-->
+<!--          <span jhiTranslate="userDeviceMonitor.value">Value</span>-->
+<!--          <fa-icon icon="sort"></fa-icon>-->
+<!--        </th>-->
+<!--        <th scope="col" jhiSortBy="unitMeasure">-->
+<!--          <span jhiTranslate="userDeviceMonitor.unitMeasure">Unit measure</span>-->
+<!--          <fa-icon icon="sort"></fa-icon>-->
+<!--        </th>-->
+<!--        <th scope="col" jhiSortBy="createdBy">-->
+<!--          <span jhiTranslate="userDeviceMonitor.createdBy">Created By</span>-->
+<!--          <fa-icon icon="sort"></fa-icon>-->
+<!--        </th>-->
+<!--        <th scope="col" jhiSortBy="createdDate">-->
+<!--          <span jhiTranslate="userDeviceMonitor.createdDate">Created date</span>-->
+<!--          <fa-icon icon="sort"></fa-icon>-->
+<!--        </th>-->
+<!--        <th scope="col" jhiSortBy="lastModifiedBy">-->
+<!--          <span jhiTranslate="userDeviceMonitor.lastModifiedBy">Modified by</span>-->
+<!--          <fa-icon icon="sort"></fa-icon>-->
+<!--        </th>-->
+<!--        <th scope="col" jhiSortBy="lastModifiedDate">-->
+<!--          <span jhiTranslate="userDeviceMonitor.lastModifiedDate">Modified date</span>-->
+<!--          <fa-icon icon="sort"></fa-icon>-->
+<!--        </th>-->
+<!--      </tr>-->
+<!--      </thead>-->
+<!--      <tbody *ngIf="deviceMonitors">-->
+<!--      <tr *ngFor="let deviceMonitor of deviceMonitors; trackBy: trackIdentity">-->
+<!--        <td>-->
+<!--          {{ deviceMonitor.id }}-->
+<!--        </td>-->
+<!--        <td>{{ deviceMonitor.value }}</td>-->
+<!--        <td>{{ deviceMonitor.unitMeasure }}</td>-->
+<!--        <td>{{ deviceMonitor.createdBy }}</td>-->
+<!--        <td>{{ deviceMonitor.createdDate | date: 'dd/MM/yy HH:mm' }}</td>-->
+<!--        <td>{{ deviceMonitor.lastModifiedBy }}</td>-->
+<!--        <td>{{ deviceMonitor.lastModifiedDate | date: 'dd/MM/yy HH:mm' }}</td>-->
+<!--      </tr>-->
+<!--      </tbody>-->
+<!--    </table>-->
+<!--  </div>-->
 
-  <div *ngIf="deviceMonitors">
-    <div class="d-flex justify-content-center">
-      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
-    </div>
+<!--  <div *ngIf="deviceMonitors.length !== 0">-->
+<!--    <div class="d-flex justify-content-center">-->
+<!--      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>-->
+<!--    </div>-->
 
-    <div class="d-flex justify-content-center">
-      <ngb-pagination
-        [collectionSize]="totalItems"
-        [(page)]="page"
-        [pageSize]="itemsPerPage"
-        [maxSize]="5"
-        [rotate]="true"
-        [boundaryLinks]="true"
-        (pageChange)="transition()"
-      ></ngb-pagination>
-    </div>
-  </div>
-</div>
+<!--    <div class="d-flex justify-content-center">-->
+<!--      <ngb-pagination-->
+<!--        [collectionSize]="totalItems"-->
+<!--        [(page)]="page"-->
+<!--        [pageSize]="itemsPerPage"-->
+<!--        [maxSize]="5"-->
+<!--        [rotate]="true"-->
+<!--        [boundaryLinks]="true"-->
+<!--        (pageChange)="transition()"-->
+<!--      ></ngb-pagination>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
 
-<div>
-  <div class="table-responsive" *ngIf="deviceTimers">
+<div *ngIf="deviceTimers.length !== 0">
+  <div class="table-responsive">
     <table class="table table-striped" aria-describedby="user-management-page-heading">
       <thead>
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="transition()">
@@ -165,7 +165,7 @@
           <th scope="col"></th>
         </tr>
       </thead>
-      <tbody *ngIf="deviceTimers">
+      <tbody>
         <tr *ngFor="let deviceTimer of deviceTimers; trackBy: trackIdentity">
           <td>
             {{ deviceTimer.id }}
@@ -185,7 +185,7 @@
     </table>
   </div>
 
-  <div *ngIf="deviceTimers">
+  <div>
     <div class="d-flex justify-content-center">
       <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
     </div>
@@ -204,15 +204,25 @@
   </div>
 </div>
 
-<div>
-  <div style="display: block">
-    <canvas id="canvas" width="800" height="400">
-      {{ chart }}
-    </canvas>
+<ng-container *ngIf="device.deviceType === 'MONITOR'">
+  <div class="chart-device-monitor">
+    <div>
+      <h2>Chart by month</h2>
+    </div>
+    <canvas id="chartByMonth"></canvas>
   </div>
-</div>
-<!--[type]="'line'"-->
-<!--[datasets]="chartData"-->
-<!--[labels]="chartLabels"-->
-<!--[options]="lineChartOptions"-->
-<!--[legend]="lineChartLegend"-->
+
+  <div class="chart-device-monitor">
+    <div>
+      <h2>Chart by day of current month</h2>
+    </div>
+    <canvas id="chartByDay"></canvas>
+  </div>
+
+  <div class="chart-device-monitor">
+    <div>
+      <h2>Chart by hour of current day</h2>
+    </div>
+    <canvas id="chartByHour"></canvas>
+  </div>
+</ng-container>
