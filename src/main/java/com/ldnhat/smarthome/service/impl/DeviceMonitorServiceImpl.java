@@ -493,9 +493,8 @@ public class DeviceMonitorServiceImpl implements DeviceMonitorService {
     }
 
     @Override
-    public List<List<StatisticalDeviceMonitorDTO>> statisticalDeviceMonitorInMonth(String deviceId) throws ExecutionException {
+    public List<StatisticalDeviceMonitorDTO> statisticalDeviceMonitorInMonth(String deviceId) throws ExecutionException {
         log.debug("Request to statistical device monitor in month by device id : {}", deviceId);
-        List<List<StatisticalDeviceMonitorDTO>> result = new ArrayList<>();
         List<StatisticalDeviceMonitorDTO> statisticalDeviceMonitorDTOs = new ArrayList<>();
 
         long start = System.currentTimeMillis();
@@ -531,18 +530,16 @@ public class DeviceMonitorServiceImpl implements DeviceMonitorService {
 
             statisticalDeviceMonitorDTOs.add(statisticalDeviceMonitorDTO);
         }
-        result.add(statisticalDeviceMonitorDTOs);
 
         long end = System.currentTimeMillis();
         log.debug("Estimated time: " + (end - start) + "ms");
 
-        return result;
+        return statisticalDeviceMonitorDTOs;
     }
 
     @Override
-    public List<List<StatisticalDeviceMonitorDTO>> statisticalDeviceMonitorInDay(String deviceId) throws ExecutionException {
+    public List<StatisticalDeviceMonitorDTO> statisticalDeviceMonitorInDay(String deviceId) throws ExecutionException {
         log.debug("Request to statistical device monitor in day by device id : {}", deviceId);
-        List<List<StatisticalDeviceMonitorDTO>> result = new ArrayList<>();
         List<StatisticalDeviceMonitorDTO> statisticalDeviceMonitorDTOs = new ArrayList<>();
 
         long start = System.currentTimeMillis();
@@ -574,18 +571,16 @@ public class DeviceMonitorServiceImpl implements DeviceMonitorService {
 
             statisticalDeviceMonitorDTOs.add(statisticalDeviceMonitorDTO);
         }
-        result.add(statisticalDeviceMonitorDTOs);
 
         long end = System.currentTimeMillis();
         log.debug("Estimated time: " + (end - start) + "ms");
 
-        return result;
+        return statisticalDeviceMonitorDTOs;
     }
 
     @Override
-    public List<List<StatisticalDeviceMonitorDTO>> statisticalDeviceMonitorInHour(String deviceId) throws ExecutionException {
+    public List<StatisticalDeviceMonitorDTO> statisticalDeviceMonitorInHour(String deviceId) throws ExecutionException {
         log.debug("Request to statistical device monitor in hour by device id : {}", deviceId);
-        List<List<StatisticalDeviceMonitorDTO>> result = new ArrayList<>();
         List<StatisticalDeviceMonitorDTO> statisticalDeviceMonitorDTOs = new ArrayList<>();
 
         long start = System.currentTimeMillis();
@@ -615,12 +610,11 @@ public class DeviceMonitorServiceImpl implements DeviceMonitorService {
 
             statisticalDeviceMonitorDTOs.add(statisticalDeviceMonitorDTO);
         }
-        result.add(statisticalDeviceMonitorDTOs);
 
         long end = System.currentTimeMillis();
         log.debug("Estimated time: " + (end - start) + "ms");
 
-        return result;
+        return statisticalDeviceMonitorDTOs;
     }
 
     private String getRandomValue(double min, double max) {

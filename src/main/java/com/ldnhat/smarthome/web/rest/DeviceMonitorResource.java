@@ -178,7 +178,7 @@ public class DeviceMonitorResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body list device monitor.
      */
     @GetMapping("/device-monitor/statistical/month/{deviceId}")
-    public ResponseEntity<List<List<StatisticalDeviceMonitorDTO>>> statisticalDeviceMonitorInMonth(@PathVariable String deviceId)
+    public ResponseEntity<List<StatisticalDeviceMonitorDTO>> statisticalDeviceMonitorInMonth(@PathVariable String deviceId)
         throws ExecutionException {
         log.debug("REST request to statistical device monitor in month");
         String login = SecurityUtils
@@ -198,7 +198,7 @@ public class DeviceMonitorResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body list device monitor.
      */
     @GetMapping("/device-monitor/statistical/day/{deviceId}")
-    public ResponseEntity<List<List<StatisticalDeviceMonitorDTO>>> statisticalDeviceMonitorInDay(@PathVariable String deviceId)
+    public ResponseEntity<List<StatisticalDeviceMonitorDTO>> statisticalDeviceMonitorInDay(@PathVariable String deviceId)
         throws ExecutionException {
         log.debug("REST request to statistical device monitor in day");
         String login = SecurityUtils
@@ -218,7 +218,7 @@ public class DeviceMonitorResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body list device monitor.
      */
     @GetMapping("/device-monitor/statistical/hour/{deviceId}")
-    public ResponseEntity<List<List<StatisticalDeviceMonitorDTO>>> statisticalDeviceMonitorInHour(@PathVariable String deviceId)
+    public ResponseEntity<List<StatisticalDeviceMonitorDTO>> statisticalDeviceMonitorInHour(@PathVariable String deviceId)
         throws ExecutionException {
         log.debug("REST request to statistical device monitor in hour");
         String login = SecurityUtils

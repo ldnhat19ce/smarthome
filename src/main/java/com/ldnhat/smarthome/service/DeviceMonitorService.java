@@ -75,7 +75,7 @@ public interface DeviceMonitorService {
      * @param deviceId the id of device.
      * @return the list of entities.
      */
-    List<List<StatisticalDeviceMonitorDTO>> statisticalDeviceMonitorInMonth(String deviceId) throws ExecutionException;
+    List<StatisticalDeviceMonitorDTO> statisticalDeviceMonitorInMonth(String deviceId) throws ExecutionException;
 
     /**
      * statistical device monitor in day.
@@ -83,7 +83,7 @@ public interface DeviceMonitorService {
      * @param deviceId the id of device.
      * @return the list of entities.
      */
-    List<List<StatisticalDeviceMonitorDTO>> statisticalDeviceMonitorInDay(String deviceId) throws ExecutionException;
+    List<StatisticalDeviceMonitorDTO> statisticalDeviceMonitorInDay(String deviceId) throws ExecutionException;
 
     /**
      * statistical device monitor in hour.
@@ -91,7 +91,7 @@ public interface DeviceMonitorService {
      * @param deviceId the id of device.
      * @return the list of entities.
      */
-    List<List<StatisticalDeviceMonitorDTO>> statisticalDeviceMonitorInHour(String deviceId) throws ExecutionException;
+    List<StatisticalDeviceMonitorDTO> statisticalDeviceMonitorInHour(String deviceId) throws ExecutionException;
 
     /**
      * Dummy data

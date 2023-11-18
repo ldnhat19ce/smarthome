@@ -9,32 +9,51 @@ import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { combineLatest } from 'rxjs';
 import { DeviceFirebaseService } from '../service/device-firebase.service';
 import { DeviceService } from '../service/device.service';
-import { Chart, registerables } from 'chart.js';
 import { DeviceTimerService } from '../service/device-timer.service';
 import { DeviceTimer, IDeviceTimer } from '../device-timer.model';
 import { DeviceTimerDeleteComponent } from '../device-timer-delete/device-timer-delete.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ConvertUtil } from '../../../common/utils/convert.util';
+import { ValidationUtil } from '../../../common/utils/validation.util';
+import { IStatisticalDeviceMonitor } from '../statistical-device-monitor.model';
+import { CommonUtils } from '../../../common/utils/common.util';
+
+declare const chartViewMonth: any;
+declare const chartViewDay: any;
+declare const chartViewHour: any;
 
 @Component({
   selector: 'jhi-device-detail',
   templateUrl: './device-detail.component.html',
 })
 export class DeviceDetailComponent implements OnInit {
-  device: Device | null = null;
-  isLoading = false;
+  device: Device = {} as Device;
+
+  deviceMonitors: DeviceMonitor[] = [] as DeviceMonitor[];
+  deviceTimers: DeviceTimer[] = [] as DeviceTimer[];
+  listAllDeviceMonitors: DeviceMonitor[] = [] as DeviceMonitor[];
+
+  statisticalMonth: IStatisticalDeviceMonitor[] = [];
+  statisticalMonthXY: { x: String; y: String }[] = [];
+
+  statisticalDay: IStatisticalDeviceMonitor[] = [];
+  statisticalDayXY: { x: String; y: String }[] = [];
+
+  statisticalHour: IStatisticalDeviceMonitor[] = [];
+  statisticalHourXY: { x: String; y: String }[] = [];
+
   totalItems = 0;
   itemsPerPage = ITEMS_PER_PAGE;
   page!: number;
-  predicate!: string;
-  ascending!: boolean;
-  deviceMonitors: DeviceMonitor[] | null = null;
-  deviceTimers: DeviceTimer[] | null = null;
-  stateDevice!: string;
-  isStateLoading = false;
-  isDeviceControl = false;
-  listAllDeviceMonitors: DeviceMonitor[] | null = null;
   values: number[] = [];
-  chart: any = [];
+
+  isLoading = false;
+  ascending: boolean = false;
+  isStateLoading: boolean = false;
+  isDeviceControl: boolean = false;
+
+  predicate: string = '';
+  stateDevice: string = '';
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -44,19 +63,17 @@ export class DeviceDetailComponent implements OnInit {
     private deviceService: DeviceService,
     private deviceTimerService: DeviceTimerService,
     private modalService: NgbModal
-  ) {
-    Chart.register(...registerables);
-  }
+  ) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ device }) => {
       this.device = device;
-      if ('CONTROL' == this.device!!.deviceType) {
+      if (this.device && 'CONTROL' == this.device!!.deviceType) {
         this.isDeviceControl = true;
       }
     });
+
     this.handleNavigation();
-    this.loadAllDeviceMonitor();
     if (this.device !== null && this.device?.deviceType == 'CONTROL') {
       this.deviceFirebaseService
         .getDeviceStateById()
@@ -66,7 +83,6 @@ export class DeviceDetailComponent implements OnInit {
         .valueChanges()
         .subscribe(data => {
           this.stateDevice = data!!.action;
-          console.log(this.stateDevice);
         });
     }
   }
@@ -75,7 +91,6 @@ export class DeviceDetailComponent implements OnInit {
     this.isStateLoading = true;
     if (this.device !== null) {
       this.deviceService.updateStateDevice(this.device.id!!).subscribe(data => {
-        console.log(data);
         this.isStateLoading = false;
       });
     }
@@ -107,25 +122,13 @@ export class DeviceDetailComponent implements OnInit {
   }
 
   loadAll(): void {
-    if (this.device?.id !== null) {
+    if (this.device && this.device.id) {
       this.isLoading = true;
       if (this.device?.deviceType === 'MONITOR') {
-        this.deviceMonitorService
-          .query(
-            {
-              page: this.page - 1,
-              size: this.itemsPerPage,
-              sort: this.sort(),
-            },
-            this.device?.id
-          )
-          .subscribe({
-            next: (res: HttpResponse<IDeviceMonitor[]>) => {
-              this.isLoading = false;
-              this.onSuccess(res.body, res.headers);
-            },
-            error: () => (this.isLoading = false),
-          });
+        // this.loadDeviceMonitor(this.device.id);
+        this.loadChartMonthDeviceMonitor(this.device.id);
+        this.loadChartDayDeviceMonitor(this.device.id);
+        this.loadChartHourDeviceMonitor(this.device.id);
       } else if (this.device?.deviceType === 'CONTROL') {
         this.deviceTimerService
           .query(
@@ -149,13 +152,16 @@ export class DeviceDetailComponent implements OnInit {
 
   private onSuccess(deviceMonitors: DeviceMonitor[] | null, headers: HttpHeaders): void {
     this.totalItems = Number(headers.get('X-Total-Count'));
-    this.deviceMonitors = deviceMonitors;
-    console.log(deviceMonitors);
+    if (deviceMonitors) {
+      this.deviceMonitors = deviceMonitors;
+    }
   }
 
   private onDeviceTimerSuccess(deviceTimers: DeviceTimer[] | null, headers: HttpHeaders): void {
     this.totalItems = Number(headers.get('X-Total-Count'));
-    this.deviceTimers = deviceTimers;
+    if (deviceTimers) {
+      this.deviceTimers = deviceTimers;
+    }
   }
 
   private sort(): string[] {
@@ -170,63 +176,61 @@ export class DeviceDetailComponent implements OnInit {
     return [`createdDate,${ASC}`];
   }
 
-  loadAllDeviceMonitor() {
-    if (this.device?.id !== null && this.device?.deviceType === 'MONITOR') {
-      this.deviceMonitorService
-        .query(
-          {
-            page: 0,
-            size: Number.MAX_SAFE_INTEGER,
-            sort: DeviceDetailComponent.sortByCreatedAt(),
-          },
-          this.device?.id
-        )
-        .subscribe({
-          next: (res: HttpResponse<IDevice[]>) => {
-            this.listAllDeviceMonitors = res.body;
-            this.listAllDeviceMonitors?.map(data => {
-              return this.values?.push(Number(data.value));
-            });
-            this.chart = new Chart('canvas', {
-              type: 'line',
-              data: {
-                labels: this.values,
-                datasets: [
-                  {
-                    data: this.values,
-                    borderColor: '#3e95cd',
-                    fill: true,
-                    label: this.device?.name,
-                    backgroundColor: 'rgba(255,0,0,0.3)',
-                    borderWidth: 3,
-                    tension: 0.5,
-                  },
-                ],
-              },
-              options: {
-                responsive: false,
-                plugins: {
-                  legend: {
-                    display: true,
-                    labels: {
-                      color: 'rgb(255, 99, 132)',
-                    },
-                  },
-                },
-              },
-            });
-          },
-        });
-    }
-  }
-
   deleteDeviceTimer(deviceTimer: DeviceTimer): void {
     const modalRef = this.modalService.open(DeviceTimerDeleteComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.deviceTimer = deviceTimer;
-    // unsubscribe not needed because closed completes on modal close
     modalRef.closed.subscribe(reason => {
       if (reason === 'deleted') {
         this.loadAll();
+      }
+    });
+  }
+
+  private loadDeviceMonitor(deviceId: string) {
+    this.deviceMonitorService
+      .query(
+        {
+          page: this.page - 1,
+          size: this.itemsPerPage,
+          sort: this.sort(),
+        },
+        deviceId
+      )
+      .subscribe({
+        next: (res: HttpResponse<IDeviceMonitor[]>) => {
+          this.isLoading = false;
+          this.onSuccess(res.body, res.headers);
+        },
+        error: () => (this.isLoading = false),
+      });
+  }
+
+  private loadChartMonthDeviceMonitor(deviceId: string) {
+    this.deviceMonitorService.statisticalByMonth(deviceId).subscribe(res => {
+      if (ValidationUtil.isNotNullAndNotEmpty(res.body) && res.body !== null) {
+        this.statisticalMonth = res.body;
+        this.statisticalMonthXY = CommonUtils.mapXY(this.statisticalMonth);
+        chartViewMonth(this.statisticalMonthXY, this.device?.name, 'chartByMonth');
+      }
+    });
+  }
+
+  private loadChartDayDeviceMonitor(deviceId: string) {
+    this.deviceMonitorService.statisticalByDay(deviceId).subscribe(res => {
+      if (ValidationUtil.isNotNullAndNotEmpty(res.body) && res.body !== null) {
+        this.statisticalDay = res.body;
+        this.statisticalDayXY = CommonUtils.mapXY(this.statisticalDay);
+        chartViewDay(this.statisticalDayXY, this.device?.name, 'chartByDay');
+      }
+    });
+  }
+
+  private loadChartHourDeviceMonitor(deviceId: string) {
+    this.deviceMonitorService.statisticalByHour(deviceId).subscribe(res => {
+      if (ValidationUtil.isNotNullAndNotEmpty(res.body) && res.body !== null) {
+        this.statisticalHour = res.body;
+        this.statisticalHourXY = CommonUtils.mapXY(this.statisticalHour);
+        chartViewHour(this.statisticalHourXY, this.device?.name, 'chartByHour');
       }
     });
   }
