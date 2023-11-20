@@ -1,0 +1,8 @@
+.home-slider {
+  height: 600px;
+}
+
+.home-slider img {
+  width: 100%;
+  object-fit: contain;
+}

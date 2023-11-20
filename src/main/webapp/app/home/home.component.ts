@@ -7,6 +7,12 @@ import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
 import { VoiceRecognitionService } from './service/voice-recognition.service';
 import { NotificationSettingService } from '../core/notification/notification-setting.service';
+import { DeviceService } from '../user/device/service/device.service';
+import { Device, IDevice } from '../user/device/device.model';
+import { HttpResponse } from '@angular/common/http';
+import { ValidationUtil } from '../common/utils/validation.util';
+
+declare const homeSwiper: any;
 
 @Component({
   selector: 'jhi-home',
@@ -17,7 +23,7 @@ import { NotificationSettingService } from '../core/notification/notification-se
 export class HomeComponent implements OnInit, OnDestroy {
   account: Account | null = null;
   text: string | undefined;
-  // message : any;
+  devices: IDevice[] = [] as IDevice[];
 
   private readonly destroy$ = new Subject<void>();
 
@@ -25,14 +31,18 @@ export class HomeComponent implements OnInit, OnDestroy {
     private accountService: AccountService,
     private router: Router,
     public voiceRecognitionService: VoiceRecognitionService,
-    private notificationSettingService: NotificationSettingService
+    private notificationSettingService: NotificationSettingService,
+    private deviceService: DeviceService
   ) {
-    this.voiceRecognitionService.init();
+    // this.voiceRecognitionService.init();
   }
 
   ngOnInit(): void {
-    this.notificationSettingService.requestPermission();
-    this.notificationSettingService.receiveMessaging();
+    homeSwiper();
+
+    this.loadDevices();
+    // this.notificationSettingService.requestPermission();
+    // this.notificationSettingService.receiveMessaging();
     // this.notificationSettingService.currentMessage.subscribe(data => {
     //   console.log(data);
     //   this.message = data;
@@ -58,5 +68,19 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   stopService() {
     this.voiceRecognitionService.stop();
+  }
+
+  loadDevices(): void {
+    this.deviceService
+      .query({
+        page: 0,
+        size: 8,
+        sort: ['id'],
+      })
+      .subscribe(res => {
+        if (ValidationUtil.isNotNullAndNotEmpty(res) && res.body) {
+          this.devices = res.body;
+        }
+      });
   }
 }
