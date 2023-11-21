@@ -11,6 +11,8 @@ import { DeviceService } from '../user/device/service/device.service';
 import { Device, IDevice } from '../user/device/device.model';
 import { HttpResponse } from '@angular/common/http';
 import { ValidationUtil } from '../common/utils/validation.util';
+import { INewsModel } from '../entities/news/news.model';
+import { NewsService } from '../entities/news/news.service';
 
 declare const homeSwiper: any;
 
@@ -25,6 +27,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   text: string | undefined;
   devices: IDevice[] = [] as IDevice[];
 
+  news: INewsModel[] = [] as INewsModel[];
+
   private readonly destroy$ = new Subject<void>();
 
   constructor(
@@ -32,7 +36,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     private router: Router,
     public voiceRecognitionService: VoiceRecognitionService,
     private notificationSettingService: NotificationSettingService,
-    private deviceService: DeviceService
+    private deviceService: DeviceService,
+    private newsService: NewsService
   ) {
     // this.voiceRecognitionService.init();
   }
@@ -41,6 +46,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     homeSwiper();
 
     this.loadDevices();
+    this.loadNews();
     // this.notificationSettingService.requestPermission();
     // this.notificationSettingService.receiveMessaging();
     // this.notificationSettingService.currentMessage.subscribe(data => {
@@ -82,5 +88,13 @@ export class HomeComponent implements OnInit, OnDestroy {
           this.devices = res.body;
         }
       });
+  }
+
+  loadNews() {
+    this.newsService.findLatestNews().subscribe(res => {
+      if (res.body) {
+        this.news = res.body;
+      }
+    });
   }
 }

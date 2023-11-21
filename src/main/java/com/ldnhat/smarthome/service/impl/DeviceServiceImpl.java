@@ -1,15 +1,9 @@
 package com.ldnhat.smarthome.service.impl;
 
-import com.ldnhat.smarthome.domain.Device;
-import com.ldnhat.smarthome.domain.DeviceMonitor;
-import com.ldnhat.smarthome.domain.DeviceTimer;
-import com.ldnhat.smarthome.domain.SpeechData;
+import com.ldnhat.smarthome.domain.*;
 import com.ldnhat.smarthome.domain.enumeration.DeviceAction;
 import com.ldnhat.smarthome.domain.enumeration.DeviceType;
-import com.ldnhat.smarthome.repository.DeviceMonitorRepository;
-import com.ldnhat.smarthome.repository.DeviceRepository;
-import com.ldnhat.smarthome.repository.DeviceTimerRepository;
-import com.ldnhat.smarthome.repository.SpeechDataRepository;
+import com.ldnhat.smarthome.repository.*;
 import com.ldnhat.smarthome.security.SecurityUtils;
 import com.ldnhat.smarthome.service.DeviceService;
 import com.ldnhat.smarthome.service.FirebaseService;
@@ -42,6 +36,8 @@ public class DeviceServiceImpl implements DeviceService {
 
     private final DeviceTimerRepository deviceTimerRepository;
 
+    private final NewsRepository newsRepository;
+
     private final DeviceMapper deviceMapper;
 
     private final FirebaseService firebaseService;
@@ -54,7 +50,8 @@ public class DeviceServiceImpl implements DeviceService {
         DeviceMonitorRepository deviceMonitorRepository,
         DeviceTimerRepository deviceTimerRepository,
         DeviceMapper deviceMapper,
-        FirebaseService firebaseService
+        FirebaseService firebaseService,
+        NewsRepository newsRepository
     ) {
         this.deviceRepository = deviceRepository;
         this.speechDataRepository = speechDataRepository;
@@ -62,6 +59,7 @@ public class DeviceServiceImpl implements DeviceService {
         this.deviceTimerRepository = deviceTimerRepository;
         this.deviceMapper = deviceMapper;
         this.firebaseService = firebaseService;
+        this.newsRepository = newsRepository;
     }
 
     @Override
@@ -74,6 +72,12 @@ public class DeviceServiceImpl implements DeviceService {
         } else if (device.getDeviceType().equals(DeviceType.MONITOR)) {
             firebaseService.createDeviceMonitor(device.getCreatedBy(), "O.O", "C", device.getId());
         }
+
+        News news = new News();
+        news.setDevice(device);
+        news.setMessage(device.getName() + " has been created successfully");
+        newsRepository.save(news);
+
         return deviceMapper.toDto(device);
     }
 
@@ -121,6 +125,12 @@ public class DeviceServiceImpl implements DeviceService {
                 }
             }
             deviceRepository.delete(device);
+
+            News news = new News();
+            news.setDevice(device);
+            news.setMessage(device.getName() + " has been deleted successfully");
+            newsRepository.save(news);
+
             log.debug("Deleted Device: {}", device);
         });
     }
@@ -136,6 +146,12 @@ public class DeviceServiceImpl implements DeviceService {
                 device.setDeviceAction(deviceDTO.getDeviceAction());
                 device.setDeviceType(deviceDTO.getDeviceType());
                 deviceRepository.save(device);
+
+                News news = new News();
+                news.setDevice(device);
+                news.setMessage(device.getName() + " has been updated successfully");
+                newsRepository.save(news);
+
                 log.debug("Request to update Device : {}", deviceDTO);
                 return device;
             })
@@ -155,6 +171,12 @@ public class DeviceServiceImpl implements DeviceService {
                     device.setDeviceAction(DeviceAction.ON);
                 }
                 deviceRepository.save(device);
+
+                News news = new News();
+                news.setDevice(device);
+                news.setMessage(device.getName() + " has been changed state to " + device.getDeviceAction());
+                newsRepository.save(news);
+
                 log.debug("Request to update Device action : {}", device);
                 return device;
             });
