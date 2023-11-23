@@ -1,3 +1,5 @@
+import { Device2Model } from '../device/device2.model';
+
 export interface INewsModel {
   id: string;
   message: string;
@@ -5,6 +7,7 @@ export interface INewsModel {
   createdDate?: Date;
   lastModifiedBy?: string;
   lastModifiedDate?: Date;
+  deviceDTO?: Device2Model;
 }
 
 export class NewsModel implements INewsModel {

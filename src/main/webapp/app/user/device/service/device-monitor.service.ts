@@ -6,6 +6,7 @@ import { createRequestOption } from '../../../core/request/request-util';
 import { Observable } from 'rxjs';
 import { IDeviceMonitor } from '../device-monitor.model';
 import { IStatisticalDeviceMonitor } from '../statistical-device-monitor.model';
+import { IDeviceMonitor2Model } from '../../../entities/device-monitor2.model';
 
 @Injectable({
   providedIn: 'root',
@@ -40,5 +41,10 @@ export class DeviceMonitorService {
   statisticalByHour(deviceId: String): Observable<HttpResponse<IStatisticalDeviceMonitor[]>> {
     let queryResourceUrl = this.resourceUrl + '/statistical/hour/' + deviceId;
     return this.http.get<IStatisticalDeviceMonitor[]>(queryResourceUrl, { observe: 'response' });
+  }
+
+  getLatest(): Observable<HttpResponse<IDeviceMonitor2Model>> {
+    let queryResourceUrl = this.resourceUrl + '/latest';
+    return this.http.get<IDeviceMonitor2Model>(queryResourceUrl, { observe: 'response' });
   }
 }

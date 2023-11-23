@@ -31,4 +31,6 @@ public interface DeviceRepository extends MongoRepository<Device, String> {
     Optional<Device> findOneByIdAndCreatedBy(String id, String login);
 
     List<Device> findAllByIdIn(List<String> ids);
+
+    Optional<Device> findDistinctFirstByDeviceTypeOrderByCreatedDateDesc(DeviceType deviceType);
 }

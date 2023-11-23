@@ -24,7 +24,7 @@
   <div class="py-5">
     <div class="row" *ngIf="account !== null">
       <ng-container *ngFor="let device of devices">
-        <div class="col-md-8 col-lg-6 col-xl-3 cursor-pointer">
+        <div class="col-md-8 col-lg-6 col-xl-3 cursor-pointer" routerLink="/users/devices/{{ device.id }}/view">
           <div class="card" style="color: #4b515d; border-radius: 35px">
             <div class="card-body p-4">
               <div class="d-flex">
@@ -39,6 +39,13 @@
                       {{ device.deviceAction }}
                     </span>
                   </ng-container>
+                  <ng-container *ngIf="device.deviceType == 'MONITOR'">
+                    <span class="font-weight-600 text-blue">
+                      <ng-container *ngIf="device.id">
+                        {{ valueDeviceMonitor.get(device.id) }}
+                      </ng-container>
+                    </span>
+                  </ng-container>
                 </h6>
               </div>
             </div>
@@ -47,15 +54,18 @@
       </ng-container>
 
       <div class="row">
-        <div class="mt-5 mb-5 col-md-5"></div>
+        <div class="mt-5 mb-5 col-md-5">
+          <canvas id="doughnutHomeChart"></canvas>
+          <!--          <canvas id="chart1"></canvas>-->
+        </div>
         <div class="mt-5 mb-5 col-md-7">
           <div class="offset-md-3">
             <h4>Latest News</h4>
             <ul class="timeline">
               <ng-container *ngFor="let item of news">
-                <li>
-                  <a target="_blank" href="https://www.totoprayogo.com/#">Action</a>
-                  <a href="#" class="float-right">{{ item.createdDate | date: 'dd/MM/yy HH:mm' }}</a>
+                <li routerLink="/users/devices/{{ item?.deviceDTO?.id }}/view">
+                  <a target="_blank"></a>
+                  <a class="float-right">{{ item.createdDate | date: 'dd/MM/yy HH:mm' }}</a>
                   <p>
                     {{ item.message }}
                   </p>

@@ -39,4 +39,6 @@ public interface DeviceMonitorRepository extends MongoRepository<DeviceMonitor, 
     );
 
     List<DeviceMonitor> findAllByDeviceIdOrderByCreatedDateAsc(String deviceId);
+
+    Optional<DeviceMonitor> findDistinctFirstByDeviceIdOrderByCreatedDateDesc(String id);
 }

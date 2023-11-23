@@ -32,12 +32,9 @@ export class DeviceUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.route.data.subscribe(({ device }) => {
       if (device) {
-        console.log('edit device');
-        console.log(device);
         this.isCreating = false;
         this.editForm.reset(device);
       } else {
-        console.log('create new device');
         this.isCreating = true;
         this.editForm.reset();
       }
@@ -46,7 +43,7 @@ export class DeviceUpdateComponent implements OnInit {
 
   save(): void {
     this.isSaving = true;
-    const device = this.editForm.getRawValue();
+    let device = this.editForm.getRawValue();
     if (device.id !== null) {
       this.deviceService.update(device).subscribe({
         next: () => this.onSaveSuccess(),
