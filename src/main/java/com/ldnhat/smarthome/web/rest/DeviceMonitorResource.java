@@ -244,4 +244,15 @@ public class DeviceMonitorResource {
         deviceMonitorService.dummyData(deviceId, month);
         return ResponseEntity.noContent().build();
     }
+
+    /**
+     * {@code GET /device-monitor/latest} : get latest
+     *
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body latest device monitor.
+     */
+    @GetMapping("/device-monitor/latest")
+    public ResponseEntity<DeviceMonitorDTO> getLatestDeviceMonitor() {
+        log.debug("REST request to get latest device monitor");
+        return ResponseUtil.wrapOrNotFound(deviceMonitorService.getLatestDeviceMonitor());
+    }
 }

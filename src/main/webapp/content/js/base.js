@@ -1,3 +1,5 @@
+'use strict';
+
 function chartViewMonth(data, title, id) {
   const ctx = document.getElementById(id);
   let date = new Date();
@@ -171,4 +173,58 @@ function chartViewHour(data, title, id) {
 
 function getDaysInMonth(year, month) {
   return new Date(year, month, 0).getDate();
+}
+
+function doughnutHomeChart(data) {
+  let value = data.value;
+  let ctx = document.getElementById('doughnutHomeChart').getContext('2d');
+  let chart = new Chart(ctx, {
+    type: 'doughnut',
+    plugins: [DoughnutLabel],
+    data: {
+      label: [data.deviceDTO.name],
+      datasets: [
+        {
+          data: [value, 100 - value],
+          backgroundColor: ['#00baa6', '#ededed'],
+          label: data.deviceDTO.name,
+        },
+      ],
+      labels: [data.deviceDTO.name],
+    },
+    options: {
+      cutout: 88,
+      aspectRatio: 1.4,
+      responsive: true,
+      animation: {
+        animateScale: true,
+        animateRotate: true,
+      },
+      plugins: {
+        legend: {
+          display: false,
+          position: 'top',
+        },
+        title: {
+          display: true,
+          fontSize: 20,
+          text: data.deviceDTO.name,
+        },
+        doughnutlabel: {
+          color: '#bc2c1a',
+          labels: [
+            {
+              text: value + '°C',
+              font: {
+                size: '60',
+                family: 'Arial, Helvetica, sans-serif',
+                style: 'italic',
+                weight: 'bold',
+              },
+            },
+          ],
+        },
+      },
+    },
+  });
 }

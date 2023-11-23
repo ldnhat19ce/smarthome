@@ -1,40 +1,112 @@
-<div class="row">
-  <div class="col-md-3">
-    <span class="hipster img-fluid rounded"></span>
+<!-- Slider main container -->
+<div class="swiper home-slider">
+  <div class="swiper-wrapper">
+    <div class="swiper-slide">
+      <img src="../../content/images/slider1.png" alt="" />
+    </div>
+    <div class="swiper-slide">
+      <img src="../../content/images/slider2.png" alt="" />
+    </div>
+    <div class="swiper-slide">
+      <img src="../../content/images/slider3.jpg" alt="" />
+    </div>
   </div>
 
-  <div class="col-md-9">
-    <h1 class="display-4"><span jhiTranslate="home.title">Welcome to</span> Smarthome!</h1>
+  <div class="swiper-pagination"></div>
 
-    <p class="lead" jhiTranslate="home.subtitle">This is your homepage</p>
+  <div class="swiper-button-prev"></div>
+  <div class="swiper-button-next"></div>
 
-    <div [ngSwitch]="account !== null">
-      <div class="alert alert-success" *ngSwitchCase="true">
-        <span id="home-logged-message" *ngIf="account" jhiTranslate="home.logged.message" [translateValues]="{ username: account.login }"
-          >You are logged in as user "{{ account.login }}".</span
-        >
-      </div>
+  <div class="swiper-scrollbar"></div>
+</div>
 
-      <!--      <div class="alert alert-warning" *ngSwitchCase="false">-->
-      <!--        <span jhiTranslate="global.messages.info.authenticated.prefix">If you want to </span>-->
-      <!--        <a class="alert-link" (click)="login()" jhiTranslate="global.messages.info.authenticated.link">sign in</a-->
-      <!--        ><span jhiTranslate="global.messages.info.authenticated.suffix"-->
-      <!--          >, you can try the default accounts:<br />- Administrator (login="admin" and password="admin") <br />- User (login="user" and-->
-      <!--          password="user").</span-->
-      <!--        >-->
-      <!--      </div>-->
+<section>
+  <div class="py-5">
+    <div class="row" *ngIf="account !== null">
+      <ng-container *ngFor="let device of devices">
+        <div class="col-md-8 col-lg-6 col-xl-3 cursor-pointer" routerLink="/users/devices/{{ device.id }}/view">
+          <div class="card" style="color: #4b515d; border-radius: 35px">
+            <div class="card-body p-4">
+              <div class="d-flex">
+                <h6 class="flex-grow-1">{{ device.name }}</h6>
+                <h6>{{ device.lastModifiedDate | date: 'dd/MM/yy HH:mm' }}</h6>
+              </div>
 
-      <div class="alert alert-warning" *ngSwitchCase="false">
-        <span jhiTranslate="global.messages.info.register.noaccount">You don't have an account yet?</span>&nbsp;
-        <a class="alert-link" routerLink="account/register" jhiTranslate="global.messages.info.register.link">Register a new account</a>
-      </div>
+              <div class="d-flex flex-column text-center mt-5 mb-4">
+                <h6 class="display-4 mb-0 font-weight-bold">
+                  <ng-container *ngIf="device.deviceType == 'CONTROL'">
+                    <span class="font-weight-600" [ngClass]="device.deviceAction == 'ON' ? 'text-blue' : 'text-red'">
+                      {{ device.deviceAction }}
+                    </span>
+                  </ng-container>
+                  <ng-container *ngIf="device.deviceType == 'MONITOR'">
+                    <span class="font-weight-600 text-blue">
+                      <ng-container *ngIf="device.id">
+                        {{ valueDeviceMonitor.get(device.id) }}
+                      </ng-container>
+                    </span>
+                  </ng-container>
+                </h6>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
 
-      <div style="margin: 100px" *ngSwitchCase="true">
-        <h1>Voice recognition</h1>
-        <button style="margin: 10px" (click)="startService()" class="btn btn-primary">Start</button>
-        <button style="margin: 10px" (click)="stopService()" class="btn btn-danger">Stop</button>
-        <p>{{ voiceRecognitionService.text }}</p>
+      <div class="row">
+        <div class="mt-5 mb-5 col-md-5">
+          <canvas id="doughnutHomeChart"></canvas>
+          <!--          <canvas id="chart1"></canvas>-->
+        </div>
+        <div class="mt-5 mb-5 col-md-7">
+          <div class="offset-md-3">
+            <h4>Latest News</h4>
+            <ul class="timeline">
+              <ng-container *ngFor="let item of news">
+                <li routerLink="/users/devices/{{ item?.deviceDTO?.id }}/view">
+                  <a target="_blank"></a>
+                  <a class="float-right">{{ item.createdDate | date: 'dd/MM/yy HH:mm' }}</a>
+                  <p>
+                    {{ item.message }}
+                  </p>
+                </li>
+              </ng-container>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
+</section>
+
+<!--<div class="row">-->
+<!--  <div class="col-md-3">-->
+<!--    <span class="hipster img-fluid rounded"></span>-->
+<!--  </div>-->
+
+<!--  <div class="col-md-9">-->
+<!--    <h1 class="display-4"><span jhiTranslate="home.title">Welcome to</span> Smarthome!</h1>-->
+
+<!--    <p class="lead" jhiTranslate="home.subtitle">This is your homepage</p>-->
+
+<!--    <div [ngSwitch]="account !== null">-->
+<!--      <div class="alert alert-success" *ngSwitchCase="true">-->
+<!--        <span id="home-logged-message" *ngIf="account" jhiTranslate="home.logged.message" [translateValues]="{ username: account.login }"-->
+<!--          >You are logged in as user "{{ account.login }}".</span-->
+<!--        >-->
+<!--      </div>-->
+
+<!--      <div class="alert alert-warning" *ngSwitchCase="false">-->
+<!--        <span jhiTranslate="global.messages.info.register.noaccount">You don't have an account yet?</span>&nbsp;-->
+<!--        <a class="alert-link" routerLink="account/register" jhiTranslate="global.messages.info.register.link">Register a new account</a>-->
+<!--      </div>-->
+
+<!--      <div style="margin: 100px" *ngSwitchCase="true">-->
+<!--        <h1>Voice recognition</h1>-->
+<!--        <button style="margin: 10px" (click)="startService()" class="btn btn-primary">Start</button>-->
+<!--        <button style="margin: 10px" (click)="stopService()" class="btn btn-danger">Stop</button>-->
+<!--        <p>{{ voiceRecognitionService.text }}</p>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->

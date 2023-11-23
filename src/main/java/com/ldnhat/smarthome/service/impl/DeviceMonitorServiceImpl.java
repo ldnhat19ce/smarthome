@@ -2,7 +2,9 @@ package com.ldnhat.smarthome.service.impl;
 
 import com.ldnhat.smarthome.domain.Device;
 import com.ldnhat.smarthome.domain.DeviceMonitor;
+import com.ldnhat.smarthome.domain.enumeration.DeviceType;
 import com.ldnhat.smarthome.repository.DeviceMonitorRepository;
+import com.ldnhat.smarthome.repository.DeviceRepository;
 import com.ldnhat.smarthome.security.SecurityUtils;
 import com.ldnhat.smarthome.service.DeviceMonitorService;
 import com.ldnhat.smarthome.service.FirebaseService;
@@ -10,6 +12,7 @@ import com.ldnhat.smarthome.service.dto.DateMonthDTO;
 import com.ldnhat.smarthome.service.dto.DeviceMonitorDTO;
 import com.ldnhat.smarthome.service.dto.StatisticalDeviceMonitorDTO;
 import com.ldnhat.smarthome.service.error.UserException;
+import com.ldnhat.smarthome.service.mapper.DeviceMapper;
 import com.ldnhat.smarthome.service.mapper.DeviceMonitorMapper;
 import com.ldnhat.smarthome.utils.DateUtils;
 import java.text.DecimalFormat;
@@ -36,7 +39,11 @@ public class DeviceMonitorServiceImpl implements DeviceMonitorService {
 
     private final DeviceMonitorRepository deviceMonitorRepository;
 
+    private final DeviceRepository deviceRepository;
+
     private final DeviceMonitorMapper deviceMonitorMapper;
+
+    private final DeviceMapper deviceMapper;
 
     private final FirebaseService firebaseService;
 
@@ -169,11 +176,15 @@ public class DeviceMonitorServiceImpl implements DeviceMonitorService {
 
     public DeviceMonitorServiceImpl(
         DeviceMonitorRepository deviceMonitorRepository,
+        DeviceRepository deviceRepository,
         DeviceMonitorMapper deviceMonitorMapper,
+        DeviceMapper deviceMapper,
         FirebaseService firebaseService
     ) {
         this.deviceMonitorRepository = deviceMonitorRepository;
+        this.deviceRepository = deviceRepository;
         this.deviceMonitorMapper = deviceMonitorMapper;
+        this.deviceMapper = deviceMapper;
         this.firebaseService = firebaseService;
     }
 
@@ -615,6 +626,20 @@ public class DeviceMonitorServiceImpl implements DeviceMonitorService {
         log.debug("Estimated time: " + (end - start) + "ms");
 
         return statisticalDeviceMonitorDTOs;
+    }
+
+    @Override
+    public Optional<DeviceMonitorDTO> getLatestDeviceMonitor() {
+        Optional<Device> device = deviceRepository.findDistinctFirstByDeviceTypeOrderByCreatedDateDesc(DeviceType.MONITOR);
+        if (device.isPresent()) {
+            Optional<DeviceMonitorDTO> deviceMonitorDTO = deviceMonitorRepository
+                .findDistinctFirstByDeviceIdOrderByCreatedDateDesc(device.get().getId())
+                .map(deviceMonitorMapper::toDto);
+            deviceMonitorDTO.ifPresent(monitorDTO -> monitorDTO.setDeviceDTO(deviceMapper.toDto(device.get())));
+
+            return deviceMonitorDTO;
+        }
+        return Optional.empty();
     }
 
     private String getRandomValue(double min, double max) {

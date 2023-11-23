@@ -101,4 +101,11 @@ public interface DeviceMonitorService {
      * @return
      */
     void dummyData(String deviceId, Integer month);
+
+    /**
+     * get latest device monitor
+     *
+     * @return latest entity.
+     */
+    Optional<DeviceMonitorDTO> getLatestDeviceMonitor();
 }
