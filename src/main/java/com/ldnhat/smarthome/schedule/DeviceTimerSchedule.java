@@ -2,11 +2,15 @@ package com.ldnhat.smarthome.schedule;
 
 import com.ldnhat.smarthome.domain.Device;
 import com.ldnhat.smarthome.domain.DeviceTimer;
+import com.ldnhat.smarthome.domain.News;
 import com.ldnhat.smarthome.repository.DeviceRepository;
 import com.ldnhat.smarthome.repository.DeviceTimerRepository;
+import com.ldnhat.smarthome.repository.NewsRepository;
 import com.ldnhat.smarthome.service.FirebaseService;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoField;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.joda.time.DateTime;
@@ -24,26 +28,30 @@ public class DeviceTimerSchedule {
 
     private final DeviceRepository deviceRepository;
 
+    private final NewsRepository newsRepository;
+
     private final FirebaseService firebaseService;
 
     public DeviceTimerSchedule(
         DeviceTimerRepository deviceTimerRepository,
         DeviceRepository deviceRepository,
+        NewsRepository newsRepository,
         FirebaseService firebaseService
     ) {
         this.deviceTimerRepository = deviceTimerRepository;
         this.deviceRepository = deviceRepository;
+        this.newsRepository = newsRepository;
         this.firebaseService = firebaseService;
     }
 
     @Scheduled(cron = "0 * * ? * *")
     public void scheduleDeviceTimer() {
         log.debug("Schedule device timers");
-        List<DeviceTimer> deviceTimers = deviceTimerRepository.findAllByTimeBetween(
-            Instant.now().minusSeconds(new DateTime().getSecondOfMinute()),
-            Instant.now().plusSeconds((60 - (new DateTime().getSecondOfMinute() + 1)))
-        );
-        //        List<DeviceTimer> deviceTimers = deviceTimerRepository.findAllByTime(Instant.now().minusSeconds(new DateTime().getSecondOfMinute()));
+        LocalDateTime dateFrom = LocalDateTime.now();
+        LocalDateTime dateTo = dateFrom.plus(59, ChronoUnit.SECONDS);
+        System.out.println(dateFrom);
+        System.out.println(dateTo);
+        List<DeviceTimer> deviceTimers = deviceTimerRepository.findAllByTimeBetween(dateFrom, dateTo);
 
         if (!deviceTimers.isEmpty()) {
             System.out.println(deviceTimers);
@@ -56,6 +64,11 @@ public class DeviceTimerSchedule {
                         d.setDeviceAction(dt.getDeviceAction());
                         deviceRepository.save(d);
                         firebaseService.updateDeviceControl(d.getCreatedBy(), d.getDeviceAction().toString(), d.getId());
+
+                        News news = new News();
+                        news.setDevice(d);
+                        news.setMessage(d.getName() + " has been updated successfully");
+                        newsRepository.save(news);
                     }
                 })
             );

@@ -8,8 +8,10 @@ import com.ldnhat.smarthome.service.dto.DeviceTimerDTO;
 import com.ldnhat.smarthome.service.error.TimeAlreadyUsedException;
 import com.ldnhat.smarthome.service.error.UserException;
 import com.ldnhat.smarthome.service.mapper.DeviceTimerMapper;
-import java.time.Duration;
-import java.time.Instant;
+import com.ldnhat.smarthome.utils.DateUtils;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +43,10 @@ public class DeviceTimerServiceImpl implements DeviceTimerService {
     @Override
     public DeviceTimerDTO save(DeviceTimerDTO deviceTimerDTO) {
         log.debug("Request to save deviceTimer {}", deviceTimerDTO);
+        ZonedDateTime time = ZonedDateTime.of(deviceTimerDTO.getTime(), ZoneOffset.UTC);
+        ZonedDateTime time1 = time.withZoneSameInstant(DateUtils.getZone());
+        LocalDateTime time2 = time1.toLocalDateTime();
+        deviceTimerDTO.setTime(time2);
 
         String login = SecurityUtils
             .getCurrentUserLogin()
@@ -57,9 +63,10 @@ public class DeviceTimerServiceImpl implements DeviceTimerService {
         return deviceTimerMapper.toDto(deviceTimer);
     }
 
-    private boolean isContains(Instant sourceDate, Instant time) {
-        Duration duration = Duration.between(sourceDate, time);
-        return duration.toMinutesPart() == 0;
+    private boolean isContains(LocalDateTime sourceDate, LocalDateTime time) {
+        LocalDateTime dateFrom = sourceDate.withSecond(0).withNano(0);
+        LocalDateTime dateTo = time.withSecond(0).withNano(0);
+        return dateFrom.isEqual(dateTo);
     }
 
     @Override

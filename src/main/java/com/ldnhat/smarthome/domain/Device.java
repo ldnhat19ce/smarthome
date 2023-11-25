@@ -3,17 +3,19 @@ package com.ldnhat.smarthome.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ldnhat.smarthome.domain.enumeration.DeviceAction;
 import com.ldnhat.smarthome.domain.enumeration.DeviceType;
+import java.io.Serializable;
+import java.util.Objects;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import java.io.Serializable;
-import java.util.Objects;
-
 @Document(collection = "device")
 public class Device extends AbstractAuditingEntity<String> implements Serializable {
+
     @Id
     private String id;
+
+    @Field("name")
     private String name;
 
     @Field("device_type")
@@ -83,12 +85,21 @@ public class Device extends AbstractAuditingEntity<String> implements Serializab
 
     @Override
     public String toString() {
-        return "Device{" +
-            "id='" + id + '\'' +
-            ", name='" + name + '\'' +
-            ", deviceType=" + deviceType +
-            ", deviceAction=" + deviceAction +
-            ", user=" + user +
-            '}';
+        return (
+            "Device{" +
+            "id='" +
+            id +
+            '\'' +
+            ", name='" +
+            name +
+            '\'' +
+            ", deviceType=" +
+            deviceType +
+            ", deviceAction=" +
+            deviceAction +
+            ", user=" +
+            user +
+            '}'
+        );
     }
 }

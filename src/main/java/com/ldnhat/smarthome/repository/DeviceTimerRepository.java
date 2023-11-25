@@ -2,6 +2,7 @@ package com.ldnhat.smarthome.repository;
 
 import com.ldnhat.smarthome.domain.DeviceTimer;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -17,7 +18,7 @@ public interface DeviceTimerRepository extends MongoRepository<DeviceTimer, Stri
 
     Optional<DeviceTimer> findOneById(String id);
 
-    List<DeviceTimer> findAllByTimeBetween(Instant startTime, Instant endTime);
+    List<DeviceTimer> findAllByTimeBetween(LocalDateTime startTime, LocalDateTime endTime);
 
-    List<DeviceTimer> findAllByTime(Instant time);
+    List<DeviceTimer> findAllByTime(LocalDateTime time);
 }
