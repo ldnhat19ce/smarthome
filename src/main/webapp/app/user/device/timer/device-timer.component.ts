@@ -32,6 +32,7 @@ export class DeviceTimerComponent implements OnInit {
     this.isSaving = true;
     const result = this.form.getRawValue();
     const deviceDTO: IDeviceDTO = new DeviceDTO(this.device?.id!!, null, null);
+    let time = result.time.toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh' });
     const deviceTimer: IDeviceTimer = new DeviceTimer(null, result.time, deviceDTO, result.deviceAction);
     this.deviceTimerService.create(deviceTimer).subscribe({
       next: () => this.onSaveSuccess(),

@@ -17,4 +17,6 @@ public interface NotificationSettingRepository extends MongoRepository<Notificat
     Optional<NotificationSetting> findOneByIdAndCreatedBy(String id, String login);
 
     List<NotificationSetting> findAllByValueInAndDeviceIdIn(List<String> values, List<String> deviceIds);
+
+    List<NotificationSetting> findAllByDeviceIdIn(List<String> deviceIds);
 }

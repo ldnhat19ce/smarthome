@@ -71,6 +71,7 @@ public class DeviceServiceImpl implements DeviceService {
             firebaseService.createDeviceControl(device.getCreatedBy(), device.getDeviceAction().toString(), device.getId());
         } else if (device.getDeviceType().equals(DeviceType.MONITOR)) {
             firebaseService.createDeviceMonitor(device.getCreatedBy(), "O.O", "C", device.getId());
+            firebaseService.createNotificationSetting(device.getCreatedBy(), device.getId(), " ", " ");
         }
 
         News news = new News();

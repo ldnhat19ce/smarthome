@@ -2,7 +2,6 @@ package com.ldnhat.smarthome.service.dto;
 
 import com.ldnhat.smarthome.domain.enumeration.DeviceAction;
 import java.io.Serializable;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -12,7 +11,7 @@ public class DeviceTimerDTO implements Serializable {
 
     private DeviceDTO deviceDTO;
 
-    private Instant time;
+    private LocalDateTime time;
 
     private DeviceAction deviceAction;
 
@@ -80,11 +79,11 @@ public class DeviceTimerDTO implements Serializable {
         this.lastModifiedDate = lastModifiedDate;
     }
 
-    public Instant getTime() {
+    public LocalDateTime getTime() {
         return time;
     }
 
-    public void setTime(Instant time) {
+    public void setTime(LocalDateTime time) {
         this.time = time;
     }
 

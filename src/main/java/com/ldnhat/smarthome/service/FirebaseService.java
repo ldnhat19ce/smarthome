@@ -1,6 +1,7 @@
 package com.ldnhat.smarthome.service;
 
 import com.google.cloud.firestore.CollectionReference;
+import com.google.cloud.firestore.DocumentReference;
 import com.google.firebase.cloud.FirestoreClient;
 import com.google.firebase.messaging.*;
 import com.ldnhat.smarthome.domain.NotificationSetting;
@@ -85,5 +86,25 @@ public class FirebaseService {
         } catch (FirebaseMessagingException e) {
             e.printStackTrace();
         }
+    }
+
+    public void createNotificationSetting(String login, String deviceId, String title, String message) {
+        CollectionReference collection = FirestoreClient.getFirestore().collection(firebaseCollection);
+
+        Map<String, Object> values = new HashMap<>();
+        values.put("message", message);
+        values.put("title", title);
+
+        collection.document("device_notification").collection(login).document(deviceId).create(values);
+    }
+
+    public void updateNotificationSetting(String login, String deviceId, String title, String message) {
+        CollectionReference collection = FirestoreClient.getFirestore().collection(firebaseCollection);
+
+        Map<String, Object> values = new HashMap<>();
+        values.put("message", message);
+        values.put("title", title);
+
+        collection.document("device_notification").collection(login).document(deviceId).update(values);
     }
 }
