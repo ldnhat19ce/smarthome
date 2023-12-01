@@ -196,12 +196,7 @@ public class DeviceMonitorServiceImpl implements DeviceMonitorService {
         deviceMonitor.setMonth(DateUtils.getCurrentMonth());
         deviceMonitor = deviceMonitorRepository.save(deviceMonitor);
 
-        firebaseService.updateDeviceMonitor(
-            deviceMonitor.getCreatedBy(),
-            deviceMonitor.getValue(),
-            deviceMonitor.getUnitMeasure(),
-            deviceMonitor.getDevice().getId()
-        );
+        firebaseService.updateDeviceMonitor(deviceMonitor.getCreatedBy(), deviceMonitor.getValue(), "", deviceMonitor.getDevice().getId());
         return deviceMonitorMapper.toDto(deviceMonitor);
     }
 
@@ -461,7 +456,6 @@ public class DeviceMonitorServiceImpl implements DeviceMonitorService {
                     //                    for (Integer second : listSecond) {
                     DeviceMonitor deviceMonitor = new DeviceMonitor();
                     deviceMonitor.setMonth(String.valueOf(month + 1));
-                    deviceMonitor.setUnitMeasure("°C");
 
                     Device device = new Device();
                     device.setId(deviceId);

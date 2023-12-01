@@ -18,6 +18,9 @@ public class Device extends AbstractAuditingEntity<String> implements Serializab
     @Field("name")
     private String name;
 
+    @Field("unit_measure")
+    private String unitMeasure;
+
     @Field("device_type")
     private DeviceType deviceType;
 
@@ -42,6 +45,14 @@ public class Device extends AbstractAuditingEntity<String> implements Serializab
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getUnitMeasure() {
+        return unitMeasure;
+    }
+
+    public void setUnitMeasure(String unitMeasure) {
+        this.unitMeasure = unitMeasure;
     }
 
     public DeviceType getDeviceType() {
@@ -92,6 +103,9 @@ public class Device extends AbstractAuditingEntity<String> implements Serializab
             '\'' +
             ", name='" +
             name +
+            '\'' +
+            ", unitMeasure='" +
+            unitMeasure +
             '\'' +
             ", deviceType=" +
             deviceType +

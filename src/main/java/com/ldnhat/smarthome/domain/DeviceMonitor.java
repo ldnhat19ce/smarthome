@@ -18,9 +18,6 @@ public class DeviceMonitor extends AbstractAuditingEntity<String> implements Ser
 
     private String value;
 
-    @Field("unit_measure")
-    private String unitMeasure;
-
     @JsonIgnore
     private Device device;
 
@@ -101,14 +98,6 @@ public class DeviceMonitor extends AbstractAuditingEntity<String> implements Ser
 
     public void setValue(String value) {
         this.value = value;
-    }
-
-    public String getUnitMeasure() {
-        return unitMeasure;
-    }
-
-    public void setUnitMeasure(String unitMeasure) {
-        this.unitMeasure = unitMeasure;
     }
 
     @Override

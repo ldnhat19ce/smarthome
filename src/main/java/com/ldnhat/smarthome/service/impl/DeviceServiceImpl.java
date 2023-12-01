@@ -70,7 +70,7 @@ public class DeviceServiceImpl implements DeviceService {
         if (device.getDeviceType().equals(DeviceType.CONTROL)) {
             firebaseService.createDeviceControl(device.getCreatedBy(), device.getDeviceAction().toString(), device.getId());
         } else if (device.getDeviceType().equals(DeviceType.MONITOR)) {
-            firebaseService.createDeviceMonitor(device.getCreatedBy(), "O.O", "C", device.getId());
+            firebaseService.createDeviceMonitor(device.getCreatedBy(), "O", device.getUnitMeasure(), device.getId());
             firebaseService.createNotificationSetting(device.getCreatedBy(), device.getId(), " ", " ");
         }
 
@@ -119,11 +119,15 @@ public class DeviceServiceImpl implements DeviceService {
                 if (!deviceTimers.isEmpty()) {
                     deviceTimerRepository.deleteAll(deviceTimers);
                 }
+
+                firebaseService.delete(login, device.getId(), "device_action");
             } else if (device.getDeviceType().equals(DeviceType.MONITOR)) {
                 List<DeviceMonitor> deviceMonitors = deviceMonitorRepository.findAllByDeviceIdAndCreatedBy(device.getId(), login);
                 if (!deviceMonitors.isEmpty()) {
                     deviceMonitorRepository.deleteAll(deviceMonitors);
                 }
+
+                firebaseService.delete(login, device.getId(), "device_monitor");
             }
             deviceRepository.delete(device);
 
@@ -146,6 +150,7 @@ public class DeviceServiceImpl implements DeviceService {
                 device.setName(deviceDTO.getName());
                 device.setDeviceAction(deviceDTO.getDeviceAction());
                 device.setDeviceType(deviceDTO.getDeviceType());
+                device.setUnitMeasure(deviceDTO.getUnitMeasure());
                 deviceRepository.save(device);
 
                 News news = new News();

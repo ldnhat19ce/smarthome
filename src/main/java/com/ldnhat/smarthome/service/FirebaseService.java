@@ -59,6 +59,11 @@ public class FirebaseService {
         collection.document("device_monitor").collection(login).document(deviceId).update(values);
     }
 
+    public void delete(String login, String deviceId, String document) {
+        CollectionReference collection = FirestoreClient.getFirestore().collection(firebaseCollection);
+        collection.document(document).collection(login).document(deviceId).delete();
+    }
+
     public void sendNotificationToMulticastToken(NotificationSettingDTO notificationSettingDTO, String deviceId) {
         Message message = Message
             .builder()
