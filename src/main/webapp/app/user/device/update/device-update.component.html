@@ -12,7 +12,7 @@
 
       <div class="mb-3">
         <label class="form-label" jhiTranslate="userDevice.name">Name</label>
-        <input type="text" class="form-control" name="name" formControlName="name" />
+        <input type="text" class="form-control" name="name" formControlName="name" placeholder="name" />
 
         <div *ngIf="editForm.get('name')!.invalid && (editForm.get('name')!.dirty || editForm.get('name')!.touched)">
           <small class="form-text text-danger" *ngIf="editForm.get('name')?.errors?.required" jhiTranslate="entity.validation.required">
@@ -31,17 +31,28 @@
       </div>
 
       <div class="mb-3" *ngIf="deviceTypes && deviceTypes.length > 0 && isCreating">
-        <laicbel jhiTranslate="userDevice.deviceType">Device type</laicbel>
-        <select class="form-control" id="deviceType" name="deviceType" formControlName="deviceType">
+        <label jhiTranslate="userDevice.deviceType">Device type</label>
+        <select
+          class="form-control"
+          id="deviceType"
+          name="deviceType"
+          formControlName="deviceType"
+          (change)="onDeviceTypeChange($event.target)"
+        >
           <option *ngFor="let dp of deviceTypes" [value]="dp">{{ dp }}</option>
         </select>
       </div>
 
-      <div class="mb-3" *ngIf="deviceActions && deviceActions.length > 0 && isCreating">
-        <laicbel jhiTranslate="userDevice.deviceAction">Device type</laicbel>
+      <div class="mb-3" *ngIf="deviceActions && deviceActions.length > 0 && isCreating && isDeviceAction">
+        <label jhiTranslate="userDevice.deviceAction">Device type</label>
         <select class="form-control" id="deviceAction" name="deviceAction" formControlName="deviceAction">
           <option *ngFor="let da of deviceActions" [value]="da">{{ da }}</option>
         </select>
+      </div>
+
+      <div class="mb-3" *ngIf="!isDeviceAction">
+        <label>Unit measure</label>
+        <input type="text" class="form-control" name="id" formControlName="unitMeasure" placeholder="unit measure" />
       </div>
 
       <button type="button" class="btn btn-secondary" (click)="previousState()">

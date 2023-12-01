@@ -128,10 +128,10 @@ jhipster:
   mail:
     from: smarthome@localhost
   api-docs:
-    #    default-include-pattern: ${server.servlet.context-path:}/api/**
-    #    management-include-pattern: ${server.servlet.context-path:}/management/**
-    default-include-pattern: https://smathome.asia/api/**
-    management-include-pattern: https://smathome.asia/management/**
+    default-include-pattern: ${server.servlet.context-path:}/api/**
+    management-include-pattern: ${server.servlet.context-path:}/management/**
+    #    default-include-pattern: https://smathome.asia/api/**
+    #    management-include-pattern: https://smathome.asia/management/**
     title: Smarthome API
     description: Smarthome API documentation
     version: 0.0.1

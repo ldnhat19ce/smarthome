@@ -13,8 +13,6 @@ public class DeviceMonitorDTO implements Serializable {
 
     private String value;
 
-    private String unitMeasure;
-
     private DeviceDTO deviceDTO;
 
     private String createdBy;
@@ -69,14 +67,6 @@ public class DeviceMonitorDTO implements Serializable {
 
     public void setValue(String value) {
         this.value = value;
-    }
-
-    public String getUnitMeasure() {
-        return unitMeasure;
-    }
-
-    public void setUnitMeasure(String unitMeasure) {
-        this.unitMeasure = unitMeasure;
     }
 
     public DeviceDTO getDeviceDTO() {

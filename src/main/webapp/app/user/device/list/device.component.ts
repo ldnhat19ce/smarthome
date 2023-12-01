@@ -1,17 +1,17 @@
-import {Component, OnInit} from '@angular/core';
-import {ITEMS_PER_PAGE} from "../../../config/pagination.constants";
-import {Device, IDevice} from "../device.model";
-import {DeviceService} from "../service/device.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {combineLatest} from "rxjs";
-import {ASC, DESC, SORT} from "../../../config/navigation.constants";
-import {HttpHeaders, HttpResponse} from "@angular/common/http";
-import {DeviceDeleteDialogComponent} from "../delete/device-delete-dialog.component";
+import { Component, OnInit } from '@angular/core';
+import { ITEMS_PER_PAGE } from '../../../config/pagination.constants';
+import { Device, IDevice } from '../device.model';
+import { DeviceService } from '../service/device.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { combineLatest } from 'rxjs';
+import { ASC, DESC, SORT } from '../../../config/navigation.constants';
+import { HttpHeaders, HttpResponse } from '@angular/common/http';
+import { DeviceDeleteDialogComponent } from '../delete/device-delete-dialog.component';
 
 @Component({
   selector: 'jhi-device',
-  templateUrl: './device.component.html'
+  templateUrl: './device.component.html',
 })
 export class DeviceComponent implements OnInit {
   isLoading = false;
@@ -22,15 +22,15 @@ export class DeviceComponent implements OnInit {
   ascending!: boolean;
   devices: Device[] | null = null;
 
-
-  constructor(private deviceService: DeviceService,
-              private activatedRoute: ActivatedRoute,
-              private router: Router,
-              private modalService: NgbModal) {
-  }
+  constructor(
+    private deviceService: DeviceService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private modalService: NgbModal
+  ) {}
 
   ngOnInit(): void {
-    this.handleNavigation()
+    this.handleNavigation();
   }
 
   trackIdentity(_index: number, item: Device): string {
@@ -60,23 +60,24 @@ export class DeviceComponent implements OnInit {
 
   loadAll(): void {
     this.isLoading = true;
-    this.deviceService.query({
-      page: this.page - 1,
-      size: this.itemsPerPage,
-      sort: this.sort(),
-    }).subscribe({
-      next: (res: HttpResponse<IDevice[]>) => {
-        this.isLoading = false;
-        this.onSuccess(res.body, res.headers);
-      },
-      error: () => (this.isLoading = false),
-    })
+    this.deviceService
+      .query({
+        page: this.page - 1,
+        size: this.itemsPerPage,
+        sort: this.sort(),
+      })
+      .subscribe({
+        next: (res: HttpResponse<IDevice[]>) => {
+          this.isLoading = false;
+          this.onSuccess(res.body, res.headers);
+        },
+        error: () => (this.isLoading = false),
+      });
   }
 
   private onSuccess(devices: Device[] | null, headers: HttpHeaders): void {
     this.totalItems = Number(headers.get('X-Total-Count'));
-    this.devices = devices
-    console.log(devices)
+    this.devices = devices;
   }
 
   private sort(): string[] {
@@ -87,8 +88,8 @@ export class DeviceComponent implements OnInit {
     return result;
   }
 
-  deleteDevice(device : Device): void {
-    const modalRef = this.modalService.open(DeviceDeleteDialogComponent, {size: 'lg', backdrop: 'static'});
+  deleteDevice(device: Device): void {
+    const modalRef = this.modalService.open(DeviceDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.device = device;
     // unsubscribe not needed because closed completes on modal close
     modalRef.closed.subscribe(reason => {

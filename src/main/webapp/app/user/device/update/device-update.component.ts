@@ -17,6 +17,8 @@ export class DeviceUpdateComponent implements OnInit {
   deviceActions = DEVICEACTION;
   isCreating = false;
 
+  isDeviceAction: boolean = false;
+
   editForm = new FormGroup({
     id: new FormControl(deviceTemplate.id),
     name: new FormControl(deviceTemplate.name, {
@@ -25,6 +27,7 @@ export class DeviceUpdateComponent implements OnInit {
     }),
     deviceType: new FormControl(deviceTemplate.deviceType, { nonNullable: true }),
     deviceAction: new FormControl(deviceTemplate.deviceAction, { nonNullable: true }),
+    unitMeasure: new FormControl(deviceTemplate.unitMeasure, { nonNullable: true }),
   });
 
   constructor(private deviceService: DeviceService, private route: ActivatedRoute) {}
@@ -37,13 +40,20 @@ export class DeviceUpdateComponent implements OnInit {
       } else {
         this.isCreating = true;
         this.editForm.reset();
+        this.editForm.controls['deviceAction'].setValue(DEVICEACTION[0]);
+        this.editForm.controls['deviceType'].setValue(DEVICETYPES[0]);
       }
+      this.isDeviceAction = this.editForm.get('deviceType')?.value == 'CONTROL';
     });
   }
 
   save(): void {
     this.isSaving = true;
     let device = this.editForm.getRawValue();
+    if (device.deviceType === 'MONITOR') {
+      device.deviceAction = 'NOTHING';
+    }
+
     if (device.id !== null) {
       this.deviceService.update(device).subscribe({
         next: () => this.onSaveSuccess(),
@@ -68,5 +78,9 @@ export class DeviceUpdateComponent implements OnInit {
 
   private onSaveError(): void {
     this.isSaving = false;
+  }
+
+  onDeviceTypeChange(event: any) {
+    this.isDeviceAction = event.value == 'CONTROL';
   }
 }

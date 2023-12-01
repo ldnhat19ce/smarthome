@@ -20,6 +20,8 @@ public class DeviceDTO implements Serializable {
 
     private DeviceAction deviceAction;
 
+    private String unitMeasure;
+
     private String createdBy;
 
     private LocalDateTime createdDate;
@@ -27,6 +29,14 @@ public class DeviceDTO implements Serializable {
     private String lastModifiedBy;
 
     private LocalDateTime lastModifiedDate;
+
+    public String getUnitMeasure() {
+        return unitMeasure;
+    }
+
+    public void setUnitMeasure(String unitMeasure) {
+        this.unitMeasure = unitMeasure;
+    }
 
     public String getId() {
         return id;
@@ -119,6 +129,9 @@ public class DeviceDTO implements Serializable {
             deviceType +
             ", deviceAction=" +
             deviceAction +
+            ", unitMeasure='" +
+            unitMeasure +
+            '\'' +
             ", createdBy='" +
             createdBy +
             '\'' +
